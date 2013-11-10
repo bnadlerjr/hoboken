@@ -1,24 +1,18 @@
 # Hoboken
 
-TODO: Write a gem description
+Generate Sinatra project templates.
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'hoboken'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install hoboken
 
 ## Usage
 
-TODO: Write usage instructions here
+To see a list of available commands:
+
+    $ hoboken
+
+### Options
 
 ## Contributing
 

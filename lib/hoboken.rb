@@ -2,14 +2,10 @@ require "thor"
 require_relative "hoboken/version"
 
 module Hoboken
-  class CLI < Thor::Group
-    def intro
-      say <<-TEXT
-
-================================================================================
-Hoboken - Sinatra Project Templates
-================================================================================
-TEXT
+  class CLI < Thor
+    desc "version", "Print version and quit"
+    def version
+      puts "Hoboken v#{Hoboken::VERSION}"
     end
   end
 end
