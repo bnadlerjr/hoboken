@@ -1,5 +1,15 @@
-require "hoboken/version"
+require "thor"
+require_relative "hoboken/version"
 
 module Hoboken
-  # Your code goes here...
+  class CLI < Thor::Group
+    def intro
+      say <<-TEXT
+
+================================================================================
+Hoboken - Sinatra Project Templates
+================================================================================
+TEXT
+    end
+  end
 end
