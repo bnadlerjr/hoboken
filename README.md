@@ -12,6 +12,10 @@ To see a list of available commands:
 
     $ hoboken
 
+Generating a new project:
+
+    $ hoboken generate [appname]
+
 ### Options
 
 ## Contributing
