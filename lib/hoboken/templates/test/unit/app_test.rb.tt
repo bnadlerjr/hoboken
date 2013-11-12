@@ -1,0 +1,9 @@
+require "test_helper"
+require_relative "../../app"
+
+class AppTest < Rack::Test::TestCase
+  test "GET /" do
+    get "/"
+    assert_response :ok
+  end
+end

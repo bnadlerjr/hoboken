@@ -33,6 +33,14 @@ module Hoboken
       end
     end
 
+    def test_folder
+      empty_directory("#{snake_name}/test/unit")
+      empty_directory("#{snake_name}/test/support")
+      apply_template("test/unit/test_helper.rb.tt", "test/unit/test_helper.rb")
+      apply_template("test/unit/app_test.rb.tt", "test/unit/app_test.rb")
+      apply_template("test/support/rack_test_assertions.rb.tt", "test/support/rack_test_assertions.rb")
+    end
+
     def directions
       say "\nSuccessfully created #{name}. Don't forget to `bundle install`"
     end
