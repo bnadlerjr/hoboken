@@ -18,6 +18,7 @@ module Hoboken
       apply_template("Gemfile.tt",   "Gemfile")
       apply_template("config.ru.tt", "config.ru")
       apply_template("README.md.tt", "README.md")
+      apply_template("Rakefile.tt",  "Rakefile")
     end
 
     def view_folder

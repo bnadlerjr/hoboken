@@ -4,6 +4,7 @@ ruby '2.0.0'
 gem "sinatra", "~> 1.4.3"
 
 group :development do
+  gem "rake",             "~> 10.1.0"
   gem "sinatra-reloader", "~> 1.0"
 end
 
