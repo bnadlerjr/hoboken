@@ -14,7 +14,19 @@ To see a list of available commands:
 
 Generating a new project:
 
-    $ hoboken generate [appname]
+    $ hoboken generate:app [appname] [options]
+
+Options:
+    --tiny
+    --type [classic, modular]
+    --ruby-version
+    --middleware [name]
+
+Generators for existing apps:
+
+    $ hoboken generate:sprockets
+    $ hoboken generate:heroku
+    $ hoboken generate:metrics
 
 ### Options
 
