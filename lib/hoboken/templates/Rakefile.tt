@@ -2,6 +2,12 @@ require "rake/testtask"
 
 task :default => "test:all"
 
+desc "Start the development server"
+task :server do
+  conf = File.expand_path('config.ru', File.dirname(__FILE__))
+  exec("bundle exec rackup #{conf}")
+end
+
 namespace :test do
   Rake::TestTask.new(:unit) do |t|
     t.libs << 'test/unit'
