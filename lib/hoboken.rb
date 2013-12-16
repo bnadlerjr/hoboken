@@ -12,6 +12,11 @@ module Hoboken
                  desc: "Ruby version for Gemfile",
                  default: RUBY_VERSION
 
+    class_option :tiny,
+                 type: :boolean,
+                 desc: "Generate views inline; do not create /public folder",
+                 default: false
+
     def self.source_root
       File.dirname(__FILE__)
     end
@@ -31,7 +36,18 @@ module Hoboken
       apply_template("views/index.erb.tt", "views/index.erb")
     end
 
+    def inline_views
+      return unless options[:tiny]
+      combined_views = %w(layout index).map do |f|
+        "@@#{f}\n" + File.read("#{snake_name}/views/#{f}.erb")
+      end.join("\n")
+
+      append_to_file("#{snake_name}/app.rb", "\n__END__\n\n#{combined_views}")
+      remove_dir("#{snake_name}/views")
+    end
+
     def public_folder
+      return if options[:tiny]
       inside snake_name do
         empty_directory("public")
         %w(css img js).each { |f| empty_directory("public/#{f}") }
