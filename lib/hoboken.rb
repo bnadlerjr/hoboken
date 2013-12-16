@@ -52,6 +52,10 @@ module Hoboken
       Thor::Util.snake_case(name)
     end
 
+    def titleized_name
+      snake_name.split("_").map(&:capitalize).join(" ")
+    end
+
     def author
       `git config user.name`.chomp
     end
