@@ -14,16 +14,22 @@ To see a list of available commands:
 
 Generating a new project:
 
-    $ hoboken generate [appname] [options]
+    $ hoboken generate [APP_NAME] [OPTIONS]
 
-Options:
-    --tiny
-    --type [classic, modular]
-    --ruby-version
-    --middleware [name]
-    --git
+To see a list of options for the generate command:
 
-Generators for existing apps:
+    $ hoboken help generate
+    Usage:
+      hoboken generate [APP_NAME]
+
+    Options:
+      [--ruby-version=RUBY_VERSION]  # default is 2.0.0
+
+    Generate a new Sinatra app
+
+Options to be supported in the future: tiny, type (classic, modular), middleware, git.
+
+Future ideas for generator "add ons":
 
     $ hoboken add:sprockets
     $ hoboken add:bootstrap
@@ -31,8 +37,6 @@ Generators for existing apps:
     $ hoboken add:i18n
     $ hoboken add:metrics
     $ hoboken add:middleware [name]
-
-### Options
 
 ## Contributing
 
