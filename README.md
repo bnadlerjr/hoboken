@@ -26,10 +26,12 @@ To see a list of options for the generate command:
       [--ruby-version=RUBY_VERSION]  # Ruby version for Gemfile
                                      # Default: 2.0.0
       [--tiny]                       # Generate views inline; do not create /public folder
+      [--type=TYPE]                  # Architecture type (classic or modular)
+                                     # Default: classic
 
     Generate a new Sinatra app
 
-Options to be supported in the future: tiny, type (classic, modular), middleware, git.
+Options that may be supported in the future: middleware, git.
 
 Future ideas for generator "add ons":
 
