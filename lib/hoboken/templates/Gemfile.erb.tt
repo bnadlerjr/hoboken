@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "<%= ruby_version %>"
+ruby "<%= options[:ruby_version] %>"
 
 gem "sinatra", "~> 1.4.3"
 

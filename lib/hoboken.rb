@@ -7,7 +7,10 @@ module Hoboken
     include Thor::Actions
 
     argument :name
-    class_option :ruby_version, desc: "default is #{RUBY_VERSION}"
+    class_option :ruby_version,
+                 type: :string,
+                 desc: "Ruby version for Gemfile",
+                 default: RUBY_VERSION
 
     def self.source_root
       File.dirname(__FILE__)
@@ -59,10 +62,6 @@ module Hoboken
 
     def author
       `git config user.name`.chomp
-    end
-
-    def ruby_version
-      options[:ruby_version] || RUBY_VERSION
     end
 
     def apply_template(src, dest)

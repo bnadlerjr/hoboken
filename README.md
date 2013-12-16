@@ -23,7 +23,8 @@ To see a list of options for the generate command:
       hoboken generate [APP_NAME]
 
     Options:
-      [--ruby-version=RUBY_VERSION]  # default is 2.0.0
+      [--ruby-version=RUBY_VERSION]  # Ruby version for Gemfile
+                                     # Default: 2.0.0
 
     Generate a new Sinatra app
 
