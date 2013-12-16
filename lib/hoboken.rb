@@ -7,6 +7,7 @@ module Hoboken
     include Thor::Actions
 
     argument :name
+
     class_option :ruby_version,
                  type: :string,
                  desc: "Ruby version for Gemfile",
@@ -17,13 +18,18 @@ module Hoboken
                  desc: "Generate views inline; do not create /public folder",
                  default: false
 
+    class_option :type,
+                 type: :string,
+                 desc: "Architecture type (classic or modular)",
+                 default: :classic
+
     def self.source_root
       File.dirname(__FILE__)
     end
 
     def app_folder
       empty_directory(snake_name)
-      apply_template("app.rb.tt",      "app.rb")
+      apply_template("classic.rb.tt",  "app.rb")
       apply_template("Gemfile.erb.tt", "Gemfile")
       apply_template("config.ru.tt",   "config.ru")
       apply_template("README.md.tt",   "README.md")
@@ -62,6 +68,16 @@ module Hoboken
       apply_template("test/support/rack_test_assertions.rb.tt", "test/support/rack_test_assertions.rb")
     end
 
+    def make_modular
+      return unless "modular" == options[:type]
+      remove_file("#{snake_name}/app.rb")
+      apply_template("modular.rb.tt", "app.rb")
+      ["config.ru", "test/unit/test_helper.rb"].each do |f|
+        path = File.join(snake_name, f)
+        gsub_file(path, /Sinatra::Application/, "#{camel_name}::App")
+      end
+    end
+
     def directions
       say "\nSuccessfully created #{name}. Don't forget to `bundle install`"
     end
@@ -70,6 +86,10 @@ module Hoboken
 
     def snake_name
       Thor::Util.snake_case(name)
+    end
+
+    def camel_name
+      Thor::Util.camel_case(name)
     end
 
     def titleized_name
