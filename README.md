@@ -38,13 +38,13 @@ Options that may be supported in the future: middleware, git.
 Additional generators are available for existing projects generated using Hoboken:
 
     $ hoboken add:metrics # Add Rake tasks for metrics (flog, flay, simplecov)
+    $ hoboken add:i18n    # Internationalization support using sinatra-r18n
 
 Future ideas for generator "add ons":
 
     $ hoboken add:sprockets
     $ hoboken add:bootstrap
     $ hoboken add:heroku
-    $ hoboken add:i18n
     $ hoboken add:middleware [name]
 
 ## Contributing
