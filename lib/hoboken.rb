@@ -4,6 +4,50 @@ require_relative "hoboken/version"
 require_relative "hoboken/generate"
 
 module Hoboken
+  class Heroku < Thor::Group
+    include Thor::Actions
+
+    def self.source_root
+      File.dirname(__FILE__)
+    end
+
+    def add_gem
+      append_file("Gemfile", "\ngem \"foreman\", \"~> 0.63.0\", group: :development")
+    end
+
+    def procfile_and_env
+      create_file("Procfile") do
+        "web: bundle exec thin start -p $PORT -e $RACK_ENV"
+      end
+    end
+
+    def env_file
+      create_file(".env") do
+        "RACK_ENV=development\nPORT=9292"
+      end
+      append_to_file(".gitignore", ".env") if File.exist?(".gitignore")
+    end
+
+    def fix_stdout_for_logging
+      prepend_file("config.ru", "$stdout.sync = true\n")
+    end
+
+    def replace_server_rake_task
+      gsub_file("Rakefile", /desc.*server.*{rack_env}"\)\nend$/m) do
+<<TASK
+desc "Start the development server with Foreman"
+task :server do
+  exec("foreman start")
+end
+TASK
+      end
+    end
+
+    def reminders
+      say "\nGemfile updated... don't forget to 'bundle install'"
+    end
+  end
+
   class Internationalization < Thor::Group
     include Thor::Actions
 
@@ -79,5 +123,6 @@ CODE
 
     register(Metrics, "add:metrics", "add:metrics", "Add metrics (flog, flay, simplecov)")
     register(Internationalization, "add:i18n", "add:i18n", "Internationalization support using sinatra-r18n")
+    register(Heroku, "add:heroku", "add:heroku", "Heroku deployment support")
   end
 end
