@@ -7,8 +7,9 @@ Dir.glob('tasks/*.rake').each { |r| import r }
 
 desc "Start the development server"
 task :server do
-  conf = File.expand_path('config.ru', File.dirname(__FILE__))
-  exec("bundle exec rackup #{conf}")
+  port = ENV["PORT"] || 9292
+  rack_env = ENV["RACK_ENV"] || "development"
+  exec("bundle exec thin start -p #{port} -e #{rack_env}")
 end
 
 namespace :test do
