@@ -2,6 +2,9 @@ require "rake/testtask"
 
 task :default => "test:all"
 
+# Import any external rake tasks
+Dir.glob('tasks/*.rake').each { |r| import r }
+
 desc "Start the development server"
 task :server do
   conf = File.expand_path('config.ru', File.dirname(__FILE__))
