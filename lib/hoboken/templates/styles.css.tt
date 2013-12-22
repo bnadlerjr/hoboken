@@ -1,0 +1,47 @@
+body {
+  font-family: 'lucida console', monaco, 'andale mono', 'bitstream vera sans mono', monospace;
+  font-size: 18px;
+  color: #262626;
+  margin: 2em;
+}
+h1, h2, h3, h4 {
+  font-family: Georgia, 'bitstream vera serif', serif;
+}
+h1 {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 0;
+  margin: 0;
+}
+ul {
+  list-style: none;
+}
+table {
+  margin-left: 1em;
+}
+th:before {
+  content: "# => ";
+}
+th {
+  font-weight: normal;
+  text-align: left;
+  color: #515151;
+  padding-left: 2em;
+}
+a {
+  font-weight: bold;
+  color: #324d0e;
+}
+footer {
+  margin-top: 2em;
+  text-align: center;
+}
+.wrapper {
+  background: url("../img/sinatra.png") no-repeat bottom right;
+  width: 1280px;
+  margin: 0 auto;
+}
+.main {
+  width: 640px;
+}

@@ -54,6 +54,9 @@ module Hoboken
         empty_directory("public")
         %w(css img js).each { |f| empty_directory("public/#{f}") }
       end
+      apply_template("styles.css.tt", "public/css/styles.css")
+      copy_file("templates/hoboken.png", "#{snake_name}/public/img/hoboken.png")
+      copy_file("templates/sinatra.png", "#{snake_name}/public/img/sinatra.png")
     end
 
     def test_folder
