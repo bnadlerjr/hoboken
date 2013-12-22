@@ -81,6 +81,7 @@ module Hoboken
 
     def make_modular
       return unless "modular" == options[:type]
+      empty_directory("#{snake_name}/helpers")
       remove_file("#{snake_name}/app.rb")
       apply_template("modular.rb.tt", "app.rb")
       ["config.ru", "test/unit/test_helper.rb"].each do |f|
