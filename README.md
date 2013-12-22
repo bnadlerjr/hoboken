@@ -28,6 +28,7 @@ To see a list of options for the generate command:
       [--tiny]                       # Generate views inline; do not create /public folder
       [--type=TYPE]                  # Architecture type (classic or modular)
                                      # Default: classic
+      [--git]                        # Create a Git repository and make initial commit
 
     Generate a new Sinatra app
 

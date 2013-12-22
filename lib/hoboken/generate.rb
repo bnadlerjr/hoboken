@@ -1,6 +1,10 @@
+require "rbconfig"
+
 module Hoboken
   class Generate < Thor::Group
     include Thor::Actions
+
+    NULL = RbConfig::CONFIG['host_os'] =~ /mingw|mswin/ ? 'NUL' : '/dev/null'
 
     argument :name
 
@@ -18,6 +22,11 @@ module Hoboken
                  type: :string,
                  desc: "Architecture type (classic or modular)",
                  default: :classic
+
+    class_option :git,
+                 type: :boolean,
+                 desc: "Create a Git repository and make initial commit",
+                 default: false
 
     def self.source_root
       File.dirname(__FILE__)
@@ -74,6 +83,20 @@ module Hoboken
       ["config.ru", "test/unit/test_helper.rb"].each do |f|
         path = File.join(snake_name, f)
         gsub_file(path, /Sinatra::Application/, "#{camel_name}::App")
+      end
+    end
+
+    def create_git_repository
+      return unless options[:git]
+      if system("git --version >#{NULL} 2>&1")
+        copy_file("templates/gitignore", "#{snake_name}/.gitignore")
+        inside snake_name do
+          run("git init .")
+          run("git add .")
+          run("git commit -m \"Initial commit.\"")
+        end
+      else
+        say "\nYou asked that a Git repository be created for the project, but no Git executable could be found."
       end
     end
 
