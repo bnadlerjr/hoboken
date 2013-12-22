@@ -15,7 +15,7 @@ module Hoboken
       append_file("Gemfile", "\ngem \"foreman\", \"~> 0.63.0\", group: :development")
     end
 
-    def procfile_and_env
+    def procfile
       create_file("Procfile") do
         "web: bundle exec thin start -p $PORT -e $RACK_ENV"
       end
@@ -26,6 +26,12 @@ module Hoboken
         "RACK_ENV=development\nPORT=9292"
       end
       append_to_file(".gitignore", ".env") if File.exist?(".gitignore")
+    end
+
+    def slugignore
+      create_file(".slugignore") do
+        "tags\n/test\n/tmp"
+      end
     end
 
     def fix_stdout_for_logging
