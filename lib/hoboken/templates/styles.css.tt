@@ -29,6 +29,9 @@ th {
   color: #515151;
   padding-left: 2em;
 }
+th, td {
+  vertical-align: top;
+}
 a {
   font-weight: bold;
   color: #324d0e;

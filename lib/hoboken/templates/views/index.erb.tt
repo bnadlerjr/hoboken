@@ -30,6 +30,10 @@
         <th>Rackup file</th>
       </tr>
       <tr>
+        <td>/helpers</td>
+        <th>Any helper files</th>
+      </tr>
+      <tr>
         <td>/public</td>
         <th>Static assets (i.e. css, js, images)</th>
       </tr>
@@ -39,7 +43,7 @@
       </tr>
       <tr>
         <td>/views</td>
-        <th>Your app's views</th>
+        <th>Your app's views (not present if --tiny option was used)</th>
       </tr>
     </table>
 
