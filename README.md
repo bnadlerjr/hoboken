@@ -32,8 +32,6 @@ To see a list of options for the generate command:
 
     Generate a new Sinatra app
 
-Options that may be supported in the future: middleware, git.
-
 ### Additional Generators
 
 Additional generators are available for existing projects generated using Hoboken:
@@ -42,11 +40,6 @@ Additional generators are available for existing projects generated using Hoboke
     $ hoboken add:i18n             # Internationalization support using sinatra-r18n
     $ hoboken add:heroku           # Heroku deployment support
     $ hoboken add:sprockets        # Rack-based asset packaging system
-
-Future ideas for generator "add ons":
-
-    $ hoboken add:bootstrap
-    $ hoboken add:middleware [name]
 
 ## Contributing
 
