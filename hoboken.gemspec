@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Hoboken::VERSION
   spec.authors       = ["Bob Nadler"]
   spec.email         = ["bnadlerjr@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Sinatra project generator.}
+  spec.summary       = %q{Sinatra project generator.}
+  spec.homepage      = "https://github.com/bnadlerjr/hoboken"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", "~> 10.1.0"
 
   spec.add_dependency "thor", "~> 0.18.1"
 end

@@ -1,5 +1,7 @@
 # Hoboken
 
+[![Dependency Status](https://gemnasium.com/bnadlerjr/hoboken.png)](https://gemnasium.com/bnadlerjr/hoboken)
+
 Generate Sinatra project templates.
 
 ## Installation
