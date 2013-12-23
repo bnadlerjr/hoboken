@@ -1,8 +1,9 @@
 source "https://rubygems.org"
 ruby "<%= options[:ruby_version] %>"
 
-gem "sinatra", "~> 1.4.3"
-gem "thin",    "~> 1.5.1"
+gem "rack_csrf", "~> 2.4.0"
+gem "sinatra",   "~> 1.4.3"
+gem "thin",      "~> 1.5.1"
 
 group :development do
   gem "rake",             "~> 10.1.0"
