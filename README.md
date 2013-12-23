@@ -41,10 +41,10 @@ Additional generators are available for existing projects generated using Hoboke
     $ hoboken add:metrics          # Add Rake tasks for metrics (flog, flay, simplecov)
     $ hoboken add:i18n             # Internationalization support using sinatra-r18n
     $ hoboken add:heroku           # Heroku deployment support
+    $ hoboken add:sprockets        # Rack-based asset packaging system
 
 Future ideas for generator "add ons":
 
-    $ hoboken add:sprockets
     $ hoboken add:bootstrap
     $ hoboken add:middleware [name]
 
