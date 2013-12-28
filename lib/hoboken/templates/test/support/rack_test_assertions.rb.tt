@@ -29,6 +29,30 @@ module Rack::Test::Assertions
     end
   end
 
+  def assert_has_session(message=nil)
+    msg = build_message(message, "expected a valid session")
+    assert_block(msg) do
+      last_request.env["rack.session"]
+    end
+  end
+
+  def assert_session_has_key(key, message=nil)
+    assert_has_session
+    msg = build_message(message, "expected session to have key named <?>", key)
+    assert_block(msg) do
+      last_request.env["rack.session"].keys.include?(key)
+    end
+  end
+
+  def assert_session(key, expected, message=nil)
+    assert_session_has_key(key)
+    actual = last_request.env["rack.session"][key]
+    msg = build_message(message, "expected session key <?> to be <?>, but was <?>", key, expected, actual)
+    assert_block(msg) do
+      expected == actual
+    end
+  end
+
   def assert_response(expected, message=nil)
     status = last_response.status
     msg = build_message(
