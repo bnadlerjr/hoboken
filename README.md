@@ -38,9 +38,10 @@ To see a list of options for the generate command:
 
 Additional generators are available for existing projects generated using Hoboken:
 
-    $ hoboken add:metrics          # Add Rake tasks for metrics (flog, flay, simplecov)
-    $ hoboken add:i18n             # Internationalization support using sinatra-r18n
     $ hoboken add:heroku           # Heroku deployment support
+    $ hoboken add:i18n             # Internationalization support using sinatra-r18n
+    $ hoboken add:metrics          # Add metrics (flog, flay, simplecov)
+    $ hoboken add:omniauth         # OmniAuth authentication (allows you to select a provider)
     $ hoboken add:sprockets        # Rack-based asset packaging system
 
 ## Contributing
