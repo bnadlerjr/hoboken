@@ -8,7 +8,7 @@ module Hoboken
     include Hoboken::Actions
   end
 
-  class ActionsTest < Test::Unit::TestCase
+  class GemActionsTest < Test::Unit::TestCase
     attr_reader :gemfile_path, :gemfile, :target
 
     def setup
@@ -88,6 +88,42 @@ module Hoboken
         "gem \"thin\", \"~> 1.4.4\""
 
       assert_equal(expected, File.read(gemfile))
+    end
+  end
+
+  class IndentActionsTest < Test::Unit::TestCase
+    attr_reader :text, :target
+
+    def setup
+      @target = Target.new
+      @text = <<-TEXT
+
+This is some
+text that needs
+to be indented.
+TEXT
+    end
+
+    def test_indent_with_one_space
+      expected = <<-TEXT
+ 
+ This is some
+ text that needs
+ to be indented.
+TEXT
+
+      assert_equal(expected, target.indent(text, 1))
+    end
+
+    def test_indent_with_two_spaces
+      expected = <<-TEXT
+  
+  This is some
+  text that needs
+  to be indented.
+TEXT
+
+      assert_equal(expected, target.indent(text, 2))
     end
   end
 end
