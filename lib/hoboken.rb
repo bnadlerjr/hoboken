@@ -3,10 +3,12 @@ require "thor/util"
 require "fileutils"
 require_relative "hoboken/version"
 require_relative "hoboken/generate"
+require_relative "hoboken/actions"
 
 module Hoboken
   class OmniAuth < Thor::Group
     include Thor::Actions
+    include Hoboken::Actions
 
     attr_reader :provider
 
@@ -17,8 +19,7 @@ module Hoboken
     def add_gem
       @provider = ask("Please specify a provider (i.e. twitter, facebook. etc.): ").downcase
       provider_version = ask("Specify provider version: ")
-
-      append_file("Gemfile", "\ngem \"#{gem_name}\", \"~> #{provider_version}\"")
+      gem gem_name, provider_version
     end
 
     def setup_middleware
@@ -145,6 +146,7 @@ CODE
 
   class Sprockets < Thor::Group
     include Thor::Actions
+    include Hoboken::Actions
 
     def self.source_root
       File.dirname(__FILE__)
@@ -157,9 +159,9 @@ CODE
     end
 
     def add_gems
-      append_file("Gemfile", "\ngem \"sprockets\", \"~> 2.10.0\", group: :assets")
-      append_file("Gemfile", "\ngem \"uglifier\", \"~> 2.1.1\", group: :assets")
-      append_file("Gemfile", "\ngem \"yui-compressor\", \"~> 0.9.6\", group: :assets")
+      gem "sprockets", "2.10.0", group: :assets
+      gem "uglifier", "2.1.1", group: :assets
+      gem "yui-compressor", "0.9.6", group: :assets
     end
 
     def copy_sprockets_helpers
@@ -245,13 +247,14 @@ TEXT
 
   class Heroku < Thor::Group
     include Thor::Actions
+    include Hoboken::Actions
 
     def self.source_root
       File.dirname(__FILE__)
     end
 
     def add_gem
-      append_file("Gemfile", "\ngem \"foreman\", \"~> 0.63.0\", group: :development")
+      gem "foreman", "0.63.0", group: :development
     end
 
     def procfile
@@ -295,13 +298,14 @@ TASK
 
   class Internationalization < Thor::Group
     include Thor::Actions
+    include Hoboken::Actions
 
     def self.source_root
       File.dirname(__FILE__)
     end
 
     def add_gem
-      append_file("Gemfile", "\ngem \"sinatra-r18n\", \"~> 1.1.5\"")
+      gem "sinatra-r18n", "1.1.5"
       insert_into_file("app.rb", after: /require "sinatra("|\/base")/) do
         "\nrequire \"sinatra/r18n\""
       end
@@ -322,15 +326,16 @@ TASK
 
   class Metrics < Thor::Group
     include Thor::Actions
+    include Hoboken::Actions
 
     def self.source_root
       File.dirname(__FILE__)
     end
 
     def add_gems
-      append_file("Gemfile", "\ngem \"flog\", \"~> 2.5.3\", group: :test")
-      append_file("Gemfile", "\ngem \"flay\", \"~> 1.4.3\", group: :test")
-      append_file("Gemfile", "\ngem \"simplecov\", \"~> 0.7.1\", require: false, group: :test")
+      gem "flog", "2.5.3", group: :test
+      gem "flay", "1.4.3", group: :test
+      gem "simplecov", "0.7.1", require: false, group: :test
     end
 
     def copy_task_templates
