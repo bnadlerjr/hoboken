@@ -27,31 +27,21 @@ module Hoboken
         "\nrequire \"#{gem_name}\""
       end
 
-      if modular?
-        insert_into_file("app.rb", after: /use Rack::Session::Cookie.+\n/) do
-<<-CODE
-
-    use OmniAuth::Builder do
-      provider :#{provider}, ENV["#{provider.upcase}_KEY"], ENV["#{provider.upcase}_SECRET"]
-    end
-
-CODE
-        end
-      else
-        insert_into_file("app.rb", after: /use Rack::Session::Cookie.+\n/) do
-<<-CODE
+      snippet = <<-CODE
 
 use OmniAuth::Builder do
   provider :#{provider}, ENV["#{provider.upcase}_KEY"], ENV["#{provider.upcase}_SECRET"]
 end
 
 CODE
-        end
-      end
+
+      text = modular? ? indent(snippet, 4) : snippet
+      insert_into_file("app.rb", after: /use Rack::Session::Cookie.+\n/) { text }
     end
 
     def add_routes
       routes = <<-CODE
+
 
 get "/login" do
   '<a href="/auth/#{provider}">Login</a>'
@@ -69,25 +59,7 @@ end
 CODE
 
       if modular?
-        insert_into_file("app.rb", after: /get.+?end$/m) do
-<<-CODE
-
-
-    get "/login" do
-      '<a href="/auth/#{provider}">Login</a>'
-    end
-
-    get "/auth/:provider/callback" do
-      # TODO: Insert real authentication logic...
-      MultiJson.encode(request.env['omniauth.auth'])
-    end
-
-    get "/auth/failure" do
-      # TODO: Insert real error handling logic...
-      halt 401, params[:message]
-    end
-CODE
-        end
+        insert_into_file("app.rb", after: /get.+?end$/m) { indent(routes, 4) }
       else
         append_file("app.rb", routes)
       end
