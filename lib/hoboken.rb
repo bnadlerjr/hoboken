@@ -17,7 +17,7 @@ module Hoboken
     end
 
     def add_gem
-      @provider = ask("Please specify a provider (i.e. twitter, facebook. etc.): ").downcase
+      @provider = ask("Specify a provider (i.e. twitter, facebook. etc.): ").downcase
       provider_version = ask("Specify provider version: ")
       gem gem_name, provider_version
     end
