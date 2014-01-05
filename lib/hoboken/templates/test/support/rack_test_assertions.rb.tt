@@ -40,13 +40,13 @@ module Rack::Test::Assertions
     assert_has_session
     msg = build_message(message, "expected session to have key named <?>", key)
     assert_block(msg) do
-      last_request.env["rack.session"].keys.include?(key)
+      last_request.env["rack.session"].keys.include?(key.to_s)
     end
   end
 
   def assert_session(key, expected, message=nil)
     assert_session_has_key(key)
-    actual = last_request.env["rack.session"][key]
+    actual = last_request.env["rack.session"][key.to_s]
     msg = build_message(message, "expected session key <?> to be <?>, but was <?>", key, expected, actual)
     assert_block(msg) do
       expected == actual
