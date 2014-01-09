@@ -316,7 +316,7 @@ TASK
     end
 
     def simplecov_snippet
-      insert_into_file "test/unit/test_helper.rb", before: /require "test\/unit"/ do
+      insert_into_file "test/test_helper.rb", before: /require "test\/unit"/ do
 <<CODE
 
 require 'simplecov'

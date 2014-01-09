@@ -4,8 +4,8 @@ require "bundler/setup"
 require "test/unit"
 require "contest"
 require "rack/test"
-require_relative "../support/rack_test_assertions"
-require_relative "../../app"
+require_relative "support/rack_test_assertions"
+require_relative "../app"
 
 class Test::Unit::TestCase
   # Syntactic sugar for defining a memoized helper method.
