@@ -6,11 +6,24 @@ module Rack::Test::Assertions
     :redirect       => 302
   }
 
+  CONTENT_TYPES = {
+    :json => "application/json;charset=utf-8",
+    :html => "text/html;charset=utf-8"
+  }
+
   def assert_body_contains(expected, message=nil)
     msg = build_message(message, "expected body to contain <?>\n#{last_response.body}", expected)
     assert_block(msg) do
       last_response.body.include?(expected)
     end
+  end
+
+  def assert_content_type(content_type)
+    unless CONTENT_TYPES.keys.include?(content_type)
+      raise ArgumentError, "unrecognized content_type (#{content_type})"
+    end
+
+    assert_equal CONTENT_TYPES[content_type], last_response.content_type
   end
 
   def assert_flash(type=:notice, message=nil)
