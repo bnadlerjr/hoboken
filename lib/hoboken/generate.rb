@@ -80,6 +80,14 @@ module Hoboken
       apply_template("test/support/rack_test_assertions.rb.tt", "test/support/rack_test_assertions.rb")
     end
 
+    def env_file
+      inside snake_name do
+        create_file(".env") do
+          "RACK_ENV=development\nPORT=9292"
+        end
+      end
+    end
+
     def make_modular
       return unless "modular" == options[:type]
       empty_directory("#{snake_name}/helpers")

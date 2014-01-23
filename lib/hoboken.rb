@@ -85,7 +85,7 @@ CODE
 
 Notes:
 * The sqlite3 gem has been installed for dev and test environments only. You will need to specify a gem to use for production.
-* You will need to specify an environment variable 'DATABASE_URL' (either export it, or add to .env if using Heroku)
+* You will need to specify an environment variable 'DATABASE_URL' (either add it to .env or export it)
 TEXT
     end
   end
@@ -317,13 +317,6 @@ TEXT
       create_file("Procfile") do
         "web: bundle exec thin start -p $PORT -e $RACK_ENV"
       end
-    end
-
-    def env_file
-      create_file(".env") do
-        "RACK_ENV=development\nPORT=9292"
-      end
-      append_to_file(".gitignore", ".env") if File.exist?(".gitignore")
     end
 
     def slugignore
