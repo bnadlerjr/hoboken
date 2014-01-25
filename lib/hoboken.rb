@@ -40,7 +40,7 @@ module Hoboken
 
 db = Sequel.connect(ENV["DATABASE_URL"], loggers: [Logger.new($stdout)])
 Sequel.extension :migration
-Sequel::Migrator.check_current(db, "db/migrate") if File.exist?("db/migrate/*.rb")
+Sequel::Migrator.check_current(db, "db/migrate") if Dir.glob("db/migrate/*.rb").size > 0
 
 app = #{app_name}
 app.set :database, db
@@ -70,7 +70,7 @@ module Test::Database
     def database
       @database ||= Sequel.sqlite.tap do |db|
         Sequel.extension :migration
-        Sequel::Migrator.run(db, 'db/migrate')
+        Sequel::Migrator.run(db, 'db/migrate') if Dir.glob("db/migrate/*.rb").size > 0
       end
     end
   end
