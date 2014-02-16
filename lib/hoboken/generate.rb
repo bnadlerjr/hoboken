@@ -132,7 +132,12 @@ module Hoboken
     end
 
     def author
-      `git config user.name`.chomp
+      if system("git --version >#{NULL} 2>&1")
+        `git config user.name`.chomp
+      else
+        say "\nNo Git executable found. Using result of `whoami` as author name."
+        `whoami`.chomp
+      end
     end
 
     def apply_template(src, dest)
