@@ -101,7 +101,7 @@ module Hoboken
 
     def create_git_repository
       return unless options[:git]
-      if system("git --version >#{NULL} 2>&1")
+      if has_git?
         copy_file("templates/gitignore", "#{snake_name}/.gitignore")
         inside snake_name do
           run("git init .")
@@ -132,12 +132,16 @@ module Hoboken
     end
 
     def author
-      if system("git --version >#{NULL} 2>&1")
+      if has_git?
         `git config user.name`.chomp
       else
         say "\nNo Git executable found. Using result of `whoami` as author name."
         `whoami`.chomp
       end
+    end
+
+    def has_git?
+      system("git --version >#{NULL} 2>&1")
     end
 
     def apply_template(src, dest)
