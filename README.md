@@ -1,5 +1,6 @@
 # Hoboken
 
+[![Gem Version](https://badge.fury.io/rb/hoboken.png)](http://badge.fury.io/rb/hoboken)
 [![Dependency Status](https://gemnasium.com/bnadlerjr/hoboken.png)](https://gemnasium.com/bnadlerjr/hoboken)
 
 Generate Sinatra project templates.
