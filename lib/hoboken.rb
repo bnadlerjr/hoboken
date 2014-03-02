@@ -310,52 +310,9 @@ TEXT
     end
   end
 
-  class Heroku < Thor::Group
-    include Thor::Actions
-    include Hoboken::Actions
-
-    def self.source_root
-      File.dirname(__FILE__)
-    end
-
-    def add_gem
-      gem "foreman", "0.63.0", group: :development
-    end
-
-    def procfile
-      create_file("Procfile") do
-        "web: bundle exec thin start -p $PORT -e $RACK_ENV"
-      end
-    end
-
-    def slugignore
-      create_file(".slugignore") do
-        "tags\n/test\n/tmp"
-      end
-    end
-
-    def fix_stdout_for_logging
-      prepend_file("config.ru", "$stdout.sync = true\n")
-    end
-
-    def replace_server_rake_task
-      gsub_file("Rakefile", /desc.*server.*{rack_env}"\)\nend$/m) do
-<<TASK
-desc "Start the development server with Foreman"
-task :server do
-  exec("foreman start")
-end
-TASK
-      end
-    end
-
-    def reminders
-      say "\nGemfile updated... don't forget to 'bundle install'"
-    end
-  end
-
   require_relative "hoboken/add_ons/metrics"
   require_relative "hoboken/add_ons/internationalization"
+  require_relative "hoboken/add_ons/heroku"
 
   class CLI < Thor
     desc "version", "Print version and quit"
@@ -368,7 +325,7 @@ TASK
 
     register(AddOns::Metrics, "add:metrics", "add:metrics", "Add metrics (flog, flay, simplecov)")
     register(AddOns::Internationalization, "add:i18n", "add:i18n", "Internationalization support using sinatra-r18n")
-    register(Heroku, "add:heroku", "add:heroku", "Heroku deployment support")
+    register(AddOns::Heroku, "add:heroku", "add:heroku", "Heroku deployment support")
     register(OmniAuth, "add:omniauth", "add:omniauth", "OmniAuth authentication (allows you to select a provider)")
     register(Sprockets, "add:sprockets", "add:sprockets", "Rack-based asset packaging system")
     register(Sequel, "add:sequel", "add:sequel", "Database access via Sequel gem")

@@ -40,4 +40,16 @@ CODE
       assert_file("i18n/en.yml")
     end
   end
+
+  def test_heroku_add_on
+    run_hoboken(:generate) do
+      bin_path = File.expand_path("../../../bin/hoboken", __FILE__)
+      execute("#{bin_path} add:heroku")
+      assert_file("Gemfile", "foreman")
+      assert_file("Procfile")
+      assert_file(".slugignore")
+      assert_file("config.ru", /\$stdout.sync = true/)
+      assert_file("Rakefile", /exec\("foreman start"\)/)
+    end
+  end
 end
