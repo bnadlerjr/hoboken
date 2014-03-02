@@ -47,16 +47,6 @@ module Hoboken
       apply_template("views/index.erb.tt", "views/index.erb")
     end
 
-    def inline_views
-      return unless options[:tiny]
-      combined_views = %w(layout index).map do |f|
-        "@@#{f}\n" + File.read("#{snake_name}/views/#{f}.erb")
-      end.join("\n")
-
-      append_to_file("#{snake_name}/app.rb", "\n__END__\n\n#{combined_views}")
-      remove_dir("#{snake_name}/views")
-    end
-
     def public_folder
       return if options[:tiny]
       inside snake_name do
@@ -99,6 +89,16 @@ module Hoboken
       end
     end
 
+    def inline_views
+      return unless options[:tiny]
+      combined_views = %w(layout index).map do |f|
+        "@@#{f}\n" + File.read("#{snake_name}/views/#{f}.erb")
+      end.join("\n")
+
+      append_to_file("#{snake_name}/app.rb", "\n__END__\n\n#{combined_views}")
+      remove_dir("#{snake_name}/views")
+    end
+
     def create_git_repository
       return unless options[:git]
       if has_git?
@@ -124,7 +124,7 @@ module Hoboken
     end
 
     def camel_name
-      Thor::Util.camel_case(name)
+      Thor::Util.camel_case(name.split("/").last)
     end
 
     def titleized_name
