@@ -6,6 +6,14 @@ DESTINATION = File.expand_path("../tmp", __FILE__)
 FileUtils.rm_rf(DESTINATION)
 
 class IntegrationTestCase < Test::Unit::TestCase
+  def teardown
+    if self.passed?
+      FileUtils.rm_rf("#{DESTINATION}/#{$hoboken_counter}")
+    else
+      puts "Left #{DESTINATION}/#{$hoboken_counter}/sample in place since test failed."
+    end
+  end
+
   def run_hoboken(command, **opts)
     options = Array.new.tap do |o|
       o << "--git" if opts.fetch(:git) { false }
@@ -19,8 +27,6 @@ class IntegrationTestCase < Test::Unit::TestCase
 
     `#{bin_path} #{command} #{DESTINATION}/#{$hoboken_counter}/sample #{options.join(" ")}`
     yield
-  ensure
-    FileUtils.rm_rf("#{DESTINATION}/#{$hoboken_counter}")
   end
 
   def execute(command)
