@@ -1,11 +1,18 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
 
-task :default => "test:unit"
+task :default => "test:all"
 
 namespace :test do
-  Rake::TestTask.new(:unit) do |t|
-    t.libs << 'test/unit'
-    t.test_files = Dir["test/unit/**/*_test.rb"]
+  types = %w(unit integration)
+
+  types.each do |type|
+    Rake::TestTask.new(type.to_sym) do |t|
+      t.libs << "test/#{type}"
+      t.test_files = Dir["test/#{type}/**/*_test.rb"]
+    end
   end
+
+  desc "Run all tests"
+  task :all => types.map { |s| "test:#{s}" }
 end
