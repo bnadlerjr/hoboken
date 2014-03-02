@@ -6,6 +6,15 @@ require_relative "hoboken/generate"
 require_relative "hoboken/actions"
 
 module Hoboken
+  class Group < Thor::Group
+    include Thor::Actions
+    include Hoboken::Actions
+
+    def self.source_root
+      File.dirname(__FILE__)
+    end
+  end
+
   class Sequel < Thor::Group
     include Thor::Actions
     include Hoboken::Actions
@@ -373,43 +382,7 @@ TASK
     end
   end
 
-  class Metrics < Thor::Group
-    include Thor::Actions
-    include Hoboken::Actions
-
-    def self.source_root
-      File.dirname(__FILE__)
-    end
-
-    def add_gems
-      gem "flog", "2.5.3", group: :test
-      gem "flay", "1.4.3", group: :test
-      gem "simplecov", "0.7.1", require: false, group: :test
-    end
-
-    def copy_task_templates
-      empty_directory("tasks")
-      template("hoboken/templates/metrics.rake.tt", "tasks/metrics.rake")
-    end
-
-    def simplecov_snippet
-      insert_into_file "test/test_helper.rb", before: /require "test\/unit"/ do
-<<CODE
-
-require 'simplecov'
-SimpleCov.start do
-  add_filter "/test/"
-  coverage_dir 'tmp/coverage'
-end
-
-CODE
-      end
-    end
-
-    def reminders
-      say "\nGemfile updated... don't forget to 'bundle install'"
-    end
-  end
+  require_relative "hoboken/add_ons/metrics"
 
   class CLI < Thor
     desc "version", "Print version and quit"
@@ -420,7 +393,7 @@ CODE
     register(Generate, "generate", "generate [APP_NAME]", "Generate a new Sinatra app")
     tasks["generate"].options = Hoboken::Generate.class_options
 
-    register(Metrics, "add:metrics", "add:metrics", "Add metrics (flog, flay, simplecov)")
+    register(AddOns::Metrics, "add:metrics", "add:metrics", "Add metrics (flog, flay, simplecov)")
     register(Internationalization, "add:i18n", "add:i18n", "Internationalization support using sinatra-r18n")
     register(Heroku, "add:heroku", "add:heroku", "Heroku deployment support")
     register(OmniAuth, "add:omniauth", "add:omniauth", "OmniAuth authentication (allows you to select a provider)")
