@@ -1,18 +1,11 @@
 require "test/unit"
 require "fileutils"
 
+$hoboken_counter = 0
+DESTINATION = File.expand_path("../../tmp", __FILE__)
+FileUtils.rm_rf(DESTINATION)
+
 class GenerateTest < Test::Unit::TestCase
-  attr_reader :bin_path, :destination_path
-
-  def setup
-    @destination_path = File.expand_path("../../output", __FILE__)
-    @bin_path = File.expand_path("../../../bin/hoboken", __FILE__)
-  end
-
-  def teardown
-    FileUtils.rm_rf(destination_path)
-  end
-
   def test_generate_classic
     run_hoboken(:generate) do
       assert_file ".env"
@@ -59,21 +52,31 @@ class GenerateTest < Test::Unit::TestCase
       o << "--tiny" if opts.fetch(:tiny) { false }
       o << "--ruby-version=#{opts[:ruby_version]}" if opts.has_key?(:ruby_version)
     end
-    `#{bin_path} #{command} #{destination_path}/sample_1 #{options.join(" ")}`
+
+    $hoboken_counter += 1
+    bin_path = File.expand_path("../../../bin/hoboken", __FILE__)
+
+    `#{bin_path} #{command} #{DESTINATION}/#{project_name} #{options.join(" ")}`
     yield
+  ensure
+    FileUtils.rm_rf("#{DESTINATION}/#{project_name}")
   end
 
   def execute(command)
     current_path = Dir.pwd
-    FileUtils.cd("#{destination_path}/sample_1")
+    FileUtils.cd("#{DESTINATION}/#{project_name}")
     `bundle install` unless File.exists?("Gemfile.lock")
     `#{command}`
   ensure
     FileUtils.cd(current_path)
   end
 
+  def project_name
+    "sample_#{$hoboken_counter}"
+  end
+
   def assert_file(filename, *contents)
-    full_path = File.join(destination_path, "sample_1", filename)
+    full_path = File.join(DESTINATION, project_name, filename)
     assert_block("expected #{filename.inspect} to exist") do
       File.exists?(full_path)
     end
@@ -90,13 +93,13 @@ class GenerateTest < Test::Unit::TestCase
 
   def assert_directory(name)
     assert_block("expected #{name} directory to exist") do
-      File.directory?(File.join(destination_path, "sample_1", name))
+      File.directory?(File.join(DESTINATION, project_name, name))
     end
   end
 
   def refute_directory(name)
     assert_block("did not expect directory #{name} to exist") do
-      !File.directory?(File.join(destination_path, "sample_1", name))
+      !File.directory?(File.join(DESTINATION, project_name, name))
     end
   end
 end
