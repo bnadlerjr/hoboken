@@ -30,12 +30,10 @@ class IntegrationTestCase < Test::Unit::TestCase
   end
 
   def execute(command)
-    current_path = Dir.pwd
-    FileUtils.cd("#{DESTINATION}/#{$hoboken_counter}/sample")
-    `bundle install` unless File.exists?("Gemfile.lock")
-    `#{command}`
-  ensure
-    FileUtils.cd(current_path)
+    FileUtils.cd("#{DESTINATION}/#{$hoboken_counter}/sample") do
+      `bundle install` unless File.exists?("Gemfile.lock")
+      `#{command}`
+    end
   end
 
   def assert_file(filename, *contents)
