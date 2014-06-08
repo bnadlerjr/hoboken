@@ -2,6 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/hoboken.png)](http://badge.fury.io/rb/hoboken)
 [![Dependency Status](https://gemnasium.com/bnadlerjr/hoboken.png)](https://gemnasium.com/bnadlerjr/hoboken)
+[![Build Status](https://travis-ci.org/bnadlerjr/hoboken.png)](https://travis-ci.org/bnadlerjr/hoboken)
 
 Generate Sinatra project templates.
 
