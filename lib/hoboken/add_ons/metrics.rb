@@ -2,9 +2,9 @@ module Hoboken
   module AddOns
     class Metrics < ::Hoboken::Group
       def add_gems
-        gem "flog", "2.5.3", group: :test
-        gem "flay", "1.4.3", group: :test
-        gem "simplecov", "0.7.1", require: false, group: :test
+        gem "flog", version: "2.5.3", group: :test
+        gem "flay", version: "1.4.3", group: :test
+        gem "simplecov", version: "0.7.1", require: false, group: :test
       end
 
       def copy_task_templates

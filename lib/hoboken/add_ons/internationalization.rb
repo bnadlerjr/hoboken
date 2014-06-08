@@ -2,7 +2,7 @@ module Hoboken
   module AddOns
     class Internationalization < ::Hoboken::Group
       def add_gem
-        gem "sinatra-r18n", "1.1.5"
+        gem "sinatra-r18n", version: "1.1.5"
         insert_into_file("app.rb", after: /require "sinatra("|\/base")/) do
           "\nrequire \"sinatra/r18n\""
         end

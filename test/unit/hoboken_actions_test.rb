@@ -19,7 +19,17 @@ module Hoboken
     end
 
     def test_gem_appends_to_gemfile
-      target.gem "sinatra", "1.4.4", verbose: false
+      target.gem "sinatra", verbose: false
+      expected =
+        "source \"https://rubygems.org\"\n" +
+        "ruby \"2.0.0\"\n\n" +
+        "gem \"sinatra\""
+
+      assert_equal(expected, File.read(gemfile))
+    end
+
+    def test_gem_with_version
+      target.gem "sinatra", version: "1.4.4", verbose: false
       expected =
         "source \"https://rubygems.org\"\n" +
         "ruby \"2.0.0\"\n\n" +
@@ -28,8 +38,18 @@ module Hoboken
       assert_equal(expected, File.read(gemfile))
     end
 
+    def test_get_with_blank_version
+      target.gem "sinatra", version: "", verbose: false
+      expected =
+        "source \"https://rubygems.org\"\n" +
+        "ruby \"2.0.0\"\n\n" +
+        "gem \"sinatra\""
+
+      assert_equal(expected, File.read(gemfile))
+    end
+
     def test_gem_with_group
-      target.gem "sinatra", "1.4.4", group: :test, verbose: false
+      target.gem "sinatra", version: "1.4.4", group: :test, verbose: false
       expected =
         "source \"https://rubygems.org\"\n" +
         "ruby \"2.0.0\"\n\n" +
@@ -39,7 +59,7 @@ module Hoboken
     end
 
     def test_gem_with_multiple_groups
-      target.gem "sinatra", "1.4.4", group: [:test, :development], verbose: false
+      target.gem "sinatra", version: "1.4.4", group: [:test, :development], verbose: false
       expected =
         "source \"https://rubygems.org\"\n" +
         "ruby \"2.0.0\"\n\n" +
@@ -49,7 +69,7 @@ module Hoboken
     end
 
     def test_gem_with_require
-      target.gem "sinatra", "1.4.4", require: false, verbose: false
+      target.gem "sinatra", version: "1.4.4", require: false, verbose: false
       expected =
         "source \"https://rubygems.org\"\n" +
         "ruby \"2.0.0\"\n\n" +
@@ -59,7 +79,7 @@ module Hoboken
     end
 
     def test_gem_with_require_and_group
-      target.gem "sinatra", "1.4.4", require: false, group: :test, verbose: false
+      target.gem "sinatra", version: "1.4.4", require: false, group: :test, verbose: false
       expected =
         "source \"https://rubygems.org\"\n" +
         "ruby \"2.0.0\"\n\n" +
@@ -69,7 +89,7 @@ module Hoboken
     end
 
     def test_gem_with_require_and_multiple_groups
-      target.gem "sinatra", "1.4.4", require: false, group: [:test, :development], verbose: false
+      target.gem "sinatra", version: "1.4.4", require: false, group: [:test, :development], verbose: false
       expected =
         "source \"https://rubygems.org\"\n" +
         "ruby \"2.0.0\"\n\n" +
@@ -79,8 +99,8 @@ module Hoboken
     end
 
     def test_gem_multiple
-      target.gem "sinatra", "1.4.4", verbose: false
-      target.gem "thin", "1.4.4", verbose: false
+      target.gem "sinatra", version: "1.4.4", verbose: false
+      target.gem "thin", version: "1.4.4", verbose: false
       expected =
         "source \"https://rubygems.org\"\n" +
         "ruby \"2.0.0\"\n\n" +

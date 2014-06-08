@@ -24,8 +24,8 @@ module Hoboken
     end
 
     def add_gems
-      gem "sequel", "4.6.0"
-      gem "sqlite3", "1.3.8", group: [:development, :test]
+      gem "sequel", version: "4.6.0"
+      gem "sqlite3", version: "1.3.8", group: [:development, :test]
     end
 
     def setup_directories
@@ -112,7 +112,7 @@ TEXT
     def add_gem
       @provider = ask("Specify a provider (i.e. twitter, facebook. etc.): ").downcase
       provider_version = ask("Specify provider version: ")
-      gem gem_name, provider_version
+      gem gem_name, version: provider_version
     end
 
     def setup_middleware
