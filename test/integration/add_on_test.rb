@@ -115,4 +115,12 @@ CODE
                  )
     end
   end
+
+  def test_travis_add_on
+    run_hoboken(:generate) do
+      bin_path = File.expand_path("../../../bin/hoboken", __FILE__)
+      execute("#{bin_path} add:travis")
+      assert_file(".travis.yml", "language: ruby")
+    end
+  end
 end

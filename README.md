@@ -46,6 +46,7 @@ Additional generators are available for existing projects generated using Hoboke
     $ hoboken add:omniauth         # OmniAuth authentication (allows you to select a provider)
     $ hoboken add:sequel           # Database access via Sequel gem
     $ hoboken add:sprockets        # Rack-based asset packaging system
+    $ hoboken add:travis           # Basic Travis-CI YAML config
 
 ## Contributing
 

@@ -213,6 +213,7 @@ CODE
   require_relative "hoboken/add_ons/internationalization"
   require_relative "hoboken/add_ons/heroku"
   require_relative "hoboken/add_ons/sprockets"
+  require_relative "hoboken/add_ons/travis"
 
   class CLI < Thor
     desc "version", "Print version and quit"
@@ -229,5 +230,6 @@ CODE
     register(OmniAuth, "add:omniauth", "add:omniauth", "OmniAuth authentication (allows you to select a provider)")
     register(AddOns::Sprockets, "add:sprockets", "add:sprockets", "Rack-based asset packaging system")
     register(Sequel, "add:sequel", "add:sequel", "Database access via Sequel gem")
+    register(AddOns::Travis, "add:travis", "add:travis", "Basic Travis-CI YAML config")
   end
 end
