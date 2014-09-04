@@ -170,4 +170,73 @@ CODE
                  )
     end
   end
+
+  def test_omniauth_add_on
+    run_hoboken(:generate) do
+      bin_path = File.expand_path("../../../bin/hoboken", __FILE__)
+      execute("(echo 'twitter' && echo '0.0.1') | #{bin_path} add:omniauth")
+      assert_file("Gemfile", "omniauth-twitter")
+      assert_file("app.rb", /require "omniauth-twitter"/)
+      assert_file("app.rb", <<CODE
+
+use OmniAuth::Builder do
+  provider :twitter, ENV["TWITTER_KEY"], ENV["TWITTER_SECRET"]
+end
+
+CODE
+                 )
+
+      assert_file("app.rb", <<CODE
+
+
+get "/login" do
+  '<a href="/auth/twitter">Login</a>'
+end
+
+get "/auth/:provider/callback" do
+  # TODO: Insert real authentication logic...
+  MultiJson.encode(request.env['omniauth.auth'])
+end
+
+get "/auth/failure" do
+  # TODO: Insert real error handling logic...
+  halt 401, params[:message]
+end
+CODE
+                 )
+    end
+
+    assert_file("test/unit/app_test.rb", <<-CODE
+  setup do
+    OmniAuth.config.test_mode = true
+  end
+
+  test "GET /login" do
+    get "/login"
+    assert_equal('<a href="/auth/twitter">Login</a>', last_response.body)
+  end
+
+  test "GET /auth/twitter/callback" do
+    auth_hash = {
+      "provider" => "twitter",
+      "uid" => "123545",
+      "info" => {
+        "name" => "John Doe"
+      }
+    }
+
+    OmniAuth.config.mock_auth[:twitter] = auth_hash
+    get "/auth/fitbit/callback"
+    assert_equal(MultiJson.encode(auth_hash), last_response.body)
+  end
+
+  test "GET /auth/failure" do
+    OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
+    get "/auth/failure"
+    assert_response :not_authorized
+  end
+
+CODE
+               )
+  end
 end
