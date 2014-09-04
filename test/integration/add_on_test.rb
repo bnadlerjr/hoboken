@@ -123,4 +123,51 @@ CODE
       assert_file(".travis.yml", "language: ruby")
     end
   end
+
+  def test_sequel_add_on
+    run_hoboken(:generate) do
+      bin_path = File.expand_path("../../../bin/hoboken", __FILE__)
+      execute("#{bin_path} add:sequel")
+      assert_file("Gemfile", "sequel", "sqlite3")
+      assert_file("tasks/sequel.rake")
+
+      assert_file("config.ru", /require "logger"/)
+      assert_file("config.ru", /require "sequel"/)
+      assert_file("config.ru", <<CODE
+
+db = Sequel.connect(ENV["DATABASE_URL"], loggers: [Logger.new($stdout)])
+Sequel.extension :migration
+Sequel::Migrator.check_current(db, "db/migrate") if Dir.glob("db/migrate/*.rb").size > 0
+
+app = Sinatra::Application
+app.set :database, db
+run app
+CODE
+                 )
+
+      assert_file("test/test_helper.rb", /require "sequel"/)
+      assert_file("test/test_helper.rb", <<CODE
+
+module Test::Database
+  class TestCase < Test::Unit::TestCase
+    def run(*args, &block)
+      result = nil
+      database.transaction(rollback: :always) { result = super }
+      result
+    end
+
+    private
+
+    def database
+      @database ||= Sequel.sqlite.tap do |db|
+        Sequel.extension :migration
+        Sequel::Migrator.run(db, 'db/migrate') if Dir.glob("db/migrate/*.rb").size > 0
+      end
+    end
+  end
+end
+CODE
+                 )
+    end
+  end
 end
