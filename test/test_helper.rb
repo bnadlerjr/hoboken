@@ -46,7 +46,7 @@ class IntegrationTestCase < Test::Unit::TestCase
       read = File.read(full_path)
       contents.each do |content|
         assert_block("expected #{filename.inspect} to contain #{content}:\n#{read}") do
-          pattern = content.is_a?(Regexp) ? content : /#{content}/
+          pattern = content.is_a?(Regexp) ? content : Regexp.new(Regexp.quote(content))
           read =~ pattern
         end
       end
