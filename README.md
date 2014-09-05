@@ -8,7 +8,7 @@ Generate Sinatra project templates.
 
 ## Installation
 
-    $ gem install hoboken --pre
+    $ gem install hoboken
 
 ## Usage
 
