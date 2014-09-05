@@ -48,6 +48,10 @@ Additional generators are available for existing projects generated using Hoboke
     $ hoboken add:sprockets        # Rack-based asset packaging system
     $ hoboken add:travis           # Basic Travis-CI YAML config
 
+### Documentation
+
+Visit the project [website](http://bobnadler.com/hoboken).
+
 ## Contributing
 
 1. Fork it
@@ -55,3 +59,5 @@ Additional generators are available for existing projects generated using Hoboke
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+If your contribution requires a change to the documentation, please also make a pull request to the [documentation project](https://github.com/bnadlerjr/hoboken-docs).
