@@ -1,4 +1,4 @@
-Copyright (c) 2013-2015 Bob Nadler
+Copyright (c) 2013-2016 Bob Nadler
 
 MIT License
 
