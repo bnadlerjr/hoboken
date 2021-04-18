@@ -3,7 +3,7 @@ unless 'production' == ENV['RACK_ENV']
   desc "Analyze code for structural similarities"
   task :flay do
     flay = Flay.new
-    files = FileList["app.rb", "app/**/*.rb"]
+    files = FileList['app.rb', 'app/**/*.rb']
     flay.process(*files)
     threshold = 200
 
@@ -13,11 +13,11 @@ unless 'production' == ENV['RACK_ENV']
     end
   end
 
-  require "flog"
+  require 'flog'
   desc 'Analyze code complexity'
   task :flog do
     flog = Flog.new
-    flog.flog FileList["app.rb", "app/**/*.rb"]
+    flog.flog FileList['app.rb', 'app/**/*.rb']
     threshold = 50
 
     bad_methods = flog.totals.select do |name, score|

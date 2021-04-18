@@ -1,0 +1,29 @@
+require: rubocop-rake
+
+AllCops:
+    Exclude:
+        - 'test/fixtures/**/*'
+    NewCops: enable
+    TargetRubyVersion: 2.7
+
+Metrics/BlockLength:
+      IgnoredMethods:
+        - run_hoboken
+
+Layout/SpaceAroundEqualsInParameterDefault:
+    EnforcedStyle: no_space
+
+Metrics/ClassLength:
+    Max: 150
+
+Metrics/MethodLength:
+    Max: 15
+
+Layout/LineLength:
+    Max: 90
+
+Style/BlockDelimiters:
+    EnforcedStyle: braces_for_chaining
+
+Style/YodaCondition:
+    EnforcedStyle: require_for_equality_operators_only

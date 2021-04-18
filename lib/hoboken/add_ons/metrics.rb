@@ -1,28 +1,32 @@
+# frozen_string_literal: true
+
 module Hoboken
   module AddOns
+    # Add metrics (flog, flay, simplecov).
+    #
     class Metrics < ::Hoboken::Group
       def add_gems
-        gem "flog", version: "2.5.3", group: :test
-        gem "flay", version: "1.4.3", group: :test
-        gem "simplecov", version: "0.7.1", require: false, group: :test
+        gem 'flog', version: '2.5.3', group: :test
+        gem 'flay', version: '1.4.3', group: :test
+        gem 'simplecov', version: '0.7.1', require: false, group: :test
       end
 
       def copy_task_templates
-        empty_directory("tasks")
-        template("hoboken/templates/metrics.rake.tt", "tasks/metrics.rake")
+        empty_directory('tasks')
+        template('hoboken/templates/metrics.rake.tt', 'tasks/metrics.rake')
       end
 
       def simplecov_snippet
-        insert_into_file "test/test_helper.rb", before: /require "test\/unit"/ do
-<<CODE
+        insert_into_file 'test/test_helper.rb', before: %r{require 'test/unit'} do
+          <<~CODE
 
-require 'simplecov'
-SimpleCov.start do
-  add_filter "/test/"
-  coverage_dir 'tmp/coverage'
-end
+            require 'simplecov'
+            SimpleCov.start do
+              add_filter '/test/'
+              coverage_dir 'tmp/coverage'
+            end
 
-CODE
+          CODE
         end
       end
 

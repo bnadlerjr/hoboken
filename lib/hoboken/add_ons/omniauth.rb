@@ -1,70 +1,77 @@
+# frozen_string_literal: true
+
 module Hoboken
   module AddOns
+    # OmniAuth authentication (allows you to select a provider).
+    #
     class OmniAuth < ::Hoboken::Group
       attr_reader :provider
 
       def add_gem
-        @provider = ask("Specify a provider (i.e. twitter, facebook. etc.): ").downcase
-        provider_version = ask("Specify provider version: ")
+        @provider = ask('Specify a provider (i.e. twitter, facebook. etc.): ').downcase
+        provider_version = ask('Specify provider version: ')
         gem gem_name, version: provider_version
       end
 
       def setup_middleware
-        insert_into_file("app.rb", after: /require "sinatra("|\/base")/) do
-          "\nrequire \"#{gem_name}\""
+        insert_into_file('app.rb', after: %r{require 'sinatra('|/base')}) do
+          "\nrequire '#{gem_name}'"
         end
 
-        snippet = <<-CODE
+        snippet = <<~CODE
 
-use OmniAuth::Builder do
-  provider :#{provider}, ENV["#{provider.upcase}_KEY"], ENV["#{provider.upcase}_SECRET"]
-end
+          use OmniAuth::Builder do
+            provider :#{provider}, ENV['#{provider.upcase}_KEY'], ENV['#{provider.upcase}_SECRET']
+          end
 
-CODE
+        CODE
 
         text = modular? ? indent(snippet, 4) : snippet
-        insert_into_file("app.rb", after: /use Rack::Session::Cookie.+\n/) { text }
+        insert_into_file('app.rb', after: /use Rack::Session::Cookie.+\n/) { text }
       end
 
+      # rubocop:disable Metrics/MethodLength
       def add_routes
-        routes = <<-CODE
+        routes = <<~CODE
 
 
-get "/login" do
-  '<a href="/auth/#{provider}">Login</a>'
-end
+          get '/login' do
+            '<a href="/auth/#{provider}">Login</a>'
+          end
 
-get "/auth/:provider/callback" do
-  # TODO: Insert real authentication logic...
-  MultiJson.encode(request.env['omniauth.auth'])
-end
+          get '/auth/:provider/callback' do
+            # TODO: Insert real authentication logic...
+            MultiJson.encode(request.env['omniauth.auth'])
+          end
 
-get "/auth/failure" do
-  # TODO: Insert real error handling logic...
-  halt 401, params[:message]
-end
-CODE
+          get '/auth/failure' do
+            # TODO: Insert real error handling logic...
+            halt 401, params[:message]
+          end
+        CODE
 
         if modular?
-          insert_into_file("app.rb", after: /get.+?end$/m) { indent(routes, 4) }
+          insert_into_file('app.rb', after: /get.+?end$/m) { indent(routes, 4) }
         else
-          append_file("app.rb", routes)
+          append_file('app.rb', routes)
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
+      # rubocop:disable Metrics/MethodLength
       def add_tests
-        inject_into_class("test/unit/app_test.rb", "AppTest") do
-  <<-CODE
+        inject_into_class('test/unit/app_test.rb', 'AppTest') do
+          <<-CODE
   setup do
     OmniAuth.config.test_mode = true
   end
 
-  test "GET /login" do
-    get "/login"
+  test 'GET /login' do
+    get '/login'
     assert_equal('<a href="/auth/#{provider}">Login</a>', last_response.body)
   end
 
-  test "GET /auth/#{provider}/callback" do
+  test 'GET /auth/#{provider}/callback' do
     auth_hash = {
       "provider" => "#{provider}",
       "uid" => "123545",
@@ -74,19 +81,20 @@ CODE
     }
 
     OmniAuth.config.mock_auth[:#{provider}] = auth_hash
-    get "/auth/fitbit/callback"
+    get '/auth/fitbit/callback'
     assert_equal(MultiJson.encode(auth_hash), last_response.body)
   end
 
-  test "GET /auth/failure" do
+  test 'GET /auth/failure' do
     OmniAuth.config.mock_auth[:#{provider}] = :invalid_credentials
-    get "/auth/failure"
+    get '/auth/failure'
     assert_response :not_authorized
   end
 
-  CODE
+          CODE
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       def reminders
         say "\nGemfile updated... don't forget to 'bundle install'"
@@ -99,7 +107,7 @@ CODE
       end
 
       def modular?
-        @modular ||= File.readlines("app.rb").grep(/Sinatra::Base/).any?
+        @modular ||= File.readlines('app.rb').grep(/Sinatra::Base/).any?
       end
     end
   end

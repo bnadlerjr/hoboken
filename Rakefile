@@ -1,10 +1,12 @@
-require "bundler/gem_tasks"
-require "rake/testtask"
+# frozen_string_literal: true
 
-task :default => "test:all"
+require 'bundler/gem_tasks'
+require 'rake/testtask'
+
+task default: 'test:all'
 
 namespace :test do
-  types = %w(unit integration)
+  types = %w[unit integration]
 
   types.each do |type|
     Rake::TestTask.new(type.to_sym) do |t|
@@ -13,6 +15,6 @@ namespace :test do
     end
   end
 
-  desc "Run all tests"
-  task :all => types.map { |s| "test:#{s}" }
+  desc 'Run all tests'
+  task all: types.map { |s| "test:#{s}" }
 end
