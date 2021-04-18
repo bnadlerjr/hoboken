@@ -37,7 +37,8 @@ module Hoboken
     end
 
     def app_folder
-      empty_directory(snake_name)
+      say "EXISTING PROJECT? #{existing_project?}"
+      empty_directory(snake_name) unless existing_project?
       apply_template('classic.rb.tt',  'app.rb')
       apply_template('Gemfile.erb.tt', 'Gemfile')
       apply_template('config.ru.tt',   'config.ru')
@@ -131,7 +132,7 @@ module Hoboken
     private
 
     def snake_name
-      Thor::Util.snake_case(name)
+      Thor::Util.snake_case(app_name)
     end
 
     def camel_name
@@ -140,6 +141,18 @@ module Hoboken
 
     def titleized_name
       snake_name.split('_').map(&:capitalize).join(' ')
+    end
+
+    def app_name
+      existing_project? ? Dir.pwd.split('/').last : name
+    end
+
+    def path
+      existing_project? ? '.' : snake_name
+    end
+
+    def existing_project?
+      name.nil? or '.' == name
     end
 
     def author
@@ -156,7 +169,7 @@ module Hoboken
     end
 
     def apply_template(src, dest)
-      template("templates/#{src}", "#{snake_name}/#{dest}")
+      template("templates/#{src}", "#{path}/#{dest}")
     end
   end
 end
