@@ -31,7 +31,7 @@ class IntegrationTestCase < Test::Unit::TestCase
 
   def execute(command)
     FileUtils.cd("#{DESTINATION}/#{$hoboken_counter}/sample") do
-      `bundle install` unless File.exists?("Gemfile.lock")
+      `bundle install` unless File.exist?("Gemfile.lock")
       `#{command}`
     end
   end
@@ -39,7 +39,7 @@ class IntegrationTestCase < Test::Unit::TestCase
   def assert_file(filename, *contents)
     full_path = File.join(DESTINATION, $hoboken_counter.to_s, "sample", filename)
     assert_block("expected #{filename.inspect} to exist") do
-      File.exists?(full_path)
+      File.exist?(full_path)
     end
 
     unless contents.empty?
