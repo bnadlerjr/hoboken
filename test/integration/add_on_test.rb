@@ -229,7 +229,7 @@ CODE
     }
 
     OmniAuth.config.mock_auth[:twitter] = auth_hash
-    get '/auth/fitbit/callback'
+    get '/auth/twitter/callback'
     assert_equal(MultiJson.encode(auth_hash), last_response.body)
   end
 

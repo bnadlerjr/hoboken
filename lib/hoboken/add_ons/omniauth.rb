@@ -81,7 +81,7 @@ module Hoboken
     }
 
     OmniAuth.config.mock_auth[:#{provider}] = auth_hash
-    get '/auth/fitbit/callback'
+    get '/auth/#{provider}/callback'
     assert_equal(MultiJson.encode(auth_hash), last_response.body)
   end
 
