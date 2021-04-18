@@ -11,7 +11,7 @@ desc 'Start the development server'
 task :server do
   port = ENV['PORT'] || 9292
   rack_env = ENV['RACK_ENV'] || 'development'
-  exec("bundle exec thin start -p #{port} -e #{rack_env}")
+  exec("bundle exec rackup --port #{port} --env #{rack_env}")
 end
 
 namespace :test do
