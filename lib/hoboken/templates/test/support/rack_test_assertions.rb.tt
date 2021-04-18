@@ -80,7 +80,7 @@ module Rack::Test::Assertions
     end
   end
 
-  def assert_redirected_to(expected, msg=nil)
+  def assert_redirected_to(expected, message=nil)
     assert_response(:redirect)
     actual = URI(last_response.location).path
     msg = build_message(message, "expected to be redirected to <?> but was <?>", expected, actual)
