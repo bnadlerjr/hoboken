@@ -2,8 +2,14 @@
 
 require 'bundler/gem_tasks'
 require 'rake/testtask'
+require 'rubocop/rake_task'
+
+RuboCop::RakeTask.new
 
 task default: 'test:all'
+
+desc 'Run CI checks'
+task ci: ['test:all', 'rubocop']
 
 namespace :test do
   types = %w[unit integration]
