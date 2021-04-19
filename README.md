@@ -4,7 +4,7 @@
 ![Build Status](https://github.com/bnadlerjr/hoboken/actions/workflows/ruby.yml/badge.svg)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=bnadlerjr/hoboken)](https://dependabot.com)
 
-Generate Sinatra project templates.
+Sinatra project generator and templates.
 
 ## Installation
 

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'date'
 require 'thor'
 require 'thor/util'
 require 'fileutils'

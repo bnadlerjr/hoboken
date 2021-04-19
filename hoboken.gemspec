@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-rake', '~> 0.5'
   spec.add_development_dependency 'test-unit', '~> 3.4'
 
-  spec.add_dependency 'thor', '~> 0.19.1'
+  spec.add_dependency 'thor', '~> 1.1'
 end
