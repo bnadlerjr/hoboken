@@ -3,6 +3,7 @@ require: rubocop-rake
 AllCops:
     Exclude:
         - 'test/fixtures/**/*'
+        - 'vendor/bundle/**/*'
     NewCops: enable
     TargetRubyVersion: 2.6
 
