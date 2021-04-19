@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'english'
+require 'English'
 require_relative 'lib/hoboken/version'
 
 Gem::Specification.new do |spec|
