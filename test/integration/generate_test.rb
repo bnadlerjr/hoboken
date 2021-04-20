@@ -10,6 +10,8 @@ class GenerateTest < IntegrationTestCase
       assert_file 'README.md'
       assert_file 'Rakefile'
       assert_file 'app.rb', /require 'sinatra'/
+      assert_file 'app.rb', /erb :index/
+      assert_file_does_not_have_content 'app.rb', /MultiJson\.encode/
       assert_file 'config.ru', /run Sinatra::Application/
       assert_directory 'public'
       assert_directory 'test'
@@ -22,6 +24,22 @@ class GenerateTest < IntegrationTestCase
     run_hoboken(:generate, tiny: true) do
       refute_directory('public')
       assert_file 'app.rb', /__END__/, /@@layout/, /@@index/
+    end
+  end
+
+  def test_generate_classic_api_only
+    run_hoboken(:generate, api_only: true) do
+      refute_directory('public')
+      refute_directory('views')
+      assert_file 'app.rb', /before { content_type :json }/
+      assert_file 'app.rb', /MultiJson\.encode/
+      assert_file_does_not_have_content 'app.rb', /erb :index/
+    end
+  end
+
+  def test_generate_api_only_with_tiny
+    run_hoboken(:generate, api_only: true, tiny: true) do
+      assert_file_does_not_have_content 'app.rb', /__END__/, /@@layout/, /@@index/
     end
   end
 
@@ -60,6 +78,16 @@ class GenerateTest < IntegrationTestCase
     run_hoboken(:generate, tiny: true, type: :modular) do
       refute_directory('public')
       assert_file 'app.rb', /__END__/, /@@layout/, /@@index/
+    end
+  end
+
+  def test_generate_modular_api_only
+    run_hoboken(:generate, type: :modular, api_only: true) do
+      refute_directory('public')
+      refute_directory('views')
+      assert_file 'app.rb', /before { content_type :json }/
+      assert_file 'app.rb', /MultiJson\.encode/
+      assert_file_does_not_have_content 'app.rb', /erb :index/
     end
   end
 

@@ -4,5 +4,11 @@ class AppTest < Rack::Test::TestCase
   test "GET /" do
     get "/"
     assert_response :ok
+<% if options[:api_only] -%>
+    assert_content_type(:json)
+<% else -%>
+    assert_content_type(:html)
+<% end -%>
+    assert_body_contains('Smoke test successful!')
   end
 end

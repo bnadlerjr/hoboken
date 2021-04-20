@@ -1,4 +1,7 @@
 require 'bundler/setup'
+<% if options[:api_only] %>
+require 'multi_json'
+<% end %>
 require 'sinatra'
 require 'rack/csrf'
 
@@ -11,6 +14,14 @@ require 'sinatra/reloader' if development?
 use Rack::Session::Cookie, :secret => 'TODO: CHANGE ME'
 use Rack::Csrf, :raise => true
 
+<% if options[:api_only] -%>
+before { content_type :json }
+
+get '/' do
+  MultiJson.encode({ message: 'Smoke test successful!' })
+end
+<% else -%>
 get '/' do
   erb :index
 end
+<% end -%>

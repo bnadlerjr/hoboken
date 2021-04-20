@@ -7,8 +7,8 @@ module Rack::Test::Assertions
   }
 
   CONTENT_TYPES = {
-    :json => "application/json;charset=utf-8",
-    :html => "text/html;charset=utf-8"
+    :json => 'application/json',
+    :html => 'text/html;charset=utf-8'
   }
 
   def assert_body_contains(expected, message=nil)

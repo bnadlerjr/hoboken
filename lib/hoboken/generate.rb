@@ -32,6 +32,11 @@ module Hoboken
                  desc: 'Create a Git repository and make initial commit',
                  default: false
 
+    class_option :api_only,
+                 type: :boolean,
+                 desc: 'API only, no views, public folder, etc.',
+                 default: false
+
     def self.source_root
       File.dirname(__FILE__)
     end
@@ -46,13 +51,15 @@ module Hoboken
     end
 
     def view_folder
+      return if options[:api_only]
+
       empty_directory("#{snake_name}/views")
       apply_template('views/layout.erb.tt', 'views/layout.erb')
       apply_template('views/index.erb.tt', 'views/index.erb')
     end
 
     def public_folder
-      return if options[:tiny]
+      return if options[:tiny] || options[:api_only]
 
       inside snake_name do
         empty_directory('public')
@@ -99,6 +106,7 @@ module Hoboken
 
     def inline_views
       return unless options[:tiny]
+      return if options[:api_only]
 
       combined_views = %w[layout index].map { |f|
         "@@#{f}\n" + File.read("#{snake_name}/views/#{f}.erb")
@@ -125,6 +133,14 @@ module Hoboken
     end
 
     def directions
+      if options[:api_only]
+        say "\nAPI only projects should specify a JSON library to use for\n" \
+            "emitting and parsing JSON. The MultiJson[1] gem has been\n" \
+            "included in the Gemfile so that you can choose your JSON\n" \
+            "engine. See the MultiJSON docs for more information.\n"
+
+        say "\n[1]: https://github.com/intridea/multi_json"
+      end
       say "\nSuccessfully created #{name}. Don't forget to `bundle install`"
     end
 

@@ -1,4 +1,7 @@
 require 'bundler/setup'
+<% if options[:api_only] %>
+require 'multi_json'
+<% end %>
 require 'sinatra/base'
 require 'rack/csrf'
 
@@ -20,8 +23,16 @@ module <%= camel_name %>
       register Sinatra::Reloader
     end
 
+<% if options[:api_only] -%>
+    before { content_type :json }
+    
+    get '/' do
+      MultiJson.encode({ message: 'Smoke test successful!' })
+    end
+<% else -%>
     get '/' do
       erb :index
     end
+<% end -%>
   end
 end
