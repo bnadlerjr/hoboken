@@ -6,8 +6,8 @@ module Hoboken
     #
     class Sequel < ::Hoboken::Group
       def add_gems
-        gem 'sequel', version: '4.6.0'
-        gem 'sqlite3', version: '1.3.8', group: %i[development test]
+        gem 'sequel', version: '~> 5.43'
+        gem 'sqlite3', version: '~> 1.4', group: %i[development test]
       end
 
       def setup_directories

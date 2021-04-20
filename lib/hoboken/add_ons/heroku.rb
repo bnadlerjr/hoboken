@@ -6,7 +6,7 @@ module Hoboken
     #
     class Heroku < ::Hoboken::Group
       def add_gem
-        gem 'foreman', version: '0.63.0', group: :development
+        gem 'foreman', version: '~> 0.87', group: :development
       end
 
       def procfile

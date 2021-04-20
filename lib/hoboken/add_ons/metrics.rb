@@ -6,9 +6,9 @@ module Hoboken
     #
     class Metrics < ::Hoboken::Group
       def add_gems
-        gem 'flog', version: '2.5.3', group: :test
-        gem 'flay', version: '1.4.3', group: :test
-        gem 'simplecov', version: '0.7.1', require: false, group: :test
+        gem 'flog', version: '~> 4.6', group: :test
+        gem 'flay', version: '~> 2.12', group: :test
+        gem 'simplecov', version: '~> 0.21', require: false, group: :test
       end
 
       def copy_task_templates

@@ -12,9 +12,9 @@ module Hoboken
       end
 
       def add_gems
-        gem 'sprockets', version: '2.10.0', group: :assets
-        gem 'uglifier', version: '2.1.1', group: :assets
-        gem 'yui-compressor', version: '0.9.6', group: :assets
+        gem 'sprockets', version: '~> 4.0', group: :assets
+        gem 'uglifier', version: '~> 4.2', group: :assets
+        gem 'yui-compressor', version: '~> 0.12', group: :assets
       end
 
       def copy_sprockets_helpers
