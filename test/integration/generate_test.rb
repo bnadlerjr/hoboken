@@ -43,12 +43,12 @@ class GenerateTest < IntegrationTestCase
     end
   end
 
-  # def test_generate_classic_can_run_tests
-  #   run_hoboken(:generate) do
-  #     result = execute('rake test:all')
-  #     assert_match(/1 tests, 1 assertions, 0 failures, 0 errors, 0 skips/, result)
-  #   end
-  # end
+  def test_generate_classic_can_run_tests
+    run_hoboken(:generate) do
+      result = execute('rake test:all')
+      assert_match(/1 tests, 3 assertions, 0 failures, 0 errors/, result)
+    end
+  end
 
   # rubocop:disable Metrics/MethodLength
   def test_generate_modular
@@ -91,12 +91,12 @@ class GenerateTest < IntegrationTestCase
     end
   end
 
-  # def test_generate_modular_can_run_tests
-  #   run_hoboken(:generate, type: :modular) do
-  #     result = execute('rake test:all')
-  #     assert_match(/1 tests, 1 assertions, 0 failures, 0 errors, 0 skips/, result)
-  #   end
-  # end
+  def test_generate_modular_can_run_tests
+    run_hoboken(:generate, type: :modular) do
+      result = execute('rake test:all')
+      assert_match(/1 tests, 3 assertions, 0 failures, 0 errors/, result)
+    end
+  end
 
   def test_generate_with_ruby_version
     run_hoboken(:generate, ruby_version: '2.1.0') do

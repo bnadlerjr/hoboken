@@ -39,7 +39,6 @@ class IntegrationTestCase < Test::Unit::TestCase
 
   def execute(command)
     FileUtils.cd("#{DESTINATION}/#{$hoboken_counter}/sample") do
-      `bundle install` unless File.exist?('Gemfile.lock')
       `#{command}`
     end
   end

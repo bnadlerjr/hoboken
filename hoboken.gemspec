@@ -26,5 +26,18 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-rake', '~> 0.5'
   spec.add_development_dependency 'test-unit', '~> 3.4'
 
+  # These dependencies are installed by the generated projects. Including them
+  # here so that:
+  #
+  # a) We can get Dependabot notifications for them
+  # b) We can run tests for generated projects
+  spec.add_development_dependency 'contest', '~> 0.1.3'
+  spec.add_development_dependency 'dotenv', '~> 0.9.0'
+  spec.add_development_dependency 'multi_json', '~> 1.15'
+  spec.add_development_dependency 'puma', '~> 5.2'
+  spec.add_development_dependency 'rack_csrf', '~> 2.4.0'
+  spec.add_development_dependency 'sinatra', '~> 1.4.3'
+  spec.add_development_dependency 'sinatra-reloader', '~> 1.0'
+
   spec.add_dependency 'thor', '~> 1.1'
 end
