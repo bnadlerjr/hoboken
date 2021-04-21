@@ -1,7 +1,10 @@
 require 'bundler/setup'
-<% if options[:api_only] %>
+
+<% if options[:api_only] -%>
 require 'multi_json'
-<% end %>
+<% else -%>
+require 'erubi'
+<% end -%>
 require 'sinatra'
 require 'rack/csrf'
 
@@ -21,6 +24,8 @@ get '/' do
   MultiJson.encode({ message: 'Smoke test successful!' })
 end
 <% else -%>
+set :erb, { escape_html: true }
+
 get '/' do
   erb :index
 end

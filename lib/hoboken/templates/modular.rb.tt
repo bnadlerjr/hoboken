@@ -1,7 +1,10 @@
 require 'bundler/setup'
-<% if options[:api_only] %>
+
+<% if options[:api_only] -%>
 require 'multi_json'
-<% end %>
+<% else -%>
+require 'erubi'
+<% end -%>
 require 'sinatra/base'
 require 'rack/csrf'
 
@@ -12,6 +15,9 @@ end
 module <%= camel_name %>
   class App < Sinatra::Base
     set :root, File.dirname(__FILE__)
+<% unless options[:api_only] -%>
+    set :erb, { escape_html: true }
+<% end -%>
 
     enable :logging
 

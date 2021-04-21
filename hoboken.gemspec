@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   # b) We can run tests for generated projects
   spec.add_development_dependency 'contest', '~> 0.1'
   spec.add_development_dependency 'dotenv', '~> 2.7'
+  spec.add_development_dependency 'erubi', '~> 1.10'
   spec.add_development_dependency 'multi_json', '~> 1.15'
   spec.add_development_dependency 'puma', '~> 5.2'
   spec.add_development_dependency 'rack_csrf', '~> 2.6'

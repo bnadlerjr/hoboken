@@ -11,6 +11,7 @@ class GenerateTest < IntegrationTestCase
       assert_file 'Rakefile'
       assert_file 'app.rb', /require 'sinatra'/
       assert_file 'app.rb', /erb :index/
+      assert_file 'app.rb', /set :erb, { escape_html: true }/
       assert_file_does_not_have_content 'app.rb', /MultiJson\.encode/
       assert_file 'config.ru', /run Sinatra::Application/
       assert_directory 'public'
@@ -34,6 +35,7 @@ class GenerateTest < IntegrationTestCase
       assert_file 'app.rb', /before { content_type :json }/
       assert_file 'app.rb', /MultiJson\.encode/
       assert_file_does_not_have_content 'app.rb', /erb :index/
+      assert_file_does_not_have_content 'app.rb', /set :erb, { escape_html: true }/
     end
   end
 
@@ -65,6 +67,7 @@ class GenerateTest < IntegrationTestCase
         /class App < Sinatra::Base/
       )
 
+      assert_file 'app.rb', /set :erb, { escape_html: true }/
       assert_file 'config.ru', /run Sample::App/
       assert_directory 'public'
       assert_file 'test/test_helper.rb', /Sample::App/
@@ -88,6 +91,7 @@ class GenerateTest < IntegrationTestCase
       assert_file 'app.rb', /before { content_type :json }/
       assert_file 'app.rb', /MultiJson\.encode/
       assert_file_does_not_have_content 'app.rb', /erb :index/
+      assert_file_does_not_have_content 'app.rb', /set :erb, { escape_html: true }/
     end
   end
 
