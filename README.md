@@ -28,10 +28,11 @@ To see a list of options for the generate command:
 
     Options:
       [--ruby-version=RUBY_VERSION]  # Ruby version for Gemfile
-      [--tiny]                       # Generate views inline; do not create /public folder
+      [--tiny], [--no-tiny]          # Generate views inline; do not create /public folder
       [--type=TYPE]                  # Architecture type (classic or modular)
                                      # Default: classic
-      [--git]                        # Create a Git repository and make initial commit
+      [--git], [--no-git]            # Create a Git repository and make initial commit
+      [--api-only], [--no-api-only]  # API only, no views, public folder, etc.
 
     Generate a new Sinatra app
 
