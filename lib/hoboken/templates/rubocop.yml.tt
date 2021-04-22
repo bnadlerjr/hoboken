@@ -1,0 +1,27 @@
+require: rubocop-rake
+
+AllCops:
+    Exclude:
+        - 'bin/*'
+        - 'tmp/*'
+        - 'vendor/bundle/**/*'
+    NewCops: enable
+    TargetRubyVersion: <%= RUBY_VERSION %>
+
+Layout/SpaceAroundEqualsInParameterDefault:
+    EnforcedStyle: no_space
+
+Metrics/ClassLength:
+    Max: 150
+
+Metrics/MethodLength:
+    Max: 15
+
+Layout/LineLength:
+    Max: 90
+
+Style/BlockDelimiters:
+    EnforcedStyle: braces_for_chaining
+
+Style/YodaCondition:
+    EnforcedStyle: require_for_equality_operators_only

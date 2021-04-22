@@ -27,6 +27,7 @@ module Hoboken
   require_relative 'hoboken/add_ons/internationalization'
   require_relative 'hoboken/add_ons/heroku'
   require_relative 'hoboken/add_ons/omniauth'
+  require_relative 'hoboken/add_ons/rubocop'
   require_relative 'hoboken/add_ons/sequel'
   require_relative 'hoboken/add_ons/sprockets'
   require_relative 'hoboken/add_ons/travis'
@@ -68,6 +69,13 @@ module Hoboken
       'add:omniauth',
       'add:omniauth',
       'OmniAuth authentication (allows you to select a provider)'
+    )
+
+    register(
+      AddOns::Rubocop,
+      'add:rubocop',
+      'add:rubocop',
+      'Basic Rubocop configuration and Rake task.'
     )
 
     register(

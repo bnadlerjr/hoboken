@@ -263,5 +263,22 @@ CODE
     assert_match(/no offenses detected/, execute('rubocop'))
   end
   # rubocop:enable Metrics/MethodLength
+
+  def test_rubocop_add_on
+    run_hoboken(:generate) do
+      bin_path = File.expand_path('../../bin/hoboken', __dir__)
+      execute("#{bin_path} add:rubocop")
+      assert_file('Gemfile', /rubocop/, /rubocop-rake/)
+      assert_file('tasks/rubocop.rake', %r{rubocop/rake_task}, /RuboCop::RakeTask\.new/)
+
+      assert_file(
+        '.rubocop.yml',
+        'require: rubocop-rake',
+        "TargetRubyVersion: #{RUBY_VERSION}"
+      )
+
+      assert_match(/no offenses detected/, execute('rubocop'))
+    end
+  end
 end
 # rubocop:enable Metrics/ClassLength

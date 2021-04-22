@@ -11,7 +11,6 @@ module Hoboken
       parts = ["'#{name}'"]
       parts << "'~> #{version}'" unless version.nil? || version.empty?
       opts.each { |k, v| parts << "#{k}: #{v.inspect}" }
-      # parts << opts unless opts.empty?
       append_file('Gemfile', "gem #{parts.join(', ')}\n", verbose: verbose)
     end
 
