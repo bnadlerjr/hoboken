@@ -52,6 +52,12 @@ class GenerateTest < IntegrationTestCase
     end
   end
 
+  def test_generate_classic_passes_rubocop_inspection
+    run_hoboken(:generate) do
+      assert_match(/no offenses detected/, execute('rubocop'))
+    end
+  end
+
   # rubocop:disable Metrics/MethodLength
   def test_generate_modular
     run_hoboken(:generate, type: :modular) do
@@ -99,6 +105,12 @@ class GenerateTest < IntegrationTestCase
     run_hoboken(:generate, type: :modular) do
       result = execute('rake test:all')
       assert_match(/1 tests, 3 assertions, 0 failures, 0 errors/, result)
+    end
+  end
+
+  def test_generate_modular_passes_rubocop_inspection
+    run_hoboken(:generate, type: :modular) do
+      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
 

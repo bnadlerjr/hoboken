@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler/setup'
 
 <% if options[:api_only] -%>
@@ -13,6 +15,8 @@ Dir.glob(File.join('helpers', '**', '*.rb')).each do |helper|
 end
 
 module <%= camel_name %>
+  # Sinatra web application
+  #
   class App < Sinatra::Base
     set :root, File.dirname(__FILE__)
 <% unless options[:api_only] -%>
@@ -21,17 +25,17 @@ module <%= camel_name %>
 
     enable :logging
 
-    use Rack::Session::Cookie, :secret => 'TODO: CHANGE ME'
-    use Rack::Csrf, :raise => true
+    use Rack::Session::Cookie, secret: 'TODO: CHANGE ME'
+    use Rack::Csrf, raise: true
 
     configure :development do
-      require "sinatra/reloader"
+      require 'sinatra/reloader'
       register Sinatra::Reloader
     end
 
 <% if options[:api_only] -%>
     before { content_type :json }
-    
+
     get '/' do
       MultiJson.encode({ message: 'Smoke test successful!' })
     end

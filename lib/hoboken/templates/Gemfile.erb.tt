@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 ruby '<%= options[:ruby_version] %>'
 
@@ -6,9 +8,9 @@ gem 'multi_json', '~> 1.15'
 <% else -%>
 gem 'erubi', '~> 1.10'
 <% end -%>
+gem 'puma', '~> 5.2'
 gem 'rack_csrf', '~> 2.6'
 gem 'sinatra', '~> 2.1'
-gem 'puma', '~> 5.2'
 
 group :development do
   gem 'dotenv', '~> 2.7'

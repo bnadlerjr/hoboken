@@ -25,7 +25,7 @@ module Hoboken
       expected =
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
-        "gem 'sinatra'"
+        "gem 'sinatra'\n"
 
       assert_equal(expected, File.read(gemfile))
     end
@@ -35,7 +35,7 @@ module Hoboken
       expected =
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
-        "gem 'sinatra', '~> 1.4.4'"
+        "gem 'sinatra', '~> 1.4.4'\n"
 
       assert_equal(expected, File.read(gemfile))
     end
@@ -45,7 +45,7 @@ module Hoboken
       expected =
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
-        "gem 'sinatra'"
+        "gem 'sinatra'\n"
 
       assert_equal(expected, File.read(gemfile))
     end
@@ -55,7 +55,7 @@ module Hoboken
       expected =
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
-        "gem 'sinatra', '~> 1.4.4', group: :test"
+        "gem 'sinatra', '~> 1.4.4', group: :test\n"
 
       assert_equal(expected, File.read(gemfile))
     end
@@ -65,7 +65,7 @@ module Hoboken
       expected =
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
-        "gem 'sinatra', '~> 1.4.4', group: [:test, :development]"
+        "gem 'sinatra', '~> 1.4.4', group: [:test, :development]\n"
 
       assert_equal(expected, File.read(gemfile))
     end
@@ -75,7 +75,7 @@ module Hoboken
       expected =
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
-        "gem 'sinatra', '~> 1.4.4', require: false"
+        "gem 'sinatra', '~> 1.4.4', require: false\n"
 
       assert_equal(expected, File.read(gemfile))
     end
@@ -85,7 +85,7 @@ module Hoboken
       expected =
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
-        "gem 'sinatra', '~> 1.4.4', require: false, group: :test"
+        "gem 'sinatra', '~> 1.4.4', require: false, group: :test\n"
 
       assert_equal(expected, File.read(gemfile))
     end
@@ -102,7 +102,7 @@ module Hoboken
       expected =
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
-        "gem 'sinatra', '~> 1.4.4', require: false, group: [:test, :development]"
+        "gem 'sinatra', '~> 1.4.4', require: false, group: [:test, :development]\n"
 
       assert_equal(expected, File.read(gemfile))
     end
@@ -114,7 +114,7 @@ module Hoboken
         "source 'https://rubygems.org'\n" \
         "ruby '2.0.0'\n\n" \
         "gem 'sinatra', '~> 1.4.4'\n" \
-        "gem 'thin', '~> 1.4.4'"
+        "gem 'thin', '~> 1.4.4'\n"
 
       assert_equal(expected, File.read(gemfile))
     end

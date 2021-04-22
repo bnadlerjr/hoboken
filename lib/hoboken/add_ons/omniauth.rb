@@ -15,7 +15,7 @@ module Hoboken
 
       def setup_middleware
         insert_into_file('app.rb', after: %r{require 'sinatra('|/base')}) do
-          "\nrequire '#{gem_name}'"
+          "\nrequire '#{gem_name}'\n"
         end
 
         snippet = <<~CODE
@@ -33,7 +33,6 @@ module Hoboken
       # rubocop:disable Metrics/MethodLength
       def add_routes
         routes = <<~CODE
-
 
           get '/login' do
             '<a href="/auth/#{provider}">Login</a>'
@@ -73,10 +72,10 @@ module Hoboken
 
   test 'GET /auth/#{provider}/callback' do
     auth_hash = {
-      "provider" => "#{provider}",
-      "uid" => "123545",
-      "info" => {
-        "name" => "John Doe"
+      provider: '#{provider}',
+      uid: '123545',
+      info: {
+        name: 'John Doe'
       }
     }
 

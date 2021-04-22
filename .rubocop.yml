@@ -2,6 +2,7 @@ require: rubocop-rake
 
 AllCops:
     Exclude:
+        - 'test/tmp/*/sample/Gemfile'
         - 'test/fixtures/**/*'
         - 'vendor/bundle/**/*'
     NewCops: enable

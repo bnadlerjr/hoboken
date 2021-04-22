@@ -1,8 +1,10 @@
-require_relative "../test_helper"
+# frozen_string_literal: true
+
+require_relative '../test_helper'
 
 class AppTest < Rack::Test::TestCase
-  test "GET /" do
-    get "/"
+  test 'GET /' do
+    get '/'
     assert_response :ok
 <% if options[:api_only] -%>
     assert_content_type(:json)

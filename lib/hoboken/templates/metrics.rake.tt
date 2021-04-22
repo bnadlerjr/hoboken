@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 unless 'production' == ENV['RACK_ENV']
   require 'flay'
-  desc "Analyze code for structural similarities"
+  desc 'Analyze code for structural similarities'
   task :flay do
     flay = Flay.new
     files = FileList['app.rb', 'app/**/*.rb']
@@ -17,17 +19,16 @@ unless 'production' == ENV['RACK_ENV']
   desc 'Analyze code complexity'
   task :flog do
     flog = Flog.new
-    flog.flog FileList['app.rb', 'app/**/*.rb']
+    files = FileList['app.rb', 'app/**/*.rb']
+    flog.flog(*files)
     threshold = 50
 
-    bad_methods = flog.totals.select do |name, score|
+    bad_methods = flog.totals.select do |_name, score|
       score > threshold
     end
 
-    bad_methods.sort do |a, b|
-      a[1] <=> b[1]
-    end.each do |name, score|
-      puts "%8.1f: %s" % [score, name]
+    bad_methods.sort { |a, b| a[1] <=> b[1] }.each do |name, score|
+      puts format('%<score>8.1f: %<name>s', score: score, name: name)
     end
 
     unless bad_methods.empty?

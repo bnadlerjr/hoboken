@@ -11,7 +11,8 @@ module Hoboken
       parts = ["'#{name}'"]
       parts << "'~> #{version}'" unless version.nil? || version.empty?
       opts.each { |k, v| parts << "#{k}: #{v.inspect}" }
-      append_file('Gemfile', "\ngem #{parts.join(', ')}", verbose: verbose)
+      # parts << opts unless opts.empty?
+      append_file('Gemfile', "gem #{parts.join(', ')}\n", verbose: verbose)
     end
 
     def indent(text, num_spaces)

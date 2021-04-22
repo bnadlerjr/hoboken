@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler/setup'
 
 <% if options[:api_only] -%>
@@ -14,8 +16,8 @@ end
 
 require 'sinatra/reloader' if development?
 
-use Rack::Session::Cookie, :secret => 'TODO: CHANGE ME'
-use Rack::Csrf, :raise => true
+use Rack::Session::Cookie, secret: 'TODO: CHANGE ME'
+use Rack::Csrf, raise: true
 
 <% if options[:api_only] -%>
 before { content_type :json }

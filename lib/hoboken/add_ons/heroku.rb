@@ -6,7 +6,7 @@ module Hoboken
     #
     class Heroku < ::Hoboken::Group
       def add_gem
-        gem 'foreman', version: '~> 0.87', group: :development
+        gem 'foreman', version: '0.87', group: :development
       end
 
       def procfile
@@ -22,11 +22,13 @@ module Hoboken
       end
 
       def fix_stdout_for_logging
-        prepend_file('config.ru', "$stdout.sync = true\n")
+        insert_into_file('config.ru', after: /# frozen_string_literal: true/) do
+          "\n\n$stdout.sync = true"
+        end
       end
 
       def replace_server_rake_task
-        gsub_file('Rakefile', /desc.*server.*{rack_env}"\)\nend$/m) do
+        gsub_file('Rakefile', /desc.*server.*{rack_env}"\)\nend\n$/m) do
           <<~TASK
             desc 'Start the development server with Foreman'
             task :server do

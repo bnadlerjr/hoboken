@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ENV['RACK_ENV'] = 'test'
 
 require 'bundler/setup'
@@ -10,30 +12,39 @@ require_relative '../app'
 
 Dotenv.load
 
-class Test::Unit::TestCase
-  # Syntactic sugar for defining a memoized helper method.
-  def self.let(name, &block)
-    ivar = "@#{name}"
-    self.class_eval do
-      define_method(name) do
-        if instance_variable_defined?(ivar)
-          instance_variable_get(ivar)
-        else
-          value = self.instance_eval(&block)
-          instance_variable_set(ivar, value)
+module Test
+  module Unit
+    class TestCase
+      # Syntactic sugar for defining a memoized helper method.
+      #
+      def self.let(name, &block)
+        ivar = "@#{name}"
+        class_eval do
+          define_method(name) do
+            if instance_variable_defined?(ivar)
+              instance_variable_get(ivar)
+            else
+              value = instance_eval(&block)
+              instance_variable_set(ivar, value)
+            end
+          end
         end
       end
     end
   end
 end
 
-class Rack::Test::TestCase < Test::Unit::TestCase
-  include Rack::Test::Methods
-  include Rack::Test::Assertions
+module Rack
+  module Test
+    class TestCase < ::Test::Unit::TestCase
+      include Rack::Test::Methods
+      include Rack::Test::Assertions
 
-  private
+      private
 
-  def app
-    Sinatra::Application
+      def app
+        Sinatra::Application
+      end
+    end
   end
 end

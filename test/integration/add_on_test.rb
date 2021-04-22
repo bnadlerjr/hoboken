@@ -10,6 +10,7 @@ class AddOnTest < IntegrationTestCase
       execute("#{bin_path} add:metrics")
       assert_file('Gemfile', /flog/, /flay/, /simplecov/)
       assert_file('tasks/metrics.rake')
+
       assert_file('test/test_helper.rb', <<~CODE
         require 'simplecov'
         SimpleCov.start do
@@ -19,6 +20,8 @@ class AddOnTest < IntegrationTestCase
 
       CODE
       )
+
+      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
 
@@ -29,6 +32,7 @@ class AddOnTest < IntegrationTestCase
       assert_file('Gemfile', 'sinatra-r18n')
       assert_file('app.rb', "require 'sinatra/r18n'")
       assert_file('i18n/en.yml')
+      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
 
@@ -39,6 +43,7 @@ class AddOnTest < IntegrationTestCase
       assert_file('Gemfile', 'sinatra-r18n')
       assert_file('app.rb', "require 'sinatra/r18n'", 'register Sinatra::R18n')
       assert_file('i18n/en.yml')
+      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
 
@@ -51,6 +56,7 @@ class AddOnTest < IntegrationTestCase
       assert_file('.slugignore')
       assert_file('config.ru', /\$stdout.sync = true/)
       assert_file('Rakefile', /exec\('foreman start'\)/)
+      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
 
@@ -65,13 +71,14 @@ class AddOnTest < IntegrationTestCase
       assert_file('tasks/sprockets.rake')
       assert_file('middleware/sprockets_chain.rb')
       assert_file('helpers/sprockets.rb')
+
       assert_file('app.rb', <<~CODE
         if development?
           require 'sinatra/reloader'
 
           require File.expand_path('middleware/sprockets_chain', settings.root)
           use Middleware::SprocketsChain, %r{/assets} do |env|
-            %w(assets vendor).each do |f|
+            %w[assets vendor].each do |f|
               env.append_path File.expand_path("../\#{f}", __FILE__)
             end
           end
@@ -80,12 +87,15 @@ class AddOnTest < IntegrationTestCase
         helpers Helpers::Sprockets
       CODE
       )
+
       assert_file('views/layout.erb', <<CODE
   <%= stylesheet_tag :styles %>
 
   <%= javascript_tag :app %>
 CODE
       )
+
+      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -101,22 +111,26 @@ CODE
       assert_file('tasks/sprockets.rake')
       assert_file('middleware/sprockets_chain.rb')
       assert_file('helpers/sprockets.rb')
+
       assert_file('app.rb', <<CODE
     configure :development do
       require File.expand_path('middleware/sprockets_chain', settings.root)
       use Middleware::SprocketsChain, %r{/assets} do |env|
-        %w(assets vendor).each do |f|
+        %w[assets vendor].each do |f|
           env.append_path File.expand_path("../\#{f}", __FILE__)
         end
       end
 CODE
       )
+
       assert_file('views/layout.erb', <<CODE
   <%= stylesheet_tag :styles %>
 
   <%= javascript_tag :app %>
 CODE
       )
+
+      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -142,7 +156,7 @@ CODE
       assert_file('config.ru', <<~CODE
         db = Sequel.connect(ENV['DATABASE_URL'], loggers: [Logger.new($stdout)])
         Sequel.extension :migration
-        Sequel::Migrator.check_current(db, 'db/migrate') if Dir.glob('db/migrate/*.rb').size > 0
+        Sequel::Migrator.check_current(db, 'db/migrate') unless Dir.glob('db/migrate/*.rb').empty?
 
         app = Sinatra::Application
         app.set :database, db
@@ -152,26 +166,30 @@ CODE
 
       assert_file('test/test_helper.rb', /require 'sequel'/)
       assert_file('test/test_helper.rb', <<~CODE
-        module Test::Database
-          class TestCase < Test::Unit::TestCase
-            def run(*args, &block)
-              result = nil
-              database.transaction(rollback: :always) { result = super }
-              result
-            end
+        module Test
+          module Database
+            class TestCase < Test::Unit::TestCase
+              def run(*args, &block)
+                result = nil
+                database.transaction(rollback: :always) { result = super }
+                result
+              end
 
-            private
+              private
 
-            def database
-              @database ||= Sequel.sqlite.tap do |db|
-                Sequel.extension :migration
-                Sequel::Migrator.run(db, 'db/migrate') if Dir.glob('db/migrate/*.rb').size > 0
+              def database
+                @database ||= Sequel.sqlite.tap do |db|
+                  Sequel.extension :migration
+                  Sequel::Migrator.run(db, 'db/migrate') unless Dir.glob('db/migrate/*.rb').empty?
+                end
               end
             end
           end
         end
       CODE
       )
+
+      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -221,10 +239,10 @@ CODE
 
   test 'GET /auth/twitter/callback' do
     auth_hash = {
-      "provider" => "twitter",
-      "uid" => "123545",
-      "info" => {
-        "name" => "John Doe"
+      provider: 'twitter',
+      uid: '123545',
+      info: {
+        name: 'John Doe'
       }
     }
 
@@ -241,6 +259,8 @@ CODE
 
     CODE
     )
+
+    assert_match(/no offenses detected/, execute('rubocop'))
   end
   # rubocop:enable Metrics/MethodLength
 end

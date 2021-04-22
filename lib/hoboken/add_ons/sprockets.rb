@@ -12,9 +12,9 @@ module Hoboken
       end
 
       def add_gems
-        gem 'sprockets', version: '~> 4.0', group: :assets
-        gem 'uglifier', version: '~> 4.2', group: :assets
-        gem 'yui-compressor', version: '~> 0.12', group: :assets
+        gem 'sprockets', version: '4.0', group: :assets
+        gem 'uglifier', version: '4.2', group: :assets
+        gem 'yui-compressor', version: '0.12', group: :assets
       end
 
       def copy_sprockets_helpers
@@ -29,7 +29,7 @@ module Hoboken
           <<CODE
       require File.expand_path('middleware/sprockets_chain', settings.root)
       use Middleware::SprocketsChain, %r{/assets} do |env|
-        %w(assets vendor).each do |f|
+        %w[assets vendor].each do |f|
           env.append_path File.expand_path("../\#{f}", __FILE__)
         end
       end
@@ -37,18 +37,14 @@ module Hoboken
 CODE
         end
 
-        insert_into_file('app.rb', after: /set :root, File.dirname\(__FILE__\)\n/) do
-          '    helpers Helpers::Sprockets'
-        end
-
-        gsub_file('app.rb', %r{require 'sinatra/reloader' if development\?}) do
+        gsub_file('app.rb', %r{require 'sinatra/reloader' if development\?\n}) do
           <<~CODE
             if development?
               require 'sinatra/reloader'
 
               require File.expand_path('middleware/sprockets_chain', settings.root)
               use Middleware::SprocketsChain, %r{/assets} do |env|
-                %w(assets vendor).each do |f|
+                %w[assets vendor].each do |f|
                   env.append_path File.expand_path("../\#{f}", __FILE__)
                 end
               end
