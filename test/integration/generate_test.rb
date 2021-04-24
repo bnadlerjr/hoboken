@@ -3,6 +3,7 @@
 require_relative '../test_helper'
 
 class GenerateTest < IntegrationTestCase
+  # rubocop:disable Metrics/MethodLength
   def test_generate_classic
     run_hoboken(:generate) do
       assert_file '.env'
@@ -10,6 +11,7 @@ class GenerateTest < IntegrationTestCase
       assert_file 'README.md'
       assert_file 'Rakefile'
       assert_file 'app.rb', /require 'sinatra'/
+      assert_file 'app.rb', %r{require 'sinatra/flash'}
       assert_file 'app.rb', /require 'erubi'/
       assert_file 'app.rb', /erb :index/
       assert_file 'app.rb', /set :erb, { escape_html: true }/
@@ -18,9 +20,10 @@ class GenerateTest < IntegrationTestCase
       assert_directory 'public'
       assert_directory 'test'
       assert_file 'views/index.erb'
-      assert_file 'views/layout.erb'
+      assert_file 'views/layout.erb', /styled_flash/
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def test_generate_classic_tiny
     run_hoboken(:generate, tiny: true) do
@@ -35,6 +38,7 @@ class GenerateTest < IntegrationTestCase
       refute_directory('views')
       assert_file 'app.rb', %r{require 'sinatra/json'}
       assert_file 'app.rb', /json message:/
+      assert_file_does_not_have_content 'app.rb', %r{require 'sinatra/flash'}
       assert_file_does_not_have_content 'app.rb', /erb :index/
       assert_file_does_not_have_content 'app.rb', /set :erb, { escape_html: true }/
     end
@@ -67,15 +71,17 @@ class GenerateTest < IntegrationTestCase
       assert_file 'README.md'
       assert_file 'Rakefile'
       assert_file('app.rb', %r{require 'sinatra/base'})
+      assert_file 'app.rb', %r{require 'sinatra/flash'}
       assert_file('app.rb', /require 'erubi'/)
       assert_file('app.rb', /module Sample/)
       assert_file('app.rb', /class App < Sinatra::Base/)
       assert_file 'app.rb', /set :erb, { escape_html: true }/
+      assert_file 'app.rb', /register Sinatra::Flash/
       assert_file 'config.ru', /run Sample::App/
       assert_directory 'public'
       assert_file 'test/test_helper.rb', /Sample::App/
       assert_file 'views/index.erb'
-      assert_file 'views/layout.erb'
+      assert_file 'views/layout.erb', /styled_flash/
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -93,6 +99,8 @@ class GenerateTest < IntegrationTestCase
       refute_directory('views')
       assert_file 'app.rb', %r{require 'sinatra/json'}
       assert_file 'app.rb', /json message:/
+      assert_file_does_not_have_content 'app.rb', %r{require 'sinatra/flash'}
+      assert_file_does_not_have_content 'app.rb', /register Sinatra::Flash/
       assert_file_does_not_have_content 'app.rb', /erb :index/
       assert_file_does_not_have_content 'app.rb', /set :erb, { escape_html: true }/
     end

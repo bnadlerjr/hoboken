@@ -5,11 +5,13 @@ require 'bundler/setup'
 <% unless options[:api_only] -%>
 require 'erubi'
 <% end -%>
+require 'rack/csrf'
 require 'sinatra/base'
 <% if options[:api_only] -%>
 require 'sinatra/json'
+<% else -%>
+require 'sinatra/flash'
 <% end -%>
-require 'rack/csrf'
 
 Dir.glob(File.join('helpers', '**', '*.rb')).each do |helper|
   require_relative helper
@@ -28,6 +30,10 @@ module <%= camel_name %>
 
     use Rack::Session::Cookie, secret: 'TODO: CHANGE ME'
     use Rack::Csrf, raise: true
+
+<% unless options[:api_only] -%>
+    register Sinatra::Flash
+<% end -%>
 
     configure :development do
       require 'sinatra/reloader'

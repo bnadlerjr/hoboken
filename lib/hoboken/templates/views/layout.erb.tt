@@ -8,6 +8,9 @@
   <script type="text/javascript" src="js/app.js"></script>
 </head>
 <body>
+<% unless options[:api_only] -%>
+  <%%= styled_flash %>
+<% end -%>
   <%%== yield %>
 </body>
 </html>
