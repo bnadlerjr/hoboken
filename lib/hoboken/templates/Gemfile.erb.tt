@@ -3,14 +3,13 @@
 source 'https://rubygems.org'
 ruby '<%= options[:ruby_version] %>'
 
-<% if options[:api_only] -%>
-gem 'multi_json', '~> 1.15'
-<% else -%>
+<% unless options[:api_only] -%>
 gem 'erubi', '~> 1.10'
 <% end -%>
 gem 'puma', '~> 5.2'
 gem 'rack_csrf', '~> 2.6'
 gem 'sinatra', '~> 2.1'
+gem 'sinatra-contrib', '~> 2.1'
 
 group :development do
   gem 'dotenv', '~> 2.7'

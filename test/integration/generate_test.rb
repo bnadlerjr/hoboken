@@ -10,9 +10,10 @@ class GenerateTest < IntegrationTestCase
       assert_file 'README.md'
       assert_file 'Rakefile'
       assert_file 'app.rb', /require 'sinatra'/
+      assert_file 'app.rb', /require 'erubi'/
       assert_file 'app.rb', /erb :index/
       assert_file 'app.rb', /set :erb, { escape_html: true }/
-      assert_file_does_not_have_content 'app.rb', /MultiJson\.encode/
+      assert_file_does_not_have_content 'app.rb', /json message:/
       assert_file 'config.ru', /run Sinatra::Application/
       assert_directory 'public'
       assert_directory 'test'
@@ -32,8 +33,8 @@ class GenerateTest < IntegrationTestCase
     run_hoboken(:generate, api_only: true) do
       refute_directory('public')
       refute_directory('views')
-      assert_file 'app.rb', /before { content_type :json }/
-      assert_file 'app.rb', /MultiJson\.encode/
+      assert_file 'app.rb', %r{require 'sinatra/json'}
+      assert_file 'app.rb', /json message:/
       assert_file_does_not_have_content 'app.rb', /erb :index/
       assert_file_does_not_have_content 'app.rb', /set :erb, { escape_html: true }/
     end
@@ -65,14 +66,10 @@ class GenerateTest < IntegrationTestCase
       assert_file 'Gemfile'
       assert_file 'README.md'
       assert_file 'Rakefile'
-
-      assert_file(
-        'app.rb',
-        %r{require 'sinatra/base'},
-        /module Sample/,
-        /class App < Sinatra::Base/
-      )
-
+      assert_file('app.rb', %r{require 'sinatra/base'})
+      assert_file('app.rb', /require 'erubi'/)
+      assert_file('app.rb', /module Sample/)
+      assert_file('app.rb', /class App < Sinatra::Base/)
       assert_file 'app.rb', /set :erb, { escape_html: true }/
       assert_file 'config.ru', /run Sample::App/
       assert_directory 'public'
@@ -94,8 +91,8 @@ class GenerateTest < IntegrationTestCase
     run_hoboken(:generate, type: :modular, api_only: true) do
       refute_directory('public')
       refute_directory('views')
-      assert_file 'app.rb', /before { content_type :json }/
-      assert_file 'app.rb', /MultiJson\.encode/
+      assert_file 'app.rb', %r{require 'sinatra/json'}
+      assert_file 'app.rb', /json message:/
       assert_file_does_not_have_content 'app.rb', /erb :index/
       assert_file_does_not_have_content 'app.rb', /set :erb, { escape_html: true }/
     end

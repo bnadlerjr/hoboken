@@ -2,12 +2,13 @@
 
 require 'bundler/setup'
 
-<% if options[:api_only] -%>
-require 'multi_json'
-<% else -%>
+<% unless options[:api_only] -%>
 require 'erubi'
 <% end -%>
 require 'sinatra/base'
+<% if options[:api_only] -%>
+require 'sinatra/json'
+<% end -%>
 require 'rack/csrf'
 
 Dir.glob(File.join('helpers', '**', '*.rb')).each do |helper|
@@ -34,10 +35,8 @@ module <%= camel_name %>
     end
 
 <% if options[:api_only] -%>
-    before { content_type :json }
-
     get '/' do
-      MultiJson.encode({ message: 'Smoke test successful!' })
+      json message: 'Smoke test successful!'
     end
 <% else -%>
     get '/' do
