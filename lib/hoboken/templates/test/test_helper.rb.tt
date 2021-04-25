@@ -7,7 +7,7 @@ require 'test/unit'
 require 'contest'
 require 'rack/test'
 require 'dotenv'
-require_relative 'support/rack_test_assertions'
+require_relative 'support/rack_helpers'
 require_relative '../app'
 
 Dotenv.load
@@ -37,14 +37,7 @@ end
 module Rack
   module Test
     class TestCase < ::Test::Unit::TestCase
-      include Rack::Test::Methods
-      include Rack::Test::Assertions
-
-      private
-
-      def app
-        Sinatra::Application
-      end
+      include RackHelpers
     end
   end
 end

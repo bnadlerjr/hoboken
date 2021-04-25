@@ -92,7 +92,7 @@ class GenerateTest < IntegrationTestCase
       assert_file 'bin/setup'
       assert_file 'config.ru', /run Sample::App/
       assert_directory 'public'
-      assert_file 'test/test_helper.rb', /Sample::App/
+      assert_file 'test/support/rack_helpers.rb', /Sample::App/
       assert_file 'views/index.erb'
       assert_file 'views/layout.erb', /styled_flash/
     end

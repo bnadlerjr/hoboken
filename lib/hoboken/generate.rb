@@ -98,7 +98,8 @@ module Hoboken
       empty_directory("#{snake_name}/test/support")
       apply_template('test/test_helper.rb.tt', 'test/test_helper.rb')
       apply_template('test/unit/app_test.rb.tt', 'test/unit/app_test.rb')
-      apply_template('test/support/rack_test_assertions.rb.tt',
+      apply_template('support/rack_helpers.rb.tt', 'test/support/rack_helpers.rb')
+      apply_template('support/rack_test_assertions.rb.tt',
                      'test/support/rack_test_assertions.rb')
     end
 
@@ -116,7 +117,7 @@ module Hoboken
       empty_directory("#{snake_name}/helpers")
       remove_file("#{snake_name}/app.rb")
       apply_template('modular.rb.tt', 'app.rb')
-      ['config.ru', 'test/test_helper.rb'].each do |f|
+      ['config.ru', 'test/support/rack_helpers.rb'].each do |f|
         path = File.join(snake_name, f)
         gsub_file(path, /Sinatra::Application/, "#{camel_name}::App")
       end
