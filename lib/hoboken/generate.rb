@@ -48,6 +48,19 @@ module Hoboken
       apply_template('config.ru.tt', 'config.ru')
       apply_template('README.md.tt', 'README.md')
       apply_template('Rakefile.tt', 'Rakefile')
+
+      create_file("#{snake_name}/Procfile") do
+        'web: bundle exec puma -C config/puma.rb'
+      end
+    end
+
+    def bin_folder
+      empty_directory("#{snake_name}/bin")
+      %w[console server setup].each do |f|
+        target = "#{snake_name}/bin/#{f}"
+        copy_file("templates/#{f}.sh", target)
+        chmod(target, 0o755)
+      end
     end
 
     def config_folder
@@ -138,15 +151,7 @@ module Hoboken
     end
 
     def directions
-      if options[:api_only]
-        say "\nAPI only projects should specify a JSON library to use for\n" \
-            "emitting and parsing JSON. The MultiJson[1] gem has been\n" \
-            "included in the Gemfile so that you can choose your JSON\n" \
-            "engine. See the MultiJSON docs for more information.\n"
-
-        say "\n[1]: https://github.com/intridea/multi_json"
-      end
-      say "\nSuccessfully created #{name}. Don't forget to `bundle install`"
+      say "\nSuccessfully created #{name}."
     end
 
     private

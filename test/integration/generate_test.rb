@@ -4,10 +4,12 @@ require_relative '../test_helper'
 
 class GenerateTest < IntegrationTestCase
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def test_generate_classic
     run_hoboken(:generate) do
       assert_file '.env'
       assert_file 'Gemfile'
+      assert_file('Procfile')
       assert_file 'README.md'
       assert_file 'Rakefile'
       assert_file 'app.rb', /require 'sinatra'/
@@ -17,6 +19,9 @@ class GenerateTest < IntegrationTestCase
       assert_file 'app.rb', /set :erb, { escape_html: true }/
       assert_file 'app.rb', /require 'better_errors'/
       assert_file_does_not_have_content 'app.rb', /json message:/
+      assert_file 'bin/console'
+      assert_file 'bin/server'
+      assert_file 'bin/setup'
       assert_file 'config.ru', /run Sinatra::Application/
       assert_directory 'public'
       assert_directory 'test'
@@ -25,6 +30,7 @@ class GenerateTest < IntegrationTestCase
     end
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def test_generate_classic_tiny
     run_hoboken(:generate, tiny: true) do
@@ -70,6 +76,7 @@ class GenerateTest < IntegrationTestCase
     run_hoboken(:generate, type: :modular) do
       assert_file '.env'
       assert_file 'Gemfile'
+      assert_file('Procfile')
       assert_file 'README.md'
       assert_file 'Rakefile'
       assert_file('app.rb', %r{require 'sinatra/base'})
@@ -80,6 +87,9 @@ class GenerateTest < IntegrationTestCase
       assert_file 'app.rb', /set :erb, { escape_html: true }/
       assert_file 'app.rb', /register Sinatra::Flash/
       assert_file 'app.rb', /require 'better_errors'/
+      assert_file 'bin/console'
+      assert_file 'bin/server'
+      assert_file 'bin/setup'
       assert_file 'config.ru', /run Sample::App/
       assert_directory 'public'
       assert_file 'test/test_helper.rb', /Sample::App/

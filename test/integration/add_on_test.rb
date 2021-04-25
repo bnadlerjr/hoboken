@@ -51,11 +51,8 @@ class AddOnTest < IntegrationTestCase
     run_hoboken(:generate) do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
       execute("#{bin_path} add:heroku")
-      assert_file('Gemfile', 'foreman')
-      assert_file('Procfile')
       assert_file('.slugignore')
       assert_file('config.ru', /\$stdout.sync = true/)
-      assert_file('Rakefile', /exec\('foreman start'\)/)
       assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
