@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'multi_json', '~> 1.15'
   spec.add_development_dependency 'puma', '~> 5.2'
   spec.add_development_dependency 'rack_csrf', '~> 2.6'
+  spec.add_development_dependency 'racksh', '~> 1.0'
   spec.add_development_dependency 'rack-test', '~> 1.1'
   spec.add_development_dependency 'sinatra', '~> 2.1'
   spec.add_development_dependency 'sinatra-contrib', '~> 2.1'

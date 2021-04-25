@@ -14,6 +14,11 @@ task :server do
   exec("bundle exec rackup --port #{port} --env #{rack_env}")
 end
 
+desc 'Start a console'
+task :console do
+  exec('bundle exec racksh')
+end
+
 namespace :test do
   Rake::TestTask.new(:unit) do |t|
     t.libs << 'test/unit'
