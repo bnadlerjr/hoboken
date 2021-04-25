@@ -65,6 +65,7 @@ class GenerateTest < IntegrationTestCase
   end
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def test_generate_modular
     run_hoboken(:generate, type: :modular) do
       assert_file '.env'
@@ -87,6 +88,7 @@ class GenerateTest < IntegrationTestCase
     end
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def test_generate_modular_tiny
     run_hoboken(:generate, tiny: true, type: :modular) do
