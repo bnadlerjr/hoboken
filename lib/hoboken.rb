@@ -21,6 +21,10 @@ module Hoboken
     def self.source_root
       File.dirname(__FILE__)
     end
+
+    def classic?
+      File.read('app.rb').include?("require 'sinatra'")
+    end
   end
 
   require_relative 'hoboken/add_ons/metrics'

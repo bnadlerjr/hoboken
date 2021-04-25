@@ -72,22 +72,17 @@ class AddOnTest < IntegrationTestCase
       assert_file('middleware/sprockets_chain.rb')
       assert_file('helpers/sprockets.rb')
 
-      assert_file('app.rb', <<~CODE
-        if development?
-          require 'sinatra/reloader'
-
-          require File.expand_path('middleware/sprockets_chain', settings.root)
-          use Middleware::SprocketsChain, %r{/assets} do |env|
-            %w[assets vendor].each do |f|
-              env.append_path File.expand_path("../\#{f}", __FILE__)
-            end
-          end
-        end
-
-        helpers Helpers::Sprockets
-      CODE
+      assert_file('app.rb', <<CODE
+  require File.expand_path('middleware/sprockets_chain', settings.root)
+  use Middleware::SprocketsChain, %r{/assets} do |env|
+    %w[assets vendor].each do |f|
+      env.append_path File.expand_path("../\#{f}", __FILE__)
+    end
+  end
+CODE
       )
 
+      assert_file('app.rb', /helpers Helpers::Sprockets/)
       assert_file('views/layout.erb', <<CODE
   <%= stylesheet_tag :styles %>
 
@@ -201,12 +196,11 @@ CODE
       execute("(echo 'twitter' && echo '0.0.1') | #{bin_path} add:omniauth")
       assert_file('Gemfile', 'omniauth-twitter')
       assert_file('app.rb', /require 'omniauth-twitter'/)
-      assert_file('app.rb', <<~CODE
-        use OmniAuth::Builder do
-          provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-        end
-
-      CODE
+      assert_file('app.rb', <<CODE
+  use OmniAuth::Builder do
+    provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
+  end
+CODE
       )
 
       assert_file('app.rb', <<~CODE

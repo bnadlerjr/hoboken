@@ -19,15 +19,15 @@ module Hoboken
         end
 
         snippet = <<~CODE
-
           use OmniAuth::Builder do
             provider :#{provider}, ENV['#{provider.upcase}_KEY'], ENV['#{provider.upcase}_SECRET']
           end
-
         CODE
 
-        text = modular? ? indent(snippet, 4) : snippet
-        insert_into_file('app.rb', after: /use Rack::Session::Cookie.+\n/) { text }
+        indentation = classic? ? 2 : 4
+        insert_into_file('app.rb', after: /use Rack::Session::Cookie.+\n/) do
+          "\n#{indent(snippet, indentation)}\n"
+        end
       end
 
       # rubocop:disable Metrics/MethodLength
@@ -49,10 +49,10 @@ module Hoboken
           end
         CODE
 
-        if modular?
-          insert_into_file('app.rb', after: /get.+?end$/m) { indent(routes, 4) }
-        else
+        if classic?
           append_file('app.rb', routes)
+        else
+          insert_into_file('app.rb', after: /get.+?end$/m) { indent(routes, 4) }
         end
       end
       # rubocop:enable Metrics/MethodLength
@@ -103,10 +103,6 @@ module Hoboken
 
       def gem_name
         "omniauth-#{provider}"
-      end
-
-      def modular?
-        @modular ||= File.readlines('app.rb').grep(/Sinatra::Base/).any?
       end
     end
   end

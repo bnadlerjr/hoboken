@@ -15,6 +15,7 @@ class GenerateTest < IntegrationTestCase
       assert_file 'app.rb', /require 'erubi'/
       assert_file 'app.rb', /erb :index/
       assert_file 'app.rb', /set :erb, { escape_html: true }/
+      assert_file 'app.rb', /require 'better_errors'/
       assert_file_does_not_have_content 'app.rb', /json message:/
       assert_file 'config.ru', /run Sinatra::Application/
       assert_directory 'public'
@@ -77,6 +78,7 @@ class GenerateTest < IntegrationTestCase
       assert_file('app.rb', /class App < Sinatra::Base/)
       assert_file 'app.rb', /set :erb, { escape_html: true }/
       assert_file 'app.rb', /register Sinatra::Flash/
+      assert_file 'app.rb', /require 'better_errors'/
       assert_file 'config.ru', /run Sample::App/
       assert_directory 'public'
       assert_file 'test/test_helper.rb', /Sample::App/

@@ -23,38 +23,25 @@ module Hoboken
         copy_file('hoboken/templates/sprockets_helper.rb', 'helpers/sprockets.rb')
       end
 
-      # rubocop:disable Metrics/MethodLength
       def update_app
-        insert_into_file('app.rb', after: /configure :development do\n/) do
-          <<CODE
-      require File.expand_path('middleware/sprockets_chain', settings.root)
-      use Middleware::SprocketsChain, %r{/assets} do |env|
-        %w[assets vendor].each do |f|
-          env.append_path File.expand_path("../\#{f}", __FILE__)
-        end
-      end
-
-CODE
-        end
-
-        gsub_file('app.rb', %r{require 'sinatra/reloader' if development\?\n}) do
-          <<~CODE
-            if development?
-              require 'sinatra/reloader'
-
-              require File.expand_path('middleware/sprockets_chain', settings.root)
-              use Middleware::SprocketsChain, %r{/assets} do |env|
-                %w[assets vendor].each do |f|
-                  env.append_path File.expand_path("../\#{f}", __FILE__)
-                end
-              end
+        snippet = <<~CODE
+          require File.expand_path('middleware/sprockets_chain', settings.root)
+          use Middleware::SprocketsChain, %r{/assets} do |env|
+            %w[assets vendor].each do |f|
+              env.append_path File.expand_path("../\#{f}", __FILE__)
             end
+          end
+        CODE
 
-            helpers Helpers::Sprockets
-          CODE
+        indentation = classic? ? 2 : 6
+        insert_into_file('app.rb', after: /configure :development do\n/) do
+          "#{indent(snippet, indentation)}\n"
+        end
+
+        insert_into_file('app.rb', after: /configure do\n/) do
+          "#{indent("helpers Helpers::Sprockets\n", indentation)}\n"
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
       def adjust_link_tags
