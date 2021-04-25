@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+workers_count = Integer(ENV['WEB_CONCURRENCY'] || 1)
+threads_count = Integer(ENV['MAX_THREADS'] || 5)
+threads threads_count, threads_count
+
+port        ENV['PORT']     || 9292
+environment ENV['RACK_ENV'] || 'development'
+
+if workers_count > 1
+  preload_app!
+  workers workers_count
+
+  # rubocop:disable Lint/EmptyBlock
+  before_fork do
+  end
+
+  on_worker_boot do
+  end
+  # rubocop:enable Lint/EmptyBlock
+end

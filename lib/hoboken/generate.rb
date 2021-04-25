@@ -43,11 +43,16 @@ module Hoboken
 
     def app_folder
       empty_directory(snake_name)
-      apply_template('classic.rb.tt',  'app.rb')
+      apply_template('classic.rb.tt', 'app.rb')
       apply_template('Gemfile.erb.tt', 'Gemfile')
-      apply_template('config.ru.tt',   'config.ru')
-      apply_template('README.md.tt',   'README.md')
-      apply_template('Rakefile.tt',    'Rakefile')
+      apply_template('config.ru.tt', 'config.ru')
+      apply_template('README.md.tt', 'README.md')
+      apply_template('Rakefile.tt', 'Rakefile')
+    end
+
+    def config_folder
+      empty_directory("#{snake_name}/config")
+      apply_template('puma.rb.tt', 'config/puma.rb')
     end
 
     def view_folder

@@ -40,6 +40,12 @@ module Hoboken
         end
       end
 
+      def setup_puma_config
+        insert_into_file('config/puma.rb', after: 'before_fork do') do
+          "\n    DB.disconnect if defined?(DB)"
+        end
+      end
+
       # rubocop:disable Metrics/MethodLength
       def add_database_test_helper_class
         insert_into_file('test/test_helper.rb', after: %r{require 'test/unit'}) do
