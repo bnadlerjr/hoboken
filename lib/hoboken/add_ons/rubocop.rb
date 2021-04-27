@@ -8,6 +8,7 @@ module Hoboken
       def add_gems
         gem 'rubocop', version: '1.12', group: %i[development test]
         gem 'rubocop-rake', version: '0.5', group: %i[development test]
+        gem 'rubocop-rspec', version: '2.2', group: %i[development test] if rspec?
       end
 
       def rubocop_yml

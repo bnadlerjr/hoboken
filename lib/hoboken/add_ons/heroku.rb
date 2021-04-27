@@ -7,7 +7,7 @@ module Hoboken
     class Heroku < ::Hoboken::Group
       def slugignore
         create_file('.slugignore') do
-          "tags\n/test\n/tmp"
+          "spec\ntags\n/test\n/tmp"
         end
       end
 

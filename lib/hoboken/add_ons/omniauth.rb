@@ -15,7 +15,7 @@ module Hoboken
 
       def setup_middleware
         insert_into_file('app.rb', after: %r{require 'sinatra('|/base')}) do
-          "\nrequire '#{gem_name}'\n"
+          "\nrequire '#{gem_name}'\nrequire 'sinatra/json'\n"
         end
 
         snippet = <<~CODE
@@ -40,7 +40,7 @@ module Hoboken
 
           get '/auth/:provider/callback' do
             # TODO: Insert real authentication logic...
-            MultiJson.encode(request.env['omniauth.auth'])
+            json request.env['omniauth.auth']
           end
 
           get '/auth/failure' do
@@ -52,13 +52,15 @@ module Hoboken
         if classic?
           append_file('app.rb', routes)
         else
-          insert_into_file('app.rb', after: /get.+?end$/m) { indent(routes, 4) }
+          inject_into_class('app.rb', 'App') { indent(routes, 4) }
         end
       end
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
       def add_tests
+        return if rspec?
+
         inject_into_class('test/unit/app_test.rb', 'AppTest') do
           <<-CODE
   setup do
@@ -90,6 +92,68 @@ module Hoboken
     assert_response :not_authorized
   end
 
+          CODE
+        end
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      # rubocop:disable Metrics/MethodLength
+      def add_specs
+        return unless rspec?
+
+        append_file('spec/app_spec.rb') do
+          <<~CODE
+
+            # rubocop:disable RSpec/DescribeClass
+            RSpec.describe 'omniauth', rack: true do
+              before(:each) { OmniAuth.config.test_mode = true }
+
+              describe 'GET /login' do
+                before(:each) { get '/login' }
+
+                it { expect(last_response).to have_http_status(:ok) }
+                it { expect(last_response).to have_content_type(:html) }
+
+                it 'renders a template with a login link' do
+                  #{provider}_link = '<a href="/auth/#{provider}">Login</a>'
+                  expect(last_response.body).to include(#{provider}_link)
+                end
+              end
+
+              describe 'GET /auth/#{provider}/callback' do
+                let(:auth_hash) do
+                  {
+                    provider: '#{provider}',
+                    uid: '123545',
+                    info: {
+                      name: 'John Doe'
+                    }
+                  }
+                end
+
+                before(:each) do
+                  OmniAuth.config.mock_auth[:#{provider}] = auth_hash
+                  get '/auth/#{provider}/callback'
+                end
+
+                it { expect(last_response).to have_http_status(:ok) }
+                it { expect(last_response).to have_content_type(:json) }
+
+                it 'renders the auth hash result' do
+                  expect(last_response.body).to eq(JSON.generate(auth_hash))
+                end
+              end
+
+              describe 'GET /auth/failure' do
+                before(:each) do
+                  OmniAuth.config.mock_auth[:#{provider}] = :invalid_credentials
+                  get '/auth/failure'
+                end
+
+                it { expect(last_response).to have_http_status(:not_authorized) }
+              end
+            end
+            # rubocop:enable RSpec/DescribeClass
           CODE
         end
       end

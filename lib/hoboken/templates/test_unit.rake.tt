@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+require 'rake/testtask'
+
+namespace :test do
+  Rake::TestTask.new(:unit) do |t|
+    t.libs << 'test/unit'
+    t.test_files = Dir['test/unit/**/*_test.rb']
+  end
+
+  Rake::TestTask.new(:integration) do |t|
+    t.libs << 'test/unit'
+    t.test_files = Dir['test/integration/**/*_test.rb']
+  end
+
+  desc 'Run all tests'
+  task all: %w[test:unit test:integration]
+end

@@ -20,8 +20,8 @@ end
 configure do
   use Rack::Session::Cookie, secret: 'TODO: CHANGE ME'
   use Rack::Csrf, raise: true
-
 <% unless options[:api_only] -%>
+
   set :erb, { escape_html: true }
 <% end -%>
 end

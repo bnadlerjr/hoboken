@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler', '~> 2.2'
+  spec.add_development_dependency 'pry-byebug', '~> 3.9'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rubocop', '~> 1.12'
   spec.add_development_dependency 'rubocop-rake', '~> 0.5'
@@ -36,11 +37,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'contest', '~> 0.1'
   spec.add_development_dependency 'dotenv', '~> 2.7'
   spec.add_development_dependency 'erubi', '~> 1.10'
-  spec.add_development_dependency 'multi_json', '~> 1.15'
+  spec.add_development_dependency 'omniauth-twitter', '~> 1.4'
   spec.add_development_dependency 'puma', '~> 5.2'
   spec.add_development_dependency 'rack_csrf', '~> 2.6'
   spec.add_development_dependency 'racksh', '~> 1.0'
   spec.add_development_dependency 'rack-test', '~> 1.1'
+  spec.add_development_dependency 'rspec', '~> 3.10'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.2'
   spec.add_development_dependency 'sinatra', '~> 2.1'
   spec.add_development_dependency 'sinatra-contrib', '~> 2.1'
   spec.add_development_dependency 'sinatra-flash', '~> 0.3'

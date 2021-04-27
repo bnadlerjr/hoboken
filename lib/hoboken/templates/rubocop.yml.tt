@@ -1,4 +1,8 @@
-require: rubocop-rake
+require:
+    - rubocop-rake
+<% if rspec? -%>
+    - rubocop-rspec
+<% end -%>
 
 AllCops:
     Exclude:

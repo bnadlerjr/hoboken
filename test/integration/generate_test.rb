@@ -2,6 +2,7 @@
 
 require_relative '../test_helper'
 
+# rubocop:disable Metrics/ClassLength
 class GenerateTest < IntegrationTestCase
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
@@ -64,8 +65,35 @@ class GenerateTest < IntegrationTestCase
     end
   end
 
+  def test_generate_classic_can_run_specs
+    run_hoboken(:generate, test_framework: 'rspec') do
+      result = execute('rake spec')
+      assert_match(/3 examples, 0 failures/, result)
+    end
+  end
+
+  def test_generate_classic_api_only_can_run_tests
+    run_hoboken(:generate, api_only: true) do
+      result = execute('rake test:all')
+      assert_match(/1 tests, 3 assertions, 0 failures, 0 errors/, result)
+    end
+  end
+
+  def test_generate_classic_api_only_can_run_specs
+    run_hoboken(:generate, api_only: true, test_framework: 'rspec') do
+      result = execute('rake spec')
+      assert_match(/3 examples, 0 failures/, result)
+    end
+  end
+
   def test_generate_classic_passes_rubocop_inspection
     run_hoboken(:generate) do
+      assert_match(/no offenses detected/, execute('rubocop'))
+    end
+  end
+
+  def test_generate_classic_api_only_passes_rubocop_inspection
+    run_hoboken(:generate, api_only: true) do
       assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
@@ -127,8 +155,35 @@ class GenerateTest < IntegrationTestCase
     end
   end
 
+  def test_generate_modular_can_run_specs
+    run_hoboken(:generate, test_framework: 'rspec', type: :modular) do
+      result = execute('rake spec')
+      assert_match(/3 examples, 0 failures/, result)
+    end
+  end
+
+  def test_generate_modular_api_only_can_run_tests
+    run_hoboken(:generate, api_only: true, type: :modular) do
+      result = execute('rake test:all')
+      assert_match(/1 tests, 3 assertions, 0 failures, 0 errors/, result)
+    end
+  end
+
+  def test_generate_modular_api_only_can_run_specs
+    run_hoboken(:generate, test_framework: 'rspec', api_only: true, type: :modular) do
+      result = execute('rake spec')
+      assert_match(/3 examples, 0 failures/, result)
+    end
+  end
+
   def test_generate_modular_passes_rubocop_inspection
     run_hoboken(:generate, type: :modular) do
+      assert_match(/no offenses detected/, execute('rubocop'))
+    end
+  end
+
+  def test_generate_modular_api_only_passes_rubocop_inspection
+    run_hoboken(:generate, api_only: true, type: :modular) do
       assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
@@ -145,3 +200,4 @@ class GenerateTest < IntegrationTestCase
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

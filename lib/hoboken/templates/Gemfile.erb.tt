@@ -24,7 +24,14 @@ group :development do
 end
 
 group :test do
+<% if 'test-unit' == options[:test_framework] -%>
   gem 'contest', '~> 0.1'
+<% end -%>
   gem 'rack-test', '~> 1.1'
+<% if 'rspec' == options[:test_framework] -%>
+  gem 'rspec', '~> 3.10'
+<% end -%>
+<% if 'test-unit' == options[:test_framework] -%>
   gem 'test-unit', '~> 3.4'
+<% end -%>
 end

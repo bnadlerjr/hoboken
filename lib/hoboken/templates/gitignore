@@ -1,5 +1,12 @@
 .DS_Store
 .bundle
-/tmp
-tags
+.byebug_history
 .env
+.env.test
+.rspec_status
+/tmp
+coverage
+db/*.db
+public
+spec/examples.txt
+tags

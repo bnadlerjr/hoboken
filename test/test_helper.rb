@@ -23,6 +23,7 @@ class IntegrationTestCase < Test::Unit::TestCase
       o << '--git' if opts.fetch(:git, false)
       o << '--tiny' if opts.fetch(:tiny, false)
       o << '--api-only' if opts.fetch(:api_only, false)
+      o << "--test_framework=#{opts[:test_framework]}" if opts.key?(:test_framework)
       o << "--type=#{opts[:type]}" if opts.key?(:type)
       o << "--ruby-version=#{opts[:ruby_version]}" if opts.key?(:ruby_version)
     end

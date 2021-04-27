@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
+<% if 'test-unit' == options[:test_framework] -%>
 require_relative 'rack_test_assertions'
+<% end -%>
+<% if 'rspec' == options[:test_framework] -%>
+require_relative 'rack_matchers'
+<% end -%>
 
 # Helpers for running Rack-based tests or specs. Decorates normal Rack methods
 # with an optional `:as` parameter. If present, the `rack.session` will
@@ -20,7 +25,9 @@ require_relative 'rack_test_assertions'
 #
 module RackHelpers
   include Rack::Test::Methods
+<% if 'test-unit' == options[:test_framework] -%>
   include Rack::Test::Assertions
+<% end -%>
 
   %w[get post put patch delete options].each do |type|
     define_method(type) do |uri, params={}, env={}, &block|

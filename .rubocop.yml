@@ -1,4 +1,6 @@
-require: rubocop-rake
+require:
+    - rubocop-rake
+    - rubocop-rspec # for generated projects
 
 AllCops:
     Exclude:

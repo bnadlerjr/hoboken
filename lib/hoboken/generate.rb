@@ -5,6 +5,7 @@ require 'rbconfig'
 module Hoboken
   # Main project generator.
   #
+  # rubocop:disable Metrics/ClassLength
   class Generate < Thor::Group
     include Thor::Actions
 
@@ -36,6 +37,11 @@ module Hoboken
                  type: :boolean,
                  desc: 'API only, no views, public folder, etc.',
                  default: false
+
+    class_option :test_framework,
+                 type: :string,
+                 desc: 'Testing framework; can be either test-unit or rspec',
+                 default: 'test-unit'
 
     def self.source_root
       File.dirname(__FILE__)
@@ -93,14 +99,30 @@ module Hoboken
     end
 
     def test_folder
+      return unless 'test-unit' == options[:test_framework]
+
       empty_directory("#{snake_name}/test/unit")
       empty_directory("#{snake_name}/test/integration")
       empty_directory("#{snake_name}/test/support")
+      apply_template('test_unit.rake.tt', 'tasks/test_unit.rake')
       apply_template('test/test_helper.rb.tt', 'test/test_helper.rb')
       apply_template('test/unit/app_test.rb.tt', 'test/unit/app_test.rb')
       apply_template('support/rack_helpers.rb.tt', 'test/support/rack_helpers.rb')
       apply_template('support/rack_test_assertions.rb.tt',
                      'test/support/rack_test_assertions.rb')
+    end
+
+    def rspec_setup
+      return unless 'rspec' == options[:test_framework]
+
+      empty_directory("#{snake_name}/spec")
+      empty_directory("#{snake_name}/spec/support")
+      create_file("#{snake_name}/.rspec") { '--require spec_helper' }
+      apply_template('rspec.rake.tt', 'tasks/rspec.rake')
+      apply_template('spec/app_spec.rb.tt', 'spec/app_spec.rb')
+      apply_template('spec/spec_helper.rb.tt', 'spec/spec_helper.rb')
+      apply_template('support/rack_helpers.rb.tt', 'spec/support/rack_helpers.rb')
+      apply_template('spec/rack_matchers.rb.tt', 'spec/support/rack_matchers.rb')
     end
 
     def env_file
@@ -111,17 +133,26 @@ module Hoboken
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def make_modular
       return unless 'modular' == options[:type]
 
       empty_directory("#{snake_name}/helpers")
       remove_file("#{snake_name}/app.rb")
       apply_template('modular.rb.tt', 'app.rb')
-      ['config.ru', 'test/support/rack_helpers.rb'].each do |f|
+
+      files = [].tap do |f|
+        f << 'config.ru'
+        f << 'test/support/rack_helpers.rb' if 'test-unit' == options[:test_framework]
+        f << 'spec/support/rack_helpers.rb' if 'rspec' == options[:test_framework]
+      end
+
+      files.each do |f|
         path = File.join(snake_name, f)
         gsub_file(path, /Sinatra::Application/, "#{camel_name}::App")
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def inline_views
       return unless options[:tiny]
@@ -186,4 +217,5 @@ module Hoboken
       template("templates/#{src}", "#{snake_name}/#{dest}")
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

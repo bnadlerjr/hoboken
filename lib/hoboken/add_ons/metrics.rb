@@ -16,22 +16,39 @@ module Hoboken
         template('hoboken/templates/metrics.rake.tt', 'tasks/metrics.rake')
       end
 
-      def simplecov_snippet
-        insert_into_file 'test/test_helper.rb', before: %r{require 'test/unit'} do
-          <<~CODE
+      def simplecov_test_unit
+        insert_into_file 'test/test_helper.rb', before: snippet_location do
+          snippet('test')
+        end
+      end
 
-            require 'simplecov'
-            SimpleCov.start do
-              add_filter '/test/'
-              coverage_dir 'tmp/coverage'
-            end
-
-          CODE
+      def simplecov_rspec
+        insert_into_file 'spec/spec_helper.rb', before: snippet_location do
+          snippet('rspec')
         end
       end
 
       def reminders
         say "\nGemfile updated... don't forget to 'bundle install'"
+      end
+
+      private
+
+      def snippet(framework_folder)
+        <<~CODE
+          require 'simplecov'
+          SimpleCov.start do
+            add_filter '/bin/'
+            add_filter '/config/'
+            add_filter '/#{framework_folder}/'
+            coverage_dir 'tmp/coverage'
+          end
+
+        CODE
+      end
+
+      def snippet_location
+        %r{require 'bundler/setup'}
       end
     end
   end

@@ -25,6 +25,10 @@ module Hoboken
     def classic?
       File.read('app.rb').include?("require 'sinatra'")
     end
+
+    def rspec?
+      Dir.exist?('spec')
+    end
   end
 
   require_relative 'hoboken/add_ons/metrics'

@@ -31,8 +31,8 @@ module <%= camel_name %>
 
       use Rack::Session::Cookie, secret: 'TODO: CHANGE ME'
       use Rack::Csrf, raise: true
-
 <% unless options[:api_only] -%>
+
       register Sinatra::Flash
 <% end -%>
     end

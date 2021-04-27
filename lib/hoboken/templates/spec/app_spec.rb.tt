@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+# rubocop:disable RSpec/DescribeClass
+RSpec.describe 'GET /', rack: true do
+  before { get '/' }
+
+  it { expect(last_response).to have_http_status(:ok) }
+<% if options[:api_only] -%>
+  it { expect(last_response).to have_content_type(:json) }
+<% else -%>
+  it { expect(last_response).to have_content_type(:html) }
+<% end -%>
+  it { expect(last_response.body).to include('Smoke test successful!') }
+end
+# rubocop:enable RSpec/DescribeClass
