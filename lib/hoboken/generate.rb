@@ -186,6 +186,10 @@ module Hoboken
       say "\nSuccessfully created #{name}."
     end
 
+    def self.exit_on_failure?
+      true
+    end
+
     private
 
     def snake_name
