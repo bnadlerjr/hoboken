@@ -34,4 +34,5 @@ group :test do
 <% if 'test-unit' == options[:test_framework] -%>
   gem 'test-unit', '~> 3.4'
 <% end -%>
+  gem 'warning', '~> 1.2'
 end

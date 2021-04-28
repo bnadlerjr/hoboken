@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 1.12'
   spec.add_development_dependency 'rubocop-rake', '~> 0.5'
   spec.add_development_dependency 'test-unit', '~> 3.4'
+  spec.add_development_dependency 'warning', '~> 1.2'
 
   # These dependencies are installed by the generated projects. Including them
   # here so that:

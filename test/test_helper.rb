@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+require 'bundler/setup'
+
+require 'warning'
+
+# Ignore all warnings in Gem dependencies
+Gem.path.each { |path| Warning.ignore(//, path) }
+
 require 'test/unit'
 require 'fileutils'
 
