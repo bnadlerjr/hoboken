@@ -17,12 +17,16 @@ module Hoboken
       end
 
       def simplecov_test_unit
+        return if rspec?
+
         insert_into_file 'test/test_helper.rb', before: snippet_location do
           snippet('test')
         end
       end
 
       def simplecov_rspec
+        return unless rspec?
+
         insert_into_file 'spec/spec_helper.rb', before: snippet_location do
           snippet('rspec')
         end
