@@ -13,30 +13,21 @@ module Hoboken
       def setup_directories
         empty_directory('db/migrate')
         empty_directory('tasks')
+        empty_directory('tmp')
       end
 
       def copy_rake_task
         copy_file('hoboken/templates/sequel.rake', 'tasks/sequel.rake')
       end
 
-      def setup_database_connection_in_rackup_file
-        insert_into_file('config.ru', after: %r{require 'bundler/setup'}) do
-          "\nrequire 'logger'\nrequire 'sequel'"
-        end
+      def setup_db_config
+        template('hoboken/templates/db.rb.tt', 'config/db.rb')
+      end
 
-        app_name = File.open('config.ru').grep(/run.+/).first.chomp.gsub('run ', '')
-
-        gsub_file('config.ru', /run #{app_name}\n/) do
-          <<~CODE
-
-            db = Sequel.connect(ENV['DATABASE_URL'], loggers: [Logger.new($stdout)])
-            Sequel.extension :migration
-            Sequel::Migrator.check_current(db, 'db/migrate') unless Dir.glob('db/migrate/*.rb').empty?
-
-            app = #{app_name}
-            app.set :database, db
-            run app
-          CODE
+      def require_db_config
+        location = classic? ? 'configure do' : 'module'
+        insert_into_file('app.rb', before: location) do
+          "require_relative 'config/db'\n\n"
         end
       end
 
@@ -48,6 +39,12 @@ module Hoboken
 
       # rubocop:disable Metrics/MethodLength
       def add_database_test_helper_class
+        return if rspec?
+
+        insert_into_file('test/test_helper.rb', before: /ENV\['RACK_ENV'\] = 'test'/) do
+          "ENV['DATABASE_URL'] = 'sqlite://db/test.db'\n"
+        end
+
         insert_into_file('test/test_helper.rb', after: %r{require 'test/unit'}) do
           "\nrequire 'sequel'"
         end
@@ -60,22 +57,40 @@ module Hoboken
                 class TestCase < Test::Unit::TestCase
                   def run(*args, &block)
                     result = nil
-                    database.transaction(rollback: :always) { result = super }
+                    DB.transaction(rollback: :always) { result = super }
                     result
-                  end
-
-                  private
-
-                  def database
-                    @database ||= Sequel.sqlite.tap do |db|
-                      Sequel.extension :migration
-                      Sequel::Migrator.run(db, 'db/migrate') unless Dir.glob('db/migrate/*.rb').empty?
-                    end
                   end
                 end
               end
             end
           CODE
+        end
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      # rubocop:disable Metrics/MethodLength
+      def add_database_spec_helper
+        return unless rspec?
+
+        insert_into_file('spec/spec_helper.rb', before: /ENV\['RACK_ENV'\] = 'test'/) do
+          "ENV['DATABASE_URL'] = 'sqlite://db/test.db'\n"
+        end
+
+        snippet_rack = <<~CODE
+          config.around(:example, rack: true) do |example|
+            DB.transaction(rollback: :always) { example.run }
+          end
+        CODE
+
+        snippet_database = <<~CODE
+          config.around(:example, database: true) do |example|
+            DB.transaction(rollback: :always) { example.run }
+          end
+        CODE
+
+        location = /RSpec\.configure do \|config\|\n/
+        insert_into_file('spec/spec_helper.rb', after: location) do
+          "#{indent(snippet_rack, 2)}\n#{indent(snippet_database, 2)}\n"
         end
       end
       # rubocop:enable Metrics/MethodLength

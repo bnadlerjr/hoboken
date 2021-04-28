@@ -147,17 +147,11 @@ CODE
       assert_file('Gemfile', 'sequel', 'sqlite3')
       assert_file('tasks/sequel.rake')
 
-      assert_file('config.ru', /require 'logger'/)
-      assert_file('config.ru', /require 'sequel'/)
-      assert_file('config.ru', <<~CODE
-        db = Sequel.connect(ENV['DATABASE_URL'], loggers: [Logger.new($stdout)])
-        Sequel.extension :migration
-        Sequel::Migrator.check_current(db, 'db/migrate') unless Dir.glob('db/migrate/*.rb').empty?
+      assert_file('config/db.rb')
 
-        app = Sinatra::Application
-        app.set :database, db
-        run app
-      CODE
+      assert_file(
+        'test/test_helper.rb',
+        %r{ENV\['DATABASE_URL'\] = 'sqlite://db/test\.db'}
       )
 
       assert_file('test/test_helper.rb', /require 'sequel'/)
@@ -167,17 +161,8 @@ CODE
             class TestCase < Test::Unit::TestCase
               def run(*args, &block)
                 result = nil
-                database.transaction(rollback: :always) { result = super }
+                DB.transaction(rollback: :always) { result = super }
                 result
-              end
-
-              private
-
-              def database
-                @database ||= Sequel.sqlite.tap do |db|
-                  Sequel.extension :migration
-                  Sequel::Migrator.run(db, 'db/migrate') unless Dir.glob('db/migrate/*.rb').empty?
-                end
               end
             end
           end
@@ -185,6 +170,38 @@ CODE
       CODE
       )
 
+      result = execute('rake test:all')
+      assert_match(/1 tests, 3 assertions, 0 failures, 0 errors/, result)
+      assert_match(/no offenses detected/, execute('rubocop'))
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  # rubocop:disable Metrics/MethodLength
+  def test_sequel_add_on_with_rspec
+    run_hoboken(:generate, test_framework: 'rspec') do
+      bin_path = File.expand_path('../../bin/hoboken', __dir__)
+      execute("#{bin_path} add:sequel")
+
+      assert_file(
+        'spec/spec_helper.rb',
+        %r{ENV\['DATABASE_URL'\] = 'sqlite://db/test\.db'}
+      )
+
+      assert_file('spec/spec_helper.rb', <<-CODE
+  config.around(:example, rack: true) do |example|
+    DB.transaction(rollback: :always) { example.run }
+  end
+
+  config.around(:example, database: true) do |example|
+    DB.transaction(rollback: :always) { example.run }
+  end
+
+      CODE
+      )
+
+      result = execute('rake spec')
+      assert_match(/3 examples, 0 failures/, result)
       assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
