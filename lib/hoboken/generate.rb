@@ -174,7 +174,7 @@ module Hoboken
         inside snake_name do
           run('git init .')
           run('git add .')
-          run('git commit -m \"Initial commit.\"')
+          run('git commit -m "Initial commit."')
         end
       else
         say "\nYou asked that a Git repository be created for the " \
