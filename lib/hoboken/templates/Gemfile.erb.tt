@@ -18,6 +18,7 @@ group :development do
   gem 'better_errors', '~> 2.9'
   gem 'binding_of_caller', '~> 1.0'
   gem 'dotenv', '~> 2.7'
+  gem 'pry-byebug', '~> 3.9'
   gem 'racksh', '~> 1.0'
   gem 'rake', '~> 13.0'
   gem 'sinatra-reloader', '~> 1.0'
