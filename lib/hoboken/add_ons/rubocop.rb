@@ -26,6 +26,15 @@ module Hoboken
           TEXT
         end
       end
+
+      def ci_task
+        task_list = if rspec?
+                      '%w[rspec rubocop]'
+                    else
+                      "['test:all', 'rubocop']"
+                    end
+        gsub_file('Rakefile', /task ci:.*/, "task ci: #{task_list}")
+      end
     end
   end
 end

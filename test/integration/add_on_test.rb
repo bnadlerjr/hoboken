@@ -376,6 +376,7 @@ CODE
       assert_file('Gemfile', /rubocop/, /rubocop-rake/)
       assert_file_does_not_have_content 'Gemfile', /rubocop-rspec/
       assert_file('tasks/rubocop.rake', %r{rubocop/rake_task}, /RuboCop::RakeTask\.new/)
+      assert_file('Rakefile', /task ci: \['test:all', 'rubocop'\]/)
 
       assert_file('.rubocop.yml', '- rubocop-rake')
       assert_file('.rubocop.yml', "TargetRubyVersion: #{RUBY_VERSION}")
@@ -389,6 +390,8 @@ CODE
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
       execute("#{bin_path} add:rubocop")
       assert_file('Gemfile', /rubocop/, /rubocop-rspec/)
+      assert_file('tasks/rubocop.rake', %r{rubocop/rake_task}, /RuboCop::RakeTask\.new/)
+      assert_file('Rakefile', /task ci: .*spec rubocop/)
 
       assert_file('.rubocop.yml', '- rubocop-rspec')
 
