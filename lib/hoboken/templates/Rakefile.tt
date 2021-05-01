@@ -5,6 +5,12 @@ Dir.glob('tasks/*.rake').each { |r| import r }
 
 <% if 'test-unit' == options[:test_framework] -%>
 task default: 'test:all'
+
+desc 'Run CI checks'
+task ci: ['test:all']
 <% else -%>
 task default: 'spec'
+
+desc 'Run CI checks'
+task ci: ['spec']
 <% end -%>
