@@ -31,9 +31,10 @@ module Hoboken
     end
   end
 
-  require_relative 'hoboken/add_ons/metrics'
-  require_relative 'hoboken/add_ons/internationalization'
+  require_relative 'hoboken/add_ons/github_action'
   require_relative 'hoboken/add_ons/heroku'
+  require_relative 'hoboken/add_ons/internationalization'
+  require_relative 'hoboken/add_ons/metrics'
   require_relative 'hoboken/add_ons/omniauth'
   require_relative 'hoboken/add_ons/rubocop'
   require_relative 'hoboken/add_ons/sequel'
@@ -52,10 +53,17 @@ module Hoboken
     tasks['generate'].options = Hoboken::Generate.class_options
 
     register(
-      AddOns::Metrics,
-      'add:metrics',
-      'add:metrics',
-      'Add metrics (flog, flay, simplecov)'
+      AddOns::Heroku,
+      'add:heroku',
+      'add:heroku',
+      'Heroku deployment support'
+    )
+
+    register(
+      AddOns::GithubAction,
+      'add:github_action',
+      'add:github_action',
+      'Github action that runs CI task'
     )
 
     register(
@@ -66,10 +74,10 @@ module Hoboken
     )
 
     register(
-      AddOns::Heroku,
-      'add:heroku',
-      'add:heroku',
-      'Heroku deployment support'
+      AddOns::Metrics,
+      'add:metrics',
+      'add:metrics',
+      'Add metrics (flog, flay, simplecov)'
     )
 
     register(
@@ -87,17 +95,17 @@ module Hoboken
     )
 
     register(
-      AddOns::Sprockets,
-      'add:sprockets',
-      'add:sprockets',
-      'Rack-based asset packaging system'
-    )
-
-    register(
       AddOns::Sequel,
       'add:sequel',
       'add:sequel',
       'Database access via Sequel gem'
+    )
+
+    register(
+      AddOns::Sprockets,
+      'add:sprockets',
+      'add:sprockets',
+      'Rack-based asset packaging system'
     )
 
     register(
