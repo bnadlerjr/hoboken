@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   # b) We can run tests for generated projects
   spec.add_development_dependency 'better_errors', '~> 2.9'
   spec.add_development_dependency 'binding_of_caller', '~> 1.0'
+  spec.add_development_dependency 'bootstrap', '~> 5.0.0.beta3'
   spec.add_development_dependency 'contest', '~> 0.1'
   spec.add_development_dependency 'dotenv', '~> 2.7'
   spec.add_development_dependency 'erubi', '~> 1.10'
@@ -45,12 +46,16 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rack-test', '~> 1.1'
   spec.add_development_dependency 'rspec', '~> 3.10'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.2'
+  spec.add_development_dependency 'sassc', '~> 2.4'
   spec.add_development_dependency 'sequel', '~> 5.43'
   spec.add_development_dependency 'sinatra', '~> 2.1'
   spec.add_development_dependency 'sinatra-contrib', '~> 2.1'
   spec.add_development_dependency 'sinatra-flash', '~> 0.3'
   spec.add_development_dependency 'sinatra-reloader', '~> 1.0'
+  spec.add_development_dependency 'sprockets', '~> 4.0'
   spec.add_development_dependency 'sqlite3', '~> 1.4'
+  spec.add_development_dependency 'uglifier', '~> 4.2'
+  spec.add_development_dependency 'yui-compressor', '~> 0.12'
 
   spec.add_dependency 'thor', '~> 1.1'
 end

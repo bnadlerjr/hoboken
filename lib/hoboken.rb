@@ -40,6 +40,7 @@ module Hoboken
   require_relative 'hoboken/add_ons/sequel'
   require_relative 'hoboken/add_ons/sprockets'
   require_relative 'hoboken/add_ons/travis'
+  require_relative 'hoboken/add_ons/twbs'
 
   # Hoboken's command-line interface.
   #
@@ -113,6 +114,13 @@ module Hoboken
       'add:travis',
       'add:travis',
       'Basic Travis-CI YAML config'
+    )
+
+    register(
+      AddOns::TwitterBootstrap,
+      'add:twbs',
+      'add:twbs',
+      'Twitter Bootstrap (requires Sprockets add-on)'
     )
 
     def self.exit_on_failure?

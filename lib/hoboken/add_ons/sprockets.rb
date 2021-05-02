@@ -7,11 +7,12 @@ module Hoboken
     class Sprockets < ::Hoboken::Group
       def create_assets_folder
         empty_directory('assets')
-        FileUtils.cp('public/css/styles.css', 'assets/styles.css')
+        FileUtils.cp('public/css/styles.css', 'assets/styles.scss')
         FileUtils.cp('public/js/app.js', 'assets/app.js')
       end
 
       def add_gems
+        gem 'sassc', version: '2.4', group: :assets
         gem 'sprockets', version: '4.0', group: :assets
         gem 'uglifier', version: '4.2', group: :assets
         gem 'yui-compressor', version: '0.12', group: :assets
@@ -47,9 +48,8 @@ module Hoboken
       def adjust_link_tags
         insert_into_file('views/layout.erb', before: %r{</head>}) do
           <<HTML
-  <%= stylesheet_tag :styles %>
-
-  <%= javascript_tag :app %>
+  <%== stylesheet_tag :styles %>
+  <%== javascript_tag :app %>
 HTML
         end
 

@@ -7,7 +7,7 @@ namespace :assets do
   require 'yui/compressor'
   sprockets = Sprockets::Environment.new { |env| env.logger = Logger.new($stdout) }
   sprockets.css_compressor = YUI::CssCompressor.new
-  sprockets.js_compressor = :uglifier
+  sprockets.js_compressor = Uglifier.new(harmony: true)
 
   %w[assets vendor].each do |f|
     sprockets.append_path File.expand_path("../../#{f}", __FILE__)
