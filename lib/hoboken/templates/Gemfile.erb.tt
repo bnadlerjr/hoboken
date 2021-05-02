@@ -21,7 +21,8 @@ group :development do
   gem 'pry-byebug', '~> 3.9'
   gem 'racksh', '~> 1.0'
   gem 'rake', '~> 13.0'
-  gem 'sinatra-reloader', '~> 1.0'
+  gem 'rerun', '~> 0.13'
+  gem 'rb-fsevent', '~> 0.10'
 end
 
 group :test do
