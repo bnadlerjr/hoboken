@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <title>Hoboken</title>
-    <link href="stylesheets/normalize-6197e73d.css" rel="stylesheet" type="text/css" /><link href="stylesheets/all-1a075910.css" rel="stylesheet" type="text/css" />
-    <script src="javascripts/all-da39a3ee.js" type="text/javascript"></script>
+    <link href="stylesheets/normalize-87b4e351.css" rel="stylesheet" /><link href="stylesheets/all-7f9a58a3.css" rel="stylesheet" />
+    <script src="javascripts/all-cc830994.js"></script>
   </head>
 
   <body>
@@ -17,14 +17,17 @@
   <h2 id="basic-features">Basic Features</h2>
   <p>All projects generated with Hoboken have the following common features:</p>
   <ul class="features">
-    <li>includes a <code>Rakefile</code> with tasks for starting the development server and running tests</li>
-    <li>uses <a href="http://rubygems.org/gems/thin">Thin</a> as the default web server</li>
-    <li>the <a href="http://rubygems.org/gems/contest">contest</a> gem for testing support</li>
+    <li>a <code>Rakefile</code> with tasks for running tests or specs</li>
+    <li>scripts for common tasks: installing dependencies, starting the development server, and starting a console (with <a href="https://github.com/sickill/racksh">racksh</a> support)</li>
+    <li>uses <a href="https://github.com/puma/puma">Puma</a> as the default web server</li>
+    <li><a href="https://github.com/jeremyevans/erubi">erubi</a> templating</li>
+    <li>uses <a href="https://test-unit.github.io/">test-unit</a> by default (<a href="https://rspec.info/">RSpec</a> can also be used, see the <code>--test-framework</code> option under the <a href="#generate">generate command</a>)</li>
     <li><a href="http://rubygems.org/gems/rack_csrf">Rack::Csrf</a> is turned on by default</li>
     <li>environment variable support via the <a href="http://rubygems.org/gems/dotenv">dotenv</a> gem</li>
-    <li><a href="http://rubygems.org/gems/sinatra-reloader">Sinatra reloader</a> is enabled for the development environment</li>
-    <li>custom Rack::Test <a href="https://github.com/bnadlerjr/hoboken/blob/master/lib/hoboken/templates/test/support/rack_test_assertions.rb.tt">assertions</a></li>
-    <li>a <a href="https://github.com/bnadlerjr/hoboken/blob/master/lib/hoboken/templates/test/test_helper.rb.tt">base class</a> helper for Rack based tests</li>
+    <li>Procfile for <a href="https://github.com/ddollar/foreman">foreman</a> support; if foreman is not installed uses rackup instead</li>
+    <li>code reloading via the <a href="https://github.com/alexch/rerun">rerun gem</a> is enabled for the development environment</li>
+    <li><a href="https://github.com/deivid-rodriguez/pry-byebug">pry-byebug</a> for debugging</li>
+    <li>custom Rack::Test <a href="https://github.com/bnadlerjr/hoboken/blob/main/lib/hoboken/templates/support/rack_helpers.rb.tt">helpers</a> and <a href="https://github.com/bnadlerjr/hoboken/blob/main/lib/hoboken/templates/support/rack_test_assertions.rb.tt">assertions</a> (or <a href="https://github.com/bnadlerjr/hoboken/blob/main/lib/hoboken/templates/spec/rack_matchers.rb.tt">matchers</a> for RSpec)</li>
   </ul>
 
   <h2 id="project-structure">Project Structure</h2>
@@ -33,6 +36,10 @@
     <tr>
       <td>Gemfile</td>
       <th>Your app's dependencies</th>
+    </tr>
+    <tr>
+      <td>Procfile</td>
+      <th>Specifies the commands that are executed by the app on startup (foreman must be installed separately)</th>
     </tr>
     <tr>
       <td>README.md</td>
@@ -51,15 +58,23 @@
       <th>Rackup file</th>
     </tr>
     <tr>
-      <td>/helpers</td>
-      <th>Any helper files</th>
+      <td>/bin</td>
+      <th>Helper scripts for installing dependencies, starting the development server, etc.</th>
+    </tr>
+    <tr>
+      <td>/config</td>
+      <th>Application configuration (Puma, etc.)</th>
     </tr>
     <tr>
       <td>/public</td>
       <th>Static assets (i.e. css, js, images)</th>
     </tr>
     <tr>
-      <td>/test</td>
+      <td>/tasks</td>
+      <th>Various Rake task definitions</th>
+    </tr>
+    <tr>
+      <td>/test or /spec</td>
       <th>Basic unit test and test helper support</th>
     </tr>
     <tr>
@@ -79,24 +94,30 @@
     <dt><pre>[--ruby-version=RUBY_VERSION]</pre></dt>
     <dd>Specify a Ruby version for the Gemfile. By default it will use the currently installed version.</dd>
     <dt><pre>[--tiny], [--no-tiny]</pre></dt>
-    <dd>Generate views inline; do not create /public folder</dd>
+    <dd>Generate views inline; do not create /public folder.</dd>
     <dt><pre>[--type=TYPE]</pre></dt>
     <dd>Architecture type (classic or modular). Default is classic.</dd>
     <dt><pre>[--git], [--no-git]</pre></dt>
-    <dd>Create a Git repository and make initial commit</dd>
+    <dd>Create a Git repository and make initial commit.</dd>
+    <dt><pre>[--api-only], [--no-api-only]</pre></dt>
+    <dd>API only, no views, public folder, etc.</dd>
+    <dt><pre>[--test-framework]</pre></dt>
+    <dd>Testing framework; can be either test-unit or rspec. Default is test-unit.</dd>
   </dl>
 
   <h4>Rake Tasks</h4>
   <p>By default all newly generated projects will have the following Rake tasks available.</p>
   <dl>
-    <dt><pre class="command">$ rake server</pre></dt>
-    <dd>Start the development server</dd>
+    <dt><pre class="command">$ rake ci</pre></dt>
+    <dd>Runs tests (or specs) and any configured linting add-ons</dd>
     <dt><pre class="command">$ rake test:all</pre></dt>
-    <dd>Run all tests</dd>
+    <dd>Run all tests (test-unit only)</dd>
     <dt><pre class="command">$ rake test:integration</pre></dt>
-    <dd>Run tests for integration</dd>
+    <dd>Run tests for integration (test-unit only)</dd>
     <dt><pre class="command">$ rake test:unit</pre></dt>
-    <dd>Run tests for unit</dd>
+    <dd>Run tests for unit (test-unit only)</dd>
+    <dt><pre class="command">$ rake spec</pre></dt>
+    <dd>Run all specs (RSpec only)</dd>
   </dl>
 
   <hr />
@@ -115,10 +136,17 @@
 
   <h2 id="add-on-command-reference">Add On Command Reference</h2>
 
+  <h3 id="github_action">GitHub Action</h3>
+  <p>Github action that runs CI task</p>
+  <p><pre class="command">$ hoboken add:github_action</pre></p>
+  <p>Adds a <a href="https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby">GitHub Action</a> workflow that runs the <code>ci</code> Rake task.</p>
+
+  <hr />
+
   <h3 id="heroku">Heroku</h3>
   <p>Heroku deployment support.</p>
   <p><pre class="command">$ hoboken add:heroku</pre></p>
-  <p>Adds <a href="http://rubygems.org/gems/foreman">foreman</a> to the project's dependencies and updates the <code>rake server</code> task to use it. It also creates a <code>Procfile</code> so that Heroku can start your application. A <code>.slugignore</code> file is also created.</p>
+  <p>Createa a <code>.slugignore</code> file and configures <code>$stdout</code> for Heroku logging. All Hoboken projects contain a <code>Procfile</code> by default, which Heroku will use to start the application.</p>
 
   <hr />
 
@@ -132,21 +160,28 @@
   <h3 id="metrics">Metrics</h3>
   <p>Adds metrics utilities to project (flog, flay, simplecov).</p>
   <p><pre class="command">$ hoboken add:metrics</pre></p>
-  <p>Adds <a href="http://rubygems.org/gems/flog">flog</a>, <a href="http://rubygems.org/gems/flay">flay</a>, and <a href="http://rubygems.org/gems/simplecov">simplecov</a> to the project dependencies. Adds two rake tasks for running flog and flay. Modifies the test rake tasks to run with simplecov. The coverage report is generated in the <code>tmp/coverage</code> folder.</p>
+  <p>Adds <a href="http://rubygems.org/gems/flog">flog</a>, <a href="http://rubygems.org/gems/flay">flay</a>, and <a href="http://rubygems.org/gems/simplecov">simplecov</a> to the project dependencies. Adds two rake tasks for running flog and flay. Modifies the test (or spec) rake tasks to run with simplecov. The coverage report is generated in the <code>tmp/coverage</code> folder.</p>
 
   <hr />
 
   <h3 id="omniauth">Omniauth</h3>
   <p>Authentication capability via the <a href="http://rubygems.org/gems/omniauth">Omniauth</a> gem.</p>
   <p><pre class="command">$ hoboken add:omniauth</pre></p>
-  <p>Running this command will prompt you to select an Omniauth provider and version. It will stub out 3 new handlers for Omniauth in <code>app.rb</code>. In addition, it will create unit tests for the stubbed out handlers.</p>
+  <p>Running this command will prompt you to select an Omniauth provider and version. It will stub out 3 new handlers for Omniauth in <code>app.rb</code>. In addition, it will create unit tests (or specs) for the stubbed out handlers.</p>
+
+  <hr />
+
+  <h3 id="rubocop">Rubocop</h3>
+  <p>Adds <a href="https://rubocop.org/">Rubocop</a> support.</p>
+  <p><pre class="command">$ hoboken add:rubocop</pre></p>
+  <p><Rubocop support with a basic <code>.rubocop.yml</code> and Rake task. The default <code>ci</code> task is also modified to run Rubocop after tests/specs.</p>
 
   <hr />
 
   <h3 id="sequel">Sequel</h3>
   <p>Provides database support via the <a href="http://rubygems.org/gems/sequel">Sequel</a> gem.</p>
   <p><pre class="command">$ hoboken add:sequel</pre></p>
-  <p>Adds the Sequel gem as a dependency. Also adds the sqlite3 gem for dev and test environments. You will need to specify your own database provider for production. Access to the database is handled via <code>DATABASE_URL</code> which either needs to be exported as an environment variable or added to the project's <code>.env</code> file. The <code>config.ru</code> is adjusted to set up the database. The <a href="http://www.sinatrarb.com/configuration.html">settings feature</a> of Sinatra is used to create a database setting that can be used within the application.<p>
+  <p>Adds the Sequel gem as a dependency. Also adds the sqlite3 gem for dev and test environments. You will need to specify your own database provider for production. Access to the database is handled via <code>DATABASE_URL</code> which either needs to be exported as an environment variable or added to the project's <code>.env</code> file. A <code>config/db.rb</code> file is added to set up the database.</p>
   <p>A <code>db/migrate</code> folder is created for <a href="http://sequel.jeremyevans.net/rdoc/files/doc/migration_rdoc.html">migrations</a>. Two rake tasks for migrations are also created:</p>
   <dl>
     <dt><pre class="command">$ rake db:migrate</pre></dt>
@@ -154,7 +189,8 @@
     <dt><pre class="command">$ rake db:reset</pre></dt>
     <dd>Perform migration reset (full erase and migration up).</dd>
   </dl>
-  <p>The project's <code>test_helper.rb</code> is adjusted to include a helper class for unit tests that touch the database. When a unit test class inherits from this, it will set up an in memory database and apply any migrations. Each test is run in the context of a transaction that will be rolled back after each test is run.<p>
+  <p>The project's <code>test_helper.rb</code> is adjusted to include a helper class for unit tests that touch the database. When a unit test class inherits from this, it will set up a test database and apply any migrations. Each test is run in the context of a transaction that will be rolled back after each test is run.</p>
+  <p>If RSpec is used, the project's <code>spec_helper.rb</code> is adjusted instead. Any spec tagged with <code>database: true</code> will be ran inside a database transaction that will be rolled back when the spec completes. Specs that use the <code>rack: true</code> tag will also have this database rollback functionality.</p>
 
   <hr />
 
@@ -170,6 +206,14 @@
   <p>Basic Travis-CI YAML config.</p>
   <p><pre class="command">$ hoboken add:travis</pre></p>
   <p>Sets up a minimal <code>.travis.yml</code> file.</p>
+
+  <hr />
+
+  <h3 id="twitter-bootstrap">Twitter Bootstrap</h3>
+  <p>Twitter Bootstrap via the <a href="https://github.com/twbs/bootstrap-rubygem">bootstrap gem</a> (requires Sprockets add-on).</p>
+  <p><pre class="command">$ hoboken add:twbs</pre></p>
+  <p>Twitter Bootstrap support via the <code>bootstrap</code> gem. Adjusts <code>styles.scss</code> and <code>app.js</code> to include bootstrap directives.</p>
+  <p><strong>Important Note:</strong> You must have the <a href="#sprockets">sprockets add-on</a> enabled first using <pre class="command">$ hoboken add:sprockets</pre></p>
 </section>
 
 
@@ -204,13 +248,16 @@
     <li>
       <a href="documentation.html#add-on-command-reference">Add On Commands</a>
       <ul>
+        <li><a href="#github_action">github action</a></li>
         <li><a href="#heroku">heroku</a></li>
         <li><a href="#internationalization">internationalization</a></li>
         <li><a href="#metrics">metrics</a></li>
         <li><a href="#omniauth">omniauth</a></li>
+        <li><a href="#rubocop">rubocop</a></li>
         <li><a href="#sequel">sequel</a></li>
         <li><a href="#sprockets">sprockets</a></li>
         <li><a href="#travis-ci">travis ci</a></li>
+        <li><a href="#twitter-bootstrap">twitter bootstrap</a></li>
       </ul>
     </li>
   </ul>
