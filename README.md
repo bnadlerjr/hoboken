@@ -27,12 +27,14 @@ To see a list of options for the generate command:
       hoboken generate [APP_NAME]
 
     Options:
-      [--ruby-version=RUBY_VERSION]  # Ruby version for Gemfile
-      [--tiny], [--no-tiny]          # Generate views inline; do not create /public folder
-      [--type=TYPE]                  # Architecture type (classic or modular)
-                                     # Default: classic
-      [--git], [--no-git]            # Create a Git repository and make initial commit
-      [--api-only], [--no-api-only]  # API only, no views, public folder, etc.
+      [--ruby-version=RUBY_VERSION]      # Ruby version for Gemfile
+      [--tiny], [--no-tiny]              # Generate views inline; do not create /public folder
+      [--type=TYPE]                      # Architecture type (classic or modular)
+                                         # Default: classic
+      [--git], [--no-git]                # Create a Git repository and make initial commit
+      [--api-only], [--no-api-only]      # API only, no views, public folder, etc.
+      [--test-framework=TEST_FRAMEWORK]  # Testing framework; can be either test-unit or rspec
+                                         # Default: test-unit
 
     Generate a new Sinatra app
 
@@ -40,13 +42,16 @@ To see a list of options for the generate command:
 
 Additional generators are available for existing projects generated using Hoboken:
 
+    $ hoboken add:github_action    # Github action that runs CI task
     $ hoboken add:heroku           # Heroku deployment support
     $ hoboken add:i18n             # Internationalization support using sinatra-r18n
     $ hoboken add:metrics          # Add metrics (flog, flay, simplecov)
     $ hoboken add:omniauth         # OmniAuth authentication (allows you to select a provider)
+    $ hoboken add:rubocop          # Basic Rubocop configuration and Rake task.
     $ hoboken add:sequel           # Database access via Sequel gem
     $ hoboken add:sprockets        # Rack-based asset packaging system
     $ hoboken add:travis           # Basic Travis-CI YAML config
+    $ hoboken add:twbs             # Twitter Bootstrap (requires Sprockets add-on)
 
 ### Documentation
 
