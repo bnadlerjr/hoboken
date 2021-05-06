@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Hoboken
-  VERSION = '0.0.1'
+  VERSION = '0.9.0'
 end
