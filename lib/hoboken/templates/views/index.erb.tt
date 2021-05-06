@@ -51,9 +51,10 @@
     <p>The following Rake tasks are available:</p>
     <table>
       <tr>
-        <td>rake server</td>
-        <th>Start the development server</th>
+        <td>rake ci</td>
+        <th>Run CI checks</th>
       </tr>
+<% if 'test-unit' == options[:test_framework] -%>
       <tr>
         <td>rake test:all</td>
         <th>Run all tests</th>
@@ -62,6 +63,12 @@
         <td>rake test:unit</td>
         <th>Run unit tests</th>
       </tr>
+<% else -%>
+      <tr>
+        <td>rake spec</td>
+        <th>Run RSpec</th>
+      </tr>
+<% end -%>
     </table>
 
     <h3>Add Ons</h3>

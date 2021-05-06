@@ -1,50 +1,120 @@
 # <%= titleized_name %>
 
+## Overview
+
 TODO: Project description.
+
+* TODO: a list of
+* high level features
+* ...
+
+### Links
+* [Production](TODO)
+* [QA](TODO)
+* [Issue Tracking](TODO)
+* [Continuous Integration](TODO)
+
+### Table of Contents
+
+* [Overview](#overview)
+* [Getting Started](#getting-started)
+* [Configuration](#configuration)
+<% if 'rspec' == options[:test_framework] -%>
+* [Specs](#specs)
+<% else -%>
+* [Tests](#tests)
+<% end -%>
+* [Rake Tasks](#rake-tasks)
+* [Logging](#logging)
+* [Deploying](#deploying)
+* [Dev Notes](#dev-notes)
 
 ## Getting Started
 
-### Starting the Server
+The following pre-requisites are needed to build this project:
+* Ruby <%= RUBY_VERSION %>
+* [Bundler](https://bundler.io/)
 
-### Project Layout
+After cloning this repository, the project can be setup by running the `./bin/setup` script. This script will install dependencies and perform any other required setup tasks.
 
-## Notes / Use
+Once setup is complete, you can start a local development server by running the `./bin/server` script. Additionally, you can start a development console using the `./bin/console` script. The console uses the [racksh](https://github.com/sickill/racksh) gem which exposes a `$rack` variable that can be used to make simulated HTTP requests.
 
-## Contributing
+## Configuration
+Environment variables are used for project configuration. For local development, the `.env` file is used. Below is a sample `.env` file that contains the minimum required configuration.
 
-### Issues / Roadmap
+```
+RACK_ENV=development
+```
 
-Use GitHub issues for reporting bug and feature requests.
+Here is a table containing all available environment variable configuration options and their descriptions.
 
-### Patches / Pull Requests
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don’t break it in a future version
-  unintentionally.
-* Commit, do not mess with Rakefile, version, or history (if you want to have
-  your own version, that is fine but bump version in a commit by itself I can
-  ignore when I pull).
-* Send me a pull request. Bonus points for topic branches.
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Required?</th>
+            <th>Default Value</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>MAX_THREADS</td>
+            <td>No</td>
+            <td>5</td>
+            <td>The maximum number of threads that a Puma worker process should use</td>
+        </tr>
+        <tr>
+            <td>PORT</td>
+            <td>No</td>
+            <td>9292</td>
+            <td>Web server port</td>
+        </tr>
+        <tr>
+            <td>RACK_ENV</td>
+            <td>No</td>
+            <td>production</td>
+            <td>Web server environment (i.e. development, test, production, etc.)</td>
+        </tr>
+        <tr>
+            <td>WEB_CONCURRENCY</td>
+            <td>No</td>
+            <td>1</td>
+            <td>The number of Puma worker processes</td>
+        </tr>
+    </tbody>
+</table>
+
+## Development
+This project has the following default behavior:
+
+* helpers scripts for common project actions; refer to the `bin` folder
+* uses [Puma](https://github.com/puma/puma) as the default web server
+* [erubi](https://github.com/jeremyevans/erubi) for templating; escaping is done by default
+* [Rack::Csrf](http://rubygems.org/gems/rack_csrf") is turned on by default
+* environment variable support via the [dotenv](http://rubygems.org/gems/dotenv) gem
+* Procfile for [foreman](https://github.com/ddollar/foreman) support; if foreman is not installed uses rackup instead
+* code reloading via the [rerun](https://github.com/alexch/rerun) gem is enabled for the development environment
+* [pry-byebug](https://github.com/deivid-rodriguez/pry-byebug") is installed for debugging
+
+<% if 'rspec' == options[:test_framework] -%>
+## Specs
+This project uses [RSpec](https://rspec.info/) for testing. Specs can be ran using the rake task `rake spec`.
+<% else -%>
+## Tests
+This project uses [Test Unit](https://test-unit.github.io/) for testing. Tests can be ran using the rake task `rake test:all`.
+<% end -%>
+
+## Rake Tasks
+To see a list of available tasks run the `rake -T` command.
+
+## Logging
+TODO: Describe how logging is setup (i.e. files, STDOUT, services like Papertrail, DataDog, etc.).
+
+## Deploying
+TODO: Describe how to deploy the project (QA, production, CI setup, etc.). Don't forget to describe how project environment variables are set for the various deployment targets.
+
+## Dev Notes
 
 ## License
-(The MIT License)
-
 Copyright (c) <%= Date.today.year %> <%= author %>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
