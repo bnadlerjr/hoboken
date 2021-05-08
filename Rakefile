@@ -6,21 +6,12 @@ require 'rubocop/rake_task'
 
 RuboCop::RakeTask.new
 
-task default: 'test:all'
+Rake::TestTask.new do |t|
+  t.libs << 'test'
+  t.test_files = Dir['test/**/*_test.rb']
+end
+
+task default: 'test'
 
 desc 'Run CI checks'
-task ci: ['test:all', 'rubocop']
-
-namespace :test do
-  types = %w[unit integration]
-
-  types.each do |type|
-    Rake::TestTask.new(type.to_sym) do |t|
-      t.libs << "test/#{type}"
-      t.test_files = Dir["test/#{type}/**/*_test.rb"]
-    end
-  end
-
-  desc 'Run all tests'
-  task all: types.map { |s| "test:#{s}" }
-end
+task ci: %w[test rubocop]
