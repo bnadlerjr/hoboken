@@ -2,7 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/hoboken.png)](http://badge.fury.io/rb/hoboken)
 ![Build Status](https://github.com/bnadlerjr/hoboken/actions/workflows/ruby.yml/badge.svg)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=bnadlerjr/hoboken)](https://dependabot.com)
 
 Sinatra project generator and templates.
 
