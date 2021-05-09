@@ -13,7 +13,7 @@ class TwitterBootstrapTest < IntegrationTestCase
       assert_match(/Gemfile updated/, result)
 
       assert_file('Gemfile', /bootstrap/)
-      assert_file('app.rb', /require 'bootstrap'/)
+      assert_file('config/environment.rb', /require 'bootstrap'/)
       assert_file('assets/styles.scss', /@import "bootstrap"/)
       assert_file('assets/app.js', /require popper/, /require bootstrap-sprockets/)
       assert_file('tasks/sprockets.rake', /require 'bootstrap'/)
@@ -45,7 +45,7 @@ class TwitterBootstrapTest < IntegrationTestCase
       assert_match(/Gemfile updated/, result)
 
       assert_file('Gemfile', /bootstrap/)
-      assert_file('app.rb', /require 'bootstrap'/)
+      assert_file('config/environment.rb', /require 'bootstrap'/)
       assert_file('assets/styles.scss', /@import "bootstrap"/)
       assert_file('assets/app.js', /require popper/, /require bootstrap-sprockets/)
       assert_file('tasks/sprockets.rake', /require 'bootstrap'/)

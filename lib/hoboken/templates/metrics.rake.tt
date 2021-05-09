@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 unless 'production' == ENV['RACK_ENV']
+  require 'bundler/setup'
   require 'flay'
+
   desc 'Analyze code for structural similarities'
   task :flay do
     flay = Flay.new

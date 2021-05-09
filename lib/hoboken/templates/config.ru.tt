@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'bundler/setup'
-require 'dotenv'
-Dotenv.load
-require File.expand_path('app', __dir__)
+require_relative 'config/environment'
+
 run Sinatra::Application

@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+require 'bundler/setup'
+
+unless 'production' == ENV['RACK_ENV']
+  require 'dotenv'
+  Dotenv.load
+end
+
+require_relative '../app'
+
+configure do
+  use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
+  use Rack::Csrf, raise: true
+<% unless options[:api_only] -%>
+
+  set :erb, { escape_html: true }
+<% end -%>
+end
+
+configure :development do
+  require 'better_errors'
+  use BetterErrors::Middleware
+  BetterErrors.application_root = __dir__
+end

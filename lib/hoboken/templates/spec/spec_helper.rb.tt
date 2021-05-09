@@ -2,20 +2,15 @@
 
 ENV['RACK_ENV'] = 'test'
 
-require 'bundler/setup'
+require_relative '../config/environment'
 
 require 'warning'
 
 # Ignore all warnings in Gem dependencies
 Gem.path.each { |path| Warning.ignore(//, path) }
 
-require 'dotenv'
-Dotenv.load
-
 require 'rack/test'
 require 'support/rack_helpers'
-
-require_relative '../app'
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

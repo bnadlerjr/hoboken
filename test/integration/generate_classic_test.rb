@@ -16,13 +16,13 @@ class GenerateClassicTest < IntegrationTestCase
       assert_file 'app.rb', %r{require 'sinatra/flash'}
       assert_file 'app.rb', /require 'erubi'/
       assert_file 'app.rb', /erb :index/
-      assert_file 'app.rb', /set :erb, { escape_html: true }/
-      assert_file 'app.rb', /require 'better_errors'/
       assert_file_does_not_have_content 'app.rb', /json message:/
       assert_file 'bin/console'
       assert_file 'bin/server'
       assert_file 'bin/setup'
       assert_file 'config.ru', /run Sinatra::Application/
+      assert_file 'config/environment.rb', /set :erb, { escape_html: true }/
+      assert_file 'config/environment.rb', /require 'better_errors'/
       assert_directory 'public'
       assert_directory 'test'
       assert_file 'views/index.erb'
@@ -47,7 +47,10 @@ class GenerateClassicTest < IntegrationTestCase
       assert_file 'app.rb', /json message:/
       assert_file_does_not_have_content 'app.rb', %r{require 'sinatra/flash'}
       assert_file_does_not_have_content 'app.rb', /erb :index/
-      assert_file_does_not_have_content 'app.rb', /set :erb, { escape_html: true }/
+      assert_file_does_not_have_content(
+        'config/environment.rb',
+        /set :erb, { escape_html: true }/
+      )
     end
   end
 

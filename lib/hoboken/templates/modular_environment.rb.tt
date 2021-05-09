@@ -1,0 +1,38 @@
+# frozen_string_literal: true
+
+require 'bundler/setup'
+
+unless 'production' == ENV['RACK_ENV']
+  require 'dotenv'
+  Dotenv.load
+end
+
+require_relative '../app'
+
+module <%= camel_name %>
+  # Re-opening application to apply configuration.
+  #
+  class App < Sinatra::Base
+    configure do
+      set :root, File.expand_path('..', __dir__)
+<% unless options[:api_only] -%>
+      set :erb, { escape_html: true }
+<% end -%>
+
+      enable :logging
+
+      use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
+      use Rack::Csrf, raise: true
+<% unless options[:api_only] -%>
+
+      register Sinatra::Flash
+<% end -%>
+    end
+
+    configure :development do
+      require 'better_errors'
+      use BetterErrors::Middleware
+      BetterErrors.application_root = __dir__
+    end
+  end
+end

@@ -10,7 +10,6 @@ class SequelTest < IntegrationTestCase
       execute("#{bin_path} add:sequel")
       assert_file('Gemfile', 'sequel', 'sqlite3')
       assert_file('tasks/sequel.rake')
-
       assert_file('config/db.rb')
 
       assert_file(

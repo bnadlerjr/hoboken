@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'bundler/setup'
-
 <% unless options[:api_only] -%>
 require 'erubi'
 <% end -%>
@@ -15,21 +13,6 @@ require 'sinatra/flash'
 
 Dir.glob(File.join('helpers', '**', '*.rb')).each do |helper|
   require_relative helper
-end
-
-configure do
-  use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
-  use Rack::Csrf, raise: true
-<% unless options[:api_only] -%>
-
-  set :erb, { escape_html: true }
-<% end -%>
-end
-
-configure :development do
-  require 'better_errors'
-  use BetterErrors::Middleware
-  BetterErrors.application_root = __dir__
 end
 
 <% if options[:api_only] -%>

@@ -25,9 +25,9 @@ module Hoboken
       end
 
       def require_db_config
-        location = classic? ? 'configure do' : 'module'
-        insert_into_file('app.rb', before: location) do
-          "require_relative 'config/db'\n\n"
+        location = %r{require_relative '\.\./app'}
+        insert_into_file('config/environment.rb', before: location) do
+          "require_relative 'db'\n\n"
         end
       end
 
@@ -98,7 +98,7 @@ module Hoboken
       def reminders
         say "\nGemfile updated... don't forget to 'bundle install'"
         say <<~TEXT
-          #{'          '}
+
           Notes:
             * The sqlite3 gem has been installed for dev and test environments only. You will need to specify a gem to use for production.
             * You will need to specify an environment variable 'DATABASE_URL' (either add it to .env or export it)

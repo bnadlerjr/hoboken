@@ -16,7 +16,7 @@ class SprocketsTest < IntegrationTestCase
       assert_file('middleware/sprockets_chain.rb')
       assert_file('helpers/sprockets.rb')
 
-      assert_file('app.rb', <<CODE
+      assert_file('config/environment.rb', <<CODE
   require File.expand_path('middleware/sprockets_chain', settings.root)
   use Middleware::SprocketsChain, %r{/assets} do |env|
     %w[assets vendor].each do |f|
@@ -26,7 +26,7 @@ class SprocketsTest < IntegrationTestCase
 CODE
       )
 
-      assert_file('app.rb', /helpers Helpers::Sprockets/)
+      assert_file('config/environment.rb', /helpers Helpers::Sprockets/)
       assert_file('views/layout.erb', <<CODE
   <%== stylesheet_tag :styles %>
   <%== javascript_tag :app %>
@@ -62,7 +62,7 @@ CODE
       assert_file('middleware/sprockets_chain.rb')
       assert_file('helpers/sprockets.rb')
 
-      assert_file('app.rb', <<CODE
+      assert_file('config/environment.rb', <<CODE
     configure :development do
       require File.expand_path('middleware/sprockets_chain', settings.root)
       use Middleware::SprocketsChain, %r{/assets} do |env|

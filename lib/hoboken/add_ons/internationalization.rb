@@ -10,8 +10,8 @@ module Hoboken
         insert_into_file('app.rb', after: %r{require 'sinatra('|/base')}) do
           "\nrequire 'sinatra/r18n'"
         end
-        insert_into_file('app.rb', after: /Sinatra::Base/) do
-          "\n    register Sinatra::R18n"
+        insert_into_file('config/environment.rb', after: /register Sinatra::Flash/) do
+          "\n      register Sinatra::R18n"
         end
       end
 

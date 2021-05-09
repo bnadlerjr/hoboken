@@ -28,7 +28,7 @@ module Hoboken
         return unless rspec?
 
         insert_into_file 'spec/spec_helper.rb', before: snippet_location do
-          snippet('rspec')
+          snippet('spec')
         end
       end
 
@@ -52,7 +52,7 @@ module Hoboken
       end
 
       def snippet_location
-        %r{require 'bundler/setup'}
+        %r{require_relative '\.\./config/environment'}
       end
     end
   end

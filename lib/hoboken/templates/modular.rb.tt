@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'bundler/setup'
-
 <% unless options[:api_only] -%>
 require 'erubi'
 <% end -%>
@@ -21,28 +19,6 @@ module <%= camel_name %>
   # Sinatra web application
   #
   class App < Sinatra::Base
-    configure do
-      set :root, File.dirname(__FILE__)
-<% unless options[:api_only] -%>
-      set :erb, { escape_html: true }
-<% end -%>
-
-      enable :logging
-
-      use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
-      use Rack::Csrf, raise: true
-<% unless options[:api_only] -%>
-
-      register Sinatra::Flash
-<% end -%>
-    end
-
-    configure :development do
-      require 'better_errors'
-      use BetterErrors::Middleware
-      BetterErrors.application_root = __dir__
-    end
-
 <% if options[:api_only] -%>
     get '/' do
       json message: 'Smoke test successful!'

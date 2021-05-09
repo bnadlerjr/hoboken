@@ -35,11 +35,11 @@ module Hoboken
         CODE
 
         indentation = classic? ? 2 : 6
-        insert_into_file('app.rb', after: /configure :development do\n/) do
+        insert_into_file('config/environment.rb', after: /configure :development do\n/) do
           "#{indent(snippet, indentation)}\n"
         end
 
-        insert_into_file('app.rb', after: /configure do\n/) do
+        insert_into_file('config/environment.rb', after: /configure do\n/) do
           "#{indent("helpers Helpers::Sprockets\n", indentation)}\n"
         end
       end

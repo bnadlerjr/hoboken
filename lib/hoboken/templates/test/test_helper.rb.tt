@@ -2,22 +2,18 @@
 
 ENV['RACK_ENV'] = 'test'
 
-require 'bundler/setup'
+require_relative '../config/environment'
 
 require 'warning'
 
 # Ignore all warnings in Gem dependencies
 Gem.path.each { |path| Warning.ignore(//, path) }
 
-require 'dotenv'
-Dotenv.load
-
 require 'test/unit'
 require 'contest'
 require 'rack/test'
 
 require_relative 'support/rack_helpers'
-require_relative '../app'
 
 module Test
   module Unit

@@ -10,12 +10,10 @@ module Hoboken
       end
 
       def adjust_rackup_config
-        insert_into_file('config.ru', after: "require 'dotenv'") do
-          "\nrequire 'sidekiq/web'\n"
-        end
-
         gsub_file('config.ru', /run .*::App.*\n/) do |match|
           <<~CODE
+            require 'sidekiq/web'
+
             if 'production' == ENV.fetch('RACK_ENV', 'production')
               Sidekiq::Web.use Rack::Auth::Basic do |username, password|
                 [username, password] == [ENV['SIDEKIQ_USERNAME'], ENV['SIDEKIQ_PASSWORD']]
@@ -30,12 +28,9 @@ module Hoboken
 
       def setup_config
         template('hoboken/templates/sidekiq.rb.tt', 'config/sidekiq.rb')
-      end
-
-      def require_config
-        location = classic? ? 'configure do' : 'module'
-        insert_into_file('app.rb', before: location) do
-          "require_relative 'config/sidekiq'\n\n"
+        location = "require_relative '../app'"
+        insert_into_file('config/environment.rb', before: location) do
+          "require_relative 'sidekiq'\n\n"
         end
       end
 

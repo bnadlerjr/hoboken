@@ -72,6 +72,7 @@ module Hoboken
     def config_folder
       empty_directory("#{snake_name}/config")
       apply_template('puma.rb.tt', 'config/puma.rb')
+      apply_template('classic_environment.rb.tt', 'config/environment.rb')
     end
 
     def view_folder
@@ -139,7 +140,9 @@ module Hoboken
 
       empty_directory("#{snake_name}/helpers")
       remove_file("#{snake_name}/app.rb")
+      remove_file("#{snake_name}/config/environment.rb")
       apply_template('modular.rb.tt', 'app.rb')
+      apply_template('modular_environment.rb.tt', 'config/environment.rb')
 
       files = [].tap do |f|
         f << 'config.ru'

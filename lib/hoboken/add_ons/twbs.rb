@@ -15,7 +15,8 @@ module Hoboken
         return unless sprockets?
 
         indentation = classic? ? 2 : 6
-        insert_into_file('app.rb', after: /require.*sprockets_chain.*\n/) do
+        location = /require.*sprockets_chain.*\n/
+        insert_into_file('config/environment.rb', after: location) do
           indent("require 'bootstrap'\n", indentation)
         end
       end

@@ -19,7 +19,8 @@ class InternationalizationTest < IntegrationTestCase
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
       execute("#{bin_path} add:i18n")
       assert_file('Gemfile', 'sinatra-r18n')
-      assert_file('app.rb', "require 'sinatra/r18n'", 'register Sinatra::R18n')
+      assert_file('app.rb', "require 'sinatra/r18n'")
+      assert_file('config/environment.rb', 'register Sinatra::R18n')
       assert_file('i18n/en.yml')
       assert_match(/no offenses detected/, execute('rubocop'))
     end

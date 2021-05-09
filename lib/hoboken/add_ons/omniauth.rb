@@ -24,8 +24,9 @@ module Hoboken
           end
         CODE
 
-        indentation = classic? ? 2 : 4
-        insert_into_file('app.rb', after: /use Rack::Session::Cookie.+\n/) do
+        indentation = classic? ? 2 : 6
+        location = /use Rack::Session::Cookie.+\n/
+        insert_into_file('config/environment.rb', after: location) do
           "\n#{indent(snippet, indentation)}\n"
         end
       end
