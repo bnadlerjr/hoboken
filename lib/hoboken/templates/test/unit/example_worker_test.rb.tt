@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+require_relative '../test_helper'
+
+# Refer to the Sidekiq documentation[1] for more information about testing
+# workers.
+#
+# [1]: https://github.com/mperham/sidekiq/wiki/Testing
+#
+class ExampleWorkerTest < Test::Unit::TestCase
+  setup do
+    Sidekiq::Worker.clear_all
+  end
+
+  test 'performs work' do
+    assert_equal 0, ExampleWorker.jobs.size
+    ExampleWorker.perform_async
+    assert_equal 1, ExampleWorker.jobs.size
+  end
+end

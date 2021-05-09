@@ -38,6 +38,7 @@ module Hoboken
   require_relative 'hoboken/add_ons/omniauth'
   require_relative 'hoboken/add_ons/rubocop'
   require_relative 'hoboken/add_ons/sequel'
+  require_relative 'hoboken/add_ons/sidekiq'
   require_relative 'hoboken/add_ons/sprockets'
   require_relative 'hoboken/add_ons/travis'
   require_relative 'hoboken/add_ons/twbs'
@@ -100,6 +101,13 @@ module Hoboken
       'add:sequel',
       'add:sequel',
       'Database access via Sequel gem'
+    )
+
+    register(
+      AddOns::Sidekiq,
+      'add:sidekiq',
+      'add:sidekiq',
+      'Background processing with the Sidekiq gem'
     )
 
     register(

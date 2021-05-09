@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+# Refer to the Sidekiq documentation[1] for more information about testing
+# workers.
+#
+# [1]: https://github.com/mperham/sidekiq/wiki/Testing
+#
+RSpec.describe ExampleWorker, sidekiq: true do
+  subject(:worker) { described_class }
+
+  it 'performs work' do
+    expect {
+      worker.perform_async
+    }.to change(worker.jobs, :size).by(1)
+  end
+end

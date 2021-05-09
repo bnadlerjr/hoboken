@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+# Example Sidekiq worker. Refer to Sidekiq's documentation[1] for
+# more information.
+#
+# [1]: https://github.com/mperham/sidekiq/wiki/Best-Practices
+#
+class ExampleWorker
+  include Sidekiq::Worker
+
+  def perform
+    logger.info 'Doing some work!'
+  end
+end

@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+require 'sidekiq'
+
+Sidekiq.configure_client do |config|
+  config.redis = { size: 1 }
+end
+
+Dir.glob(File.join('workers', '**', '*.rb')).each do |worker|
+  require_relative "../#{worker}"
+end

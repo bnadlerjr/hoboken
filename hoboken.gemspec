@@ -50,6 +50,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-rspec', '~> 2.2'
   spec.add_development_dependency 'sassc', '~> 2.4'
   spec.add_development_dependency 'sequel', '~> 5.43'
+  spec.add_development_dependency 'sidekiq', '~> 6.2'
   spec.add_development_dependency 'sinatra', '~> 2.1'
   spec.add_development_dependency 'sinatra-contrib', '~> 2.1'
   spec.add_development_dependency 'sinatra-flash', '~> 0.3'
