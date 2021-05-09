@@ -10,14 +10,14 @@ require 'warning'
 Gem.path.each { |path| Warning.ignore(//, path) }
 
 require 'dotenv'
+Dotenv.load
+
 require 'test/unit'
 require 'contest'
 require 'rack/test'
 
 require_relative 'support/rack_helpers'
 require_relative '../app'
-
-Dotenv.load
 
 module Test
   module Unit

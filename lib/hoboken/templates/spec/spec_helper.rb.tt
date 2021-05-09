@@ -10,12 +10,12 @@ require 'warning'
 Gem.path.each { |path| Warning.ignore(//, path) }
 
 require 'dotenv'
+Dotenv.load
+
 require 'rack/test'
 require 'support/rack_helpers'
 
 require_relative '../app'
-
-Dotenv.load
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

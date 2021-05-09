@@ -128,7 +128,7 @@ module Hoboken
     def env_file
       inside snake_name do
         create_file('.env') do
-          "RACK_ENV=development\nPORT=9292"
+          "RACK_ENV=development\nPORT=9292\nSESSION_SECRET=secret"
         end
       end
     end

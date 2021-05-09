@@ -18,7 +18,7 @@ Dir.glob(File.join('helpers', '**', '*.rb')).each do |helper|
 end
 
 configure do
-  use Rack::Session::Cookie, secret: 'TODO: CHANGE ME'
+  use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
   use Rack::Csrf, raise: true
 <% unless options[:api_only] -%>
 

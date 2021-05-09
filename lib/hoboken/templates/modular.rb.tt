@@ -29,7 +29,7 @@ module <%= camel_name %>
 
       enable :logging
 
-      use Rack::Session::Cookie, secret: 'TODO: CHANGE ME'
+      use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
       use Rack::Csrf, raise: true
 <% unless options[:api_only] -%>
 
