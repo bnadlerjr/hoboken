@@ -24,16 +24,10 @@ class IntegrationTestCase < Test::Unit::TestCase
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def run_hoboken(command, **opts)
-    options = [].tap do |o|
-      o << '--git' if opts.fetch(:git, false)
-      o << '--tiny' if opts.fetch(:tiny, false)
-      o << '--api-only' if opts.fetch(:api_only, false)
-      o << "--test_framework=#{opts[:test_framework]}" if opts.key?(:test_framework)
-      o << "--type=#{opts[:type]}" if opts.key?(:type)
-      o << "--ruby-version=#{opts[:ruby_version]}" if opts.key?(:ruby_version)
-    end
+    options = extract_cli_options(opts)
+    check_rubocop = opts.fetch(:rubocop, true)
+    run_app_tests_or_specs = opts.fetch(:run_tests, true)
 
     $hoboken_counter += 1
     bin_path = File.expand_path('../bin/hoboken', __dir__)
@@ -42,8 +36,10 @@ class IntegrationTestCase < Test::Unit::TestCase
     `#{bin_path} #{command} #{DESTINATION}/#{$hoboken_counter}/sample #{options.join(' ')}`
     # rubocop:enable Layout/LineLength
     yield
+
+    assert_match(/0 failures/, execute('rake')) if run_app_tests_or_specs
+    assert_match(/no offenses detected/, execute('rubocop')) if check_rubocop
   end
-  # rubocop:enable Metrics/AbcSize
 
   def execute(command)
     FileUtils.cd("#{DESTINATION}/#{$hoboken_counter}/sample") do
@@ -94,5 +90,20 @@ class IntegrationTestCase < Test::Unit::TestCase
       !File.directory?(File.join(DESTINATION, $hoboken_counter.to_s, 'sample', name))
     end
   end
+
+  private
+
+  # rubocop:disable Metrics/AbcSize
+  def extract_cli_options(opts)
+    [].tap do |o|
+      o << '--git' if opts.fetch(:git, false)
+      o << '--tiny' if opts.fetch(:tiny, false)
+      o << '--api-only' if opts.fetch(:api_only, false)
+      o << "--test_framework=#{opts[:test_framework]}" if opts.key?(:test_framework)
+      o << "--type=#{opts[:type]}" if opts.key?(:type)
+      o << "--ruby-version=#{opts[:ruby_version]}" if opts.key?(:ruby_version)
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
 end
 # rubocop:enable Style/GlobalVars

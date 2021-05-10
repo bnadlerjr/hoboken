@@ -26,10 +26,6 @@ class SidekiqTest < IntegrationTestCase
       assert_file('config/sidekiq.rb')
       assert_file('workers/example_worker.rb')
       assert_file('test/unit/example_worker_test.rb')
-
-      result = execute('rake test:all')
-      assert_match(/2 tests, 5 assertions, 0 failures, 0 errors/, result)
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -47,10 +43,6 @@ CODE
       )
 
       assert_file('spec/example_worker_spec.rb')
-
-      result = execute('rake spec')
-      assert_match(/4 examples, 0 failures/, result)
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
 
@@ -77,10 +69,6 @@ CODE
       assert_file('config/sidekiq.rb')
       assert_file('workers/example_worker.rb')
       assert_file('test/unit/example_worker_test.rb')
-
-      result = execute('rake test:all')
-      assert_match(/2 tests, 5 assertions, 0 failures, 0 errors/, result)
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -111,10 +99,6 @@ CODE
       )
 
       assert_file('spec/example_worker_spec.rb')
-
-      result = execute('rake spec')
-      assert_match(/4 examples, 0 failures/, result)
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength

@@ -4,7 +4,7 @@ require_relative '../test_helper'
 
 class TravisTest < IntegrationTestCase
   def test_travis_add_on
-    run_hoboken(:generate) do
+    run_hoboken(:generate, run_tests: false, rubocop: false) do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
       execute("#{bin_path} add:travis")
       assert_file('.travis.yml', 'language: ruby')

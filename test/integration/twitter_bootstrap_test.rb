@@ -28,8 +28,6 @@ class TwitterBootstrapTest < IntegrationTestCase
         /successfully compiled javascript assets/,
         execute('rake assets:precompile_js')
       )
-
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -60,8 +58,6 @@ class TwitterBootstrapTest < IntegrationTestCase
         /successfully compiled javascript assets/,
         execute('rake assets:precompile_js')
       )
-
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength

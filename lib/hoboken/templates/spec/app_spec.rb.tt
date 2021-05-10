@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable RSpec/DescribeClass
 RSpec.describe 'GET /', rack: true do
   before { get '/' }
 
@@ -12,4 +11,3 @@ RSpec.describe 'GET /', rack: true do
 <% end -%>
   it { expect(last_response.body).to include('Smoke test successful!') }
 end
-# rubocop:enable RSpec/DescribeClass

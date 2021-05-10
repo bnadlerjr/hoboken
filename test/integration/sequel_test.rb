@@ -32,10 +32,6 @@ class SequelTest < IntegrationTestCase
         end
       CODE
       )
-
-      result = execute('rake test:all')
-      assert_match(/1 tests, 3 assertions, 0 failures, 0 errors/, result)
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -62,10 +58,6 @@ class SequelTest < IntegrationTestCase
 
       CODE
       )
-
-      result = execute('rake spec')
-      assert_match(/3 examples, 0 failures/, result)
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength

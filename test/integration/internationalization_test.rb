@@ -10,7 +10,6 @@ class InternationalizationTest < IntegrationTestCase
       assert_file('Gemfile', 'sinatra-r18n')
       assert_file('app.rb', "require 'sinatra/r18n'")
       assert_file('i18n/en.yml')
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
 
@@ -22,7 +21,6 @@ class InternationalizationTest < IntegrationTestCase
       assert_file('app.rb', "require 'sinatra/r18n'")
       assert_file('config/environment.rb', 'register Sinatra::R18n')
       assert_file('i18n/en.yml')
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
 end

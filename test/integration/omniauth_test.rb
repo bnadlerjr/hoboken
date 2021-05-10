@@ -34,8 +34,6 @@ CODE
         end
       CODE
       )
-
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -81,16 +79,6 @@ CODE
   end
   # rubocop:enable Metrics/MethodLength
 
-  def test_omniauth_add_on_tests_pass
-    run_hoboken(:generate) do
-      bin_path = File.expand_path('../../bin/hoboken', __dir__)
-      execute("(echo 'twitter' && echo '0.0.1') | #{bin_path} add:omniauth")
-      execute('bundle install')
-      result = execute('rake test:all')
-      assert_match(/4 tests, 6 assertions, 0 failures, 0 errors/, result)
-    end
-  end
-
   # rubocop:disable Metrics/MethodLength
   def test_omniauth_add_on_specs
     run_hoboken(:generate, test_framework: 'rspec') do
@@ -99,12 +87,11 @@ CODE
       assert_file(
         'spec/app_spec.rb',
         <<~CODE
-          # rubocop:disable RSpec/DescribeClass
           RSpec.describe 'omniauth', rack: true do
-            before(:each) { OmniAuth.config.test_mode = true }
+            before { OmniAuth.config.test_mode = true }
 
             describe 'GET /login' do
-              before(:each) { get '/login' }
+              before { get '/login' }
 
               it { expect(last_response).to have_http_status(:ok) }
               it { expect(last_response).to have_content_type(:html) }
@@ -126,7 +113,7 @@ CODE
                 }
               end
 
-              before(:each) do
+              before do
                 OmniAuth.config.mock_auth[:twitter] = auth_hash
                 get '/auth/twitter/callback'
               end
@@ -140,7 +127,7 @@ CODE
             end
 
             describe 'GET /auth/failure' do
-              before(:each) do
+              before do
                 OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
                 get '/auth/failure'
               end
@@ -148,20 +135,9 @@ CODE
               it { expect(last_response).to have_http_status(:not_authorized) }
             end
           end
-          # rubocop:enable RSpec/DescribeClass
       CODE
       )
     end
   end
   # rubocop:enable Metrics/MethodLength
-
-  def test_omniauth_add_on_specs_pass
-    run_hoboken(:generate, test_framework: 'rspec') do
-      bin_path = File.expand_path('../../bin/hoboken', __dir__)
-      execute("(echo 'twitter' && echo '0.0.1') | #{bin_path} add:omniauth")
-      execute('bundle install')
-      result = execute('rake spec')
-      assert_match(/10 examples, 0 failures/, result)
-    end
-  end
 end

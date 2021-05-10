@@ -105,12 +105,12 @@ module Hoboken
         append_file('spec/app_spec.rb') do
           <<~CODE
 
-            # rubocop:disable RSpec/DescribeClass
+            # rubocop:disable Metrics/BlockLength
             RSpec.describe 'omniauth', rack: true do
-              before(:each) { OmniAuth.config.test_mode = true }
+              before { OmniAuth.config.test_mode = true }
 
               describe 'GET /login' do
-                before(:each) { get '/login' }
+                before { get '/login' }
 
                 it { expect(last_response).to have_http_status(:ok) }
                 it { expect(last_response).to have_content_type(:html) }
@@ -132,7 +132,7 @@ module Hoboken
                   }
                 end
 
-                before(:each) do
+                before do
                   OmniAuth.config.mock_auth[:#{provider}] = auth_hash
                   get '/auth/#{provider}/callback'
                 end
@@ -146,7 +146,7 @@ module Hoboken
               end
 
               describe 'GET /auth/failure' do
-                before(:each) do
+                before do
                   OmniAuth.config.mock_auth[:#{provider}] = :invalid_credentials
                   get '/auth/failure'
                 end
@@ -154,7 +154,7 @@ module Hoboken
                 it { expect(last_response).to have_http_status(:not_authorized) }
               end
             end
-            # rubocop:enable RSpec/DescribeClass
+            # rubocop:enable Metrics/BlockLength
           CODE
         end
       end

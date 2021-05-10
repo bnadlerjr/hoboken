@@ -23,8 +23,6 @@ class MetricsTest < IntegrationTestCase
 
       CODE
       )
-
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -48,8 +46,6 @@ class MetricsTest < IntegrationTestCase
 
       CODE
       )
-
-      assert_match(/no offenses detected/, execute('rubocop'))
     end
   end
   # rubocop:enable Metrics/MethodLength

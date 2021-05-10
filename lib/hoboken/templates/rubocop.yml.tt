@@ -12,6 +12,9 @@ AllCops:
     NewCops: enable
     TargetRubyVersion: <%= RUBY_VERSION %>
 
+Layout/LineLength:
+    Max: 90
+
 Layout/SpaceAroundEqualsInParameterDefault:
     EnforcedStyle: no_space
 
@@ -20,9 +23,14 @@ Metrics/ClassLength:
 
 Metrics/MethodLength:
     Max: 15
+<% if rspec? -%>
 
-Layout/LineLength:
-    Max: 90
+RSpec/DescribeClass:
+    Enabled: false
+
+RSpec/MultipleDescribes:
+    Enabled: false
+<% end -%>
 
 Style/BlockDelimiters:
     EnforcedStyle: braces_for_chaining
