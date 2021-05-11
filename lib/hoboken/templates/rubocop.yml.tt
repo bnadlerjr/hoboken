@@ -6,7 +6,6 @@ require:
 
 AllCops:
     Exclude:
-        - 'bin/*'
         - 'tmp/*'
         - 'vendor/bundle/**/*'
     NewCops: enable

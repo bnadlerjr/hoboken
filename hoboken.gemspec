@@ -46,8 +46,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rack_csrf', '~> 2.6'
   spec.add_development_dependency 'racksh', '~> 1.0'
   spec.add_development_dependency 'rack-test', '~> 1.1'
-  spec.add_development_dependency 'rb-fsevent', '~> 0.10'
-  spec.add_development_dependency 'rerun', '~> 0.13'
   spec.add_development_dependency 'rspec', '~> 3.10'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.2'
   spec.add_development_dependency 'sassc', '~> 2.4'

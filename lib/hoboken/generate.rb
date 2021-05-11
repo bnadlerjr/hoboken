@@ -64,7 +64,7 @@ module Hoboken
       empty_directory("#{snake_name}/bin")
       %w[console server setup].each do |f|
         target = "#{snake_name}/bin/#{f}"
-        copy_file("templates/#{f}.sh", target)
+        copy_file("templates/#{f}", target)
         chmod(target, 0o755)
       end
     end
