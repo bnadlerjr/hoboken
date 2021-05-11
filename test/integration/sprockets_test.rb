@@ -48,7 +48,6 @@ CODE
   # rubocop:enable Metrics/AbcSize
 
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def test_sprockets_add_on_modular
     run_hoboken(:generate, type: :modular) do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
@@ -89,5 +88,4 @@ CODE
     end
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 end

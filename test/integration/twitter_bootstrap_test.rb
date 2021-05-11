@@ -4,7 +4,6 @@ require_relative '../test_helper'
 
 class TwitterBootstrapTest < IntegrationTestCase
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def test_twitter_bootstrap_add_on_classic
     run_hoboken(:generate) do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
@@ -31,10 +30,8 @@ class TwitterBootstrapTest < IntegrationTestCase
     end
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def test_twitter_bootstrap_add_on_modular
     run_hoboken(:generate, type: :modular) do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
@@ -61,7 +58,6 @@ class TwitterBootstrapTest < IntegrationTestCase
     end
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   def test_twitter_bootstrap_add_on_without_sprockets
     run_hoboken(:generate) do
