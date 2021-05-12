@@ -10,6 +10,30 @@ module Hoboken
         gem 'sqlite3', version: '1.4', group: %i[development test]
       end
 
+      def make_environment_variable_required
+        gsub_file('config/environment.rb', /Dotenv\.require_keys\(/) do
+          "Dotenv.require_keys('DATABASE_URL', "
+        end
+      end
+
+      def update_readme
+        insert_into_file('README.md', after: /SESSION_SECRET=secret\n/) do
+          "DATABASE_URL=sqlite://db/development.db\n"
+        end
+
+        snippet =
+          <<~TEXT
+            <tr>
+                <td>DATABASE_URL</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Database connection URL.</td>
+            </tr>
+          TEXT
+
+        insert_into_file('README.md', after: /<tbody>\n/) { indent(snippet, 9) }
+      end
+
       def setup_directories
         empty_directory('db/migrate')
         empty_directory('tasks')
