@@ -5,6 +5,7 @@ require 'bundler/setup'
 unless 'production' == ENV['RACK_ENV']
   require 'dotenv'
   Dotenv.load
+  Dotenv.require_keys('SESSION_SECRET')
 end
 
 require_relative '../app'

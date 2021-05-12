@@ -8,6 +8,8 @@ class OmniauthTest < IntegrationTestCase
     run_hoboken(:generate) do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
       execute("(echo 'twitter' && echo '0.0.1') | #{bin_path} add:omniauth")
+      execute('echo "\nTWITTER_KEY=foo" >> .env')
+      execute('echo "TWITTER_SECRET=bar" >> .env')
       assert_file('Gemfile', 'omniauth-twitter')
       assert_file('app.rb', /require 'omniauth-twitter'/)
       assert_file('app.rb', %r{require 'sinatra/json'})
@@ -43,6 +45,8 @@ CODE
     run_hoboken(:generate) do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
       execute("(echo 'twitter' && echo '0.0.1') | #{bin_path} add:omniauth")
+      execute('echo "\nTWITTER_KEY=foo" >> .env')
+      execute('echo "TWITTER_SECRET=bar" >> .env')
       assert_file('test/unit/app_test.rb', <<-CODE
   setup do
     OmniAuth.config.test_mode = true
@@ -84,6 +88,8 @@ CODE
     run_hoboken(:generate, test_framework: 'rspec') do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
       execute("(echo 'twitter' && echo '0.0.1') | #{bin_path} add:omniauth")
+      execute('echo "\nTWITTER_KEY=foo" >> .env')
+      execute('echo "TWITTER_SECRET=bar" >> .env')
       assert_file(
         'spec/app_spec.rb',
         <<~CODE

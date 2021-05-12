@@ -13,6 +13,41 @@ module Hoboken
         gem gem_name, version: provider_version
       end
 
+      def make_environment_variables_required
+        gsub_file('config/environment.rb', /Dotenv\.require_keys\(/) do
+          "Dotenv.require_keys('#{provider.upcase}_KEY', '#{provider.upcase}_SECRET', "
+        end
+      end
+
+      # rubocop:disable Metrics/MethodLength
+      def update_readme
+        insert_into_file('README.md', after: /SESSION_SECRET=secret\n/) do
+          <<~TEXT
+            #{provider.upcase}_KEY=CHANGE_ME
+            #{provider.upcase}_SECRET=CHANGE_ME
+          TEXT
+        end
+
+        snippet =
+          <<~TEXT
+            <tr>
+                <td>#{provider.upcase}_KEY</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>TODO: Insert description of where to obtain Omniauth key for #{provider}.</td>
+            </tr>
+            <tr>
+                <td>#{provider.upcase}_SECRET</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>TODO: Insert description of where to obtain Omniauth secret for #{provider}.</td>
+            </tr>
+          TEXT
+
+        insert_into_file('README.md', after: /<tbody>\n/) { indent(snippet, 9) }
+      end
+      # rubocop:enable Metrics/MethodLength
+
       def setup_middleware
         insert_into_file('app.rb', after: %r{require 'sinatra('|/base')}) do
           "\nrequire '#{gem_name}'\nrequire 'sinatra/json'\n"

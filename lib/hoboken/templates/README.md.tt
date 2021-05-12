@@ -44,6 +44,7 @@ Environment variables are used for project configuration. For local development,
 
 ```
 RACK_ENV=development
+SESSION_SECRET=secret
 ```
 
 Here is a table containing all available environment variable configuration options and their descriptions.
@@ -75,6 +76,12 @@ Here is a table containing all available environment variable configuration opti
             <td>No</td>
             <td>production</td>
             <td>Web server environment (i.e. development, test, production, etc.)</td>
+        </tr>
+        <tr>
+            <td>SESSION_SECRET</td>
+            <td>Yes</td>
+            <td>None</td>
+            <td>Secret value that will be used to sign/encrypt cookies. For development and test environments this can be a simple text string. For production environments one should be generated (i.e. <pre>head -c20 /dev/urandom | base64</pre>). For more information about session secrests in production environments, see Jack Singleton's article on <a href="https://martinfowler.com/articles/session-secret.html">Martin Fowler's</a> website.</td>
         </tr>
         <tr>
             <td>WEB_CONCURRENCY</td>
