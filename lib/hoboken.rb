@@ -39,7 +39,6 @@ module Hoboken
   require_relative 'hoboken/add_ons/rubocop'
   require_relative 'hoboken/add_ons/sequel'
   require_relative 'hoboken/add_ons/sidekiq'
-  require_relative 'hoboken/add_ons/sprockets'
   require_relative 'hoboken/add_ons/travis'
   require_relative 'hoboken/add_ons/twbs'
 
@@ -111,13 +110,6 @@ module Hoboken
     )
 
     register(
-      AddOns::Sprockets,
-      'add:sprockets',
-      'add:sprockets',
-      'Rack-based asset packaging system'
-    )
-
-    register(
       AddOns::Travis,
       'add:travis',
       'add:travis',
@@ -128,7 +120,7 @@ module Hoboken
       AddOns::TwitterBootstrap,
       'add:twbs',
       'add:twbs',
-      'Twitter Bootstrap (requires Sprockets add-on)'
+      'Twitter Bootstrap'
     )
 
     def self.exit_on_failure?

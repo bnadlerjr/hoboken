@@ -14,6 +14,7 @@ class GenerateClassicTest < IntegrationTestCase
       assert_file 'Rakefile'
       assert_file 'app.rb', /require 'sinatra'/
       assert_file 'app.rb', %r{require 'sinatra/flash'}
+      assert_file 'app.rb', %r{require 'sinatra/asset_pipeline'}
       assert_file 'app.rb', /require 'erubi'/
       assert_file 'app.rb', /erb :index/
       assert_file_does_not_have_content 'app.rb', /json message:/
@@ -23,6 +24,7 @@ class GenerateClassicTest < IntegrationTestCase
       assert_file 'config.ru', /run Sinatra::Application/
       assert_file 'config/environment.rb', /set :erb, { escape_html: true }/
       assert_file 'config/environment.rb', /require 'better_errors'/
+      assert_directory 'assets'
       assert_directory 'public'
       assert_directory 'test'
       assert_file 'views/index.erb'
@@ -34,7 +36,6 @@ class GenerateClassicTest < IntegrationTestCase
 
   def test_generate_classic_tiny
     run_hoboken(:generate, tiny: true) do
-      refute_directory('public')
       assert_file 'app.rb', /__END__/, /@@layout/, /@@index/
     end
   end

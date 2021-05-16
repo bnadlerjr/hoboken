@@ -9,9 +9,19 @@ gem 'erubi', '~> 1.10'
 gem 'puma', '~> 5.2'
 gem 'rack_csrf', '~> 2.6'
 gem 'sinatra', '~> 2.1'
+<% unless options[:api_only] -%>
+gem 'sinatra-asset-pipeline', '~> 2.2'
+<% end -%>
 gem 'sinatra-contrib', '~> 2.1'
 <% unless options[:api_only] -%>
 gem 'sinatra-flash', '~> 0.3'
+<% end -%>
+<% unless options[:api_only] -%>
+
+group :assets do
+  gem 'sassc', '~> 2.4'
+  gem 'uglifier', '~> 4.2'
+end
 <% end -%>
 
 group :development do
@@ -20,7 +30,7 @@ group :development do
   gem 'dotenv', '~> 2.7'
   gem 'pry-byebug', '~> 3.9'
   gem 'racksh', '~> 1.0'
-  gem 'rake', '~> 13.0'
+  gem 'rake', '~> 12.3'
 end
 
 group :test do

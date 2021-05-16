@@ -1,6 +1,6 @@
 <div class="wrapper">
   <h1>Hoboken</h1>
-  <img src="img/hoboken.png" />
+  <img src="<%%= image_path('images/hoboken.png') %>" />
   <div class="main">
     <h2>Getting Started</h2>
     <p>Smoke test successful!</p>

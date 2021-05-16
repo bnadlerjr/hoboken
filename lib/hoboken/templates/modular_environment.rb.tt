@@ -27,6 +27,17 @@ module <%= camel_name %>
 
       register Sinatra::Flash
 <% end -%>
+<% unless options[:api_only] -%>
+      set :assets_precompile, %w[
+        javascripts/app.js
+        stylesheets/styles.scss
+        *.png *.jpg *.svg *.eot *.ttf *.woff *.woff2
+      ]
+      set :assets_paths, %w[assets vendor] + Sprockets.paths
+      set :assets_css_compressor, :scss
+      set :assets_js_compressor, Uglifier.new(harmony: true)
+      register Sinatra::AssetPipeline
+<% end -%>
     end
 
     configure :development do

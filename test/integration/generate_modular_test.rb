@@ -38,7 +38,6 @@ class GenerateModularTest < IntegrationTestCase
     # if `enable :inline_templates is set. This is a bit of an edge case since
     # most apps with inline templates are of the classic variety.
     run_hoboken(:generate, run_tests: false, tiny: true, type: :modular) do
-      refute_directory('public')
       assert_file 'app.rb', /__END__/, /@@layout/, /@@index/
     end
   end

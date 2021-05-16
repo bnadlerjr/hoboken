@@ -5,10 +5,17 @@ require 'erubi'
 <% end -%>
 require 'rack/csrf'
 require 'sinatra/base'
+<% unless options[:api_only] -%>
+require 'sinatra/asset_pipeline'
+<% end -%>
 <% if options[:api_only] -%>
 require 'sinatra/json'
 <% else -%>
 require 'sinatra/flash'
+<% end -%>
+<% unless options[:api_only] -%>
+require 'sinatra/sprockets-helpers'
+require 'uglifier'
 <% end -%>
 
 Dir.glob(File.join('helpers', '**', '*.rb')).each do |helper|

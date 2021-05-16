@@ -41,7 +41,7 @@ footer {
   text-align: center;
 }
 .wrapper {
-  background: url("../img/sinatra.png") no-repeat bottom right;
+  background: url("../images/sinatra.png") no-repeat bottom right;
   width: 1280px;
   margin: 0 auto;
 }

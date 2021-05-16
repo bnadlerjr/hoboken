@@ -53,13 +53,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sidekiq', '~> 6.2'
   spec.add_development_dependency 'simplecov', '~> 0.21'
   spec.add_development_dependency 'sinatra', '~> 2.1'
+  spec.add_development_dependency 'sinatra-asset-pipeline', '~> 2.2'
   spec.add_development_dependency 'sinatra-contrib', '~> 2.1'
   spec.add_development_dependency 'sinatra-flash', '~> 0.3'
   spec.add_development_dependency 'sinatra-r18n', '~> 5.0'
-  spec.add_development_dependency 'sprockets', '~> 4.0'
   spec.add_development_dependency 'sqlite3', '~> 1.4'
   spec.add_development_dependency 'uglifier', '~> 4.2'
-  spec.add_development_dependency 'yui-compressor', '~> 0.12'
 
   spec.add_dependency 'thor', '~> 1.1'
 end

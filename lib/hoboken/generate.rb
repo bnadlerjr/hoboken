@@ -83,19 +83,20 @@ module Hoboken
       apply_template('views/index.erb.tt', 'views/index.erb')
     end
 
-    def public_folder
-      return if options[:tiny] || options[:api_only]
+    def asset_pipeline
+      return if options[:api_only]
 
       inside snake_name do
+        empty_directory('assets')
         empty_directory('public')
-        %w[css img js].each { |f| empty_directory("public/#{f}") }
+        %w[stylesheets images javascripts].each { |f| empty_directory("assets/#{f}") }
       end
 
-      apply_template('styles.css.tt', 'public/css/styles.css')
-      create_file("#{snake_name}/public/js/app.js", '')
+      apply_template('styles.css.tt', 'assets/stylesheets/styles.scss')
+      create_file("#{snake_name}/assets/javascripts/app.js", '')
 
       %w[favicon hoboken sinatra].each do |f|
-        copy_file("templates/#{f}.png", "#{snake_name}/public/img/#{f}.png")
+        copy_file("templates/#{f}.png", "#{snake_name}/assets/images/#{f}.png")
       end
     end
 

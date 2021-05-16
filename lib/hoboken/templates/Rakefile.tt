@@ -1,4 +1,15 @@
 # frozen_string_literal: true
+<% unless options[:api_only] -%>
+
+require 'sinatra/asset_pipeline/task'
+require_relative 'config/environment'
+
+<% if 'modular' == options[:type] -%>
+Sinatra::AssetPipeline::Task.define! <%= camel_name %>::App
+<% else -%>
+Sinatra::AssetPipeline::Task.define! Sinatra::Application
+<% end -%>
+<% end -%>
 
 # Import any external rake tasks
 Dir.glob('tasks/*.rake').each { |r| import r }
