@@ -18,7 +18,11 @@ module Hoboken
       end
 
       def reminders
-        say "\nGemfile updated... don't forget to 'bundle install'"
+        say <<~TEXT
+          Ready to deploy to Heroku. See the Heroku docs[1] for details.
+
+          [1]: https://devcenter.heroku.com/articles/rack
+        TEXT
       end
     end
   end
