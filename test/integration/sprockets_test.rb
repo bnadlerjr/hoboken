@@ -20,7 +20,7 @@ class SprocketsTest < IntegrationTestCase
   require File.expand_path('middleware/sprockets_chain', settings.root)
   use Middleware::SprocketsChain, %r{/assets} do |env|
     %w[assets vendor].each do |f|
-      env.append_path File.expand_path("../\#{f}", __FILE__)
+      env.append_path File.expand_path("../../\#{f}", __FILE__)
     end
   end
 CODE
@@ -64,7 +64,7 @@ CODE
       require File.expand_path('middleware/sprockets_chain', settings.root)
       use Middleware::SprocketsChain, %r{/assets} do |env|
         %w[assets vendor].each do |f|
-          env.append_path File.expand_path("../\#{f}", __FILE__)
+          env.append_path File.expand_path("../../\#{f}", __FILE__)
         end
       end
 CODE
