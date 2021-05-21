@@ -43,7 +43,7 @@ module <%= camel_name %>
     configure :development do
       require 'better_errors'
       use BetterErrors::Middleware
-      BetterErrors.application_root = __dir__
+      BetterErrors.application_root = File.expand_path('..', __dir__)
     end
 
     configure :test do
