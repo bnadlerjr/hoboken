@@ -29,7 +29,7 @@ module Hoboken
 
       def ci_task
         task_list = if rspec?
-                      '%w[rspec rubocop]'
+                      '%w[spec rubocop]'
                     else
                       "['test:all', 'rubocop']"
                     end
