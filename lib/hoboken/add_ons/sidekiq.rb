@@ -122,6 +122,8 @@ module Hoboken
 
           Gemfile updated... don't forget to 'bundle install'
 
+          You can configure a Sidekiq error handing service in `config/sidekiq.rb`.
+
           Sidekiq UI is available at '/sidekiq'. In production environments
           the UI is protected with HTTP Basic Auth. Don't forget to set
           `SIDEKIQ_USERNAME` and `SIDEKIQ_PASSWORD` in your production
