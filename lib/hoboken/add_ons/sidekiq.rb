@@ -88,6 +88,35 @@ module Hoboken
         end
       end
 
+      # rubocop:disable Metrics/MethodLength
+      def update_readme
+        snippet = <<~CODE
+          <tr>
+              <td>REDIS_URL</td>
+              <td>Yes</td>
+              <td>localhost:6379</td>
+              <td>Redis connection URL</td>
+          </tr>
+          <tr>
+              <td>SIDEKIQ_PASSWORD</td>
+              <td>Production Only</td>
+              <td>None</td>
+              <td>Password for SidekiqUI Basic Auth</td>
+          </tr>
+          <tr>
+              <td>SIDEKIQ_USERNAME</td>
+              <td>Production Only</td>
+              <td>None</td>
+              <td>Username for SidekiqUI Basic Auth</td>
+          </tr>
+        CODE
+
+        insert_into_file('README.md', after: /<tbody>\n/) do
+          indent(snippet, 8)
+        end
+      end
+      # rubocop:enable Metrics/MethodLength
+
       def reminders
         text = <<~TEXT
 
