@@ -77,6 +77,12 @@ Here is a table containing all available environment variable configuration opti
             <td>Web server environment (i.e. development, test, production, etc.)</td>
         </tr>
         <tr>
+            <td>SESSION_SECRET</td>
+            <td>Yes</td>
+            <td>None</td>
+            <td>Key used for signing and/or encrypting cookies set by the application to maintain session state</td>
+        </tr>
+        <tr>
             <td>WEB_CONCURRENCY</td>
             <td>No</td>
             <td>1</td>
