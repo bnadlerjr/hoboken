@@ -16,6 +16,14 @@ Layout/LineLength:
 
 Layout/SpaceAroundEqualsInParameterDefault:
     EnforcedStyle: no_space
+<% if rspec? -%>
+
+Metrics/BlockLength:
+    IgnoredMethods:
+        - describe
+        - context
+        - it
+<% end -%>
 
 Metrics/ClassLength:
     Max: 150
