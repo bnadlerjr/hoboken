@@ -33,7 +33,6 @@ TODO: Project description.
 
 The following pre-requisites are needed to build this project:
 * Ruby <%= RUBY_VERSION %>
-* [Bundler](https://bundler.io/)
 
 After cloning this repository, the project can be setup by running the `./bin/setup` script. This script will install dependencies and perform any other required setup tasks.
 
