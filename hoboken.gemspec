@@ -58,6 +58,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sinatra-flash', '~> 0.3'
   spec.add_development_dependency 'sinatra-r18n', '~> 5.0'
   spec.add_development_dependency 'sqlite3', '~> 1.4'
+  spec.add_development_dependency 'turnip', '~> 4.3'
   spec.add_development_dependency 'uglifier', '~> 4.2'
 
   spec.add_dependency 'thor', '~> 1.1'
