@@ -4,9 +4,12 @@
 
 TODO: Project description.
 
-* TODO: a list of
-* high level features
-* ...
+### Features
+#### Feature A
+TODO: Describe feature.
+
+#### Feature B
+TODO: Describe feature.
 
 ### Links
 * [Production](TODO)
@@ -43,6 +46,7 @@ Environment variables are used for project configuration. For local development,
 
 ```
 RACK_ENV=development
+SESSION_SECRET=changeme
 ```
 
 Here is a table containing all available environment variable configuration options and their descriptions.
@@ -98,7 +102,7 @@ This project has the following default behavior:
 * [erubi](https://github.com/jeremyevans/erubi) for templating; escaping is done by default
 * [Rack::Csrf](http://rubygems.org/gems/rack_csrf") is turned on by default
 * environment variable support via the [dotenv](http://rubygems.org/gems/dotenv) gem
-* Procfile for [foreman](https://github.com/ddollar/foreman) support; if foreman is not installed uses rackup instead
+* Procfile for [foreman](https://github.com/ddollar/foreman) support
 * code reloading via the [rerun](https://github.com/alexch/rerun) gem is enabled for the development environment
 * [pry-byebug](https://github.com/deivid-rodriguez/pry-byebug") is installed for debugging
 
