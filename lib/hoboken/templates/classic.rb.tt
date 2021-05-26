@@ -18,10 +18,6 @@ require 'sinatra/sprockets-helpers'
 require 'uglifier'
 <% end -%>
 
-Dir.glob(File.join('helpers', '**', '*.rb')).each do |helper|
-  require_relative helper
-end
-
 <% if options[:api_only] -%>
 get '/' do
   json message: 'Smoke test successful!'
