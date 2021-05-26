@@ -20,14 +20,13 @@ module <%= camel_name %>
 <% end -%>
 
       enable :logging
+<% unless options[:api_only] -%>
 
       use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
       use Rack::Csrf, raise: true
-<% unless options[:api_only] -%>
 
       register Sinatra::Flash
-<% end -%>
-<% unless options[:api_only] -%>
+
       set :assets_precompile, %w[
         javascripts/app.js
         stylesheets/styles.scss

@@ -10,13 +10,14 @@ end
 require_relative '../app'
 
 configure do
+<% if options[:api_only] -%>
+  # Configuration common to all environments goes here...
+<% else -%>
   use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
   use Rack::Csrf, raise: true
-<% unless options[:api_only] -%>
 
   set :erb, { escape_html: true }
-<% end -%>
-<% unless options[:api_only] -%>
+
   set :assets_precompile, %w[
     javascripts/app.js
     stylesheets/styles.scss

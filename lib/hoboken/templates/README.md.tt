@@ -100,8 +100,10 @@ This project has the following default behavior:
 
 * helpers scripts for common project actions; refer to the `bin` folder
 * uses [Puma](https://github.com/puma/puma) as the default web server
+<% unless options[:api_only] -%>
 * [erubi](https://github.com/jeremyevans/erubi) for templating; escaping is done by default
 * [Rack::Csrf](http://rubygems.org/gems/rack_csrf") is turned on by default
+<% end -%>
 * environment variable support via the [dotenv](http://rubygems.org/gems/dotenv) gem
 * Procfile for [foreman](https://github.com/ddollar/foreman) support
 * code reloading via the [rerun](https://github.com/alexch/rerun) gem is enabled for the development environment
