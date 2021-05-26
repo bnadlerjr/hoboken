@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+require_relative 'spec_helper'
+
+Dir.glob('spec/support/steps/**/*_steps.rb') { |f| load f, true }
+
+RSpec.configure do |config|
+  config.raise_error_for_unimplemented_steps = true
+  config.include RackHelpers, feature: true
+end

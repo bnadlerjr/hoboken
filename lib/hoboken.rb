@@ -40,6 +40,7 @@ module Hoboken
   require_relative 'hoboken/add_ons/sequel'
   require_relative 'hoboken/add_ons/sidekiq'
   require_relative 'hoboken/add_ons/travis'
+  require_relative 'hoboken/add_ons/turnip'
   require_relative 'hoboken/add_ons/twbs'
 
   # Hoboken's command-line interface.
@@ -114,6 +115,13 @@ module Hoboken
       'add:travis',
       'add:travis',
       'Basic Travis-CI YAML config'
+    )
+
+    register(
+      AddOns::Turnip,
+      'add:turnip',
+      'add:turnip',
+      'Gherkin extension for RSpec'
     )
 
     register(
