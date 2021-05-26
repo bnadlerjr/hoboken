@@ -42,11 +42,12 @@ After cloning this repository, the project can be setup by running the `./bin/se
 Once setup is complete, you can start a local development server by running the `./bin/server` script. Additionally, you can start a development console using the `./bin/console` script. The console uses the [racksh](https://github.com/sickill/racksh) gem which exposes a `$rack` variable that can be used to make simulated HTTP requests.
 
 ## Configuration
-Environment variables are used for project configuration. For local development, the `.env` file is used. Below is a sample `.env` file that contains the minimum required configuration.
+Environment variables are used for project configuration. For local development, the `.env` file is used. A sample file is shown below.
 
 ```
+PORT=9292
 RACK_ENV=development
-SESSION_SECRET=changeme
+SESSION_SECRET=secret
 ```
 
 Here is a table containing all available environment variable configuration options and their descriptions.
