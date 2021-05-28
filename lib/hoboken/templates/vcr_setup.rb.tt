@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+require 'vcr'
+
+VCR.configure do |c|
+<% if rspec? -%>
+  c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+<% else -%>
+  c.cassette_library_dir = 'test/fixtures/vcr_cassettes'
+<% end -%>
+  c.hook_into :webmock
+<% if rspec? -%>
+  c.configure_rspec_metadata!
+<% end -%>
+end

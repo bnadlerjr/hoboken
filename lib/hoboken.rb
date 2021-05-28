@@ -42,6 +42,7 @@ module Hoboken
   require_relative 'hoboken/add_ons/travis'
   require_relative 'hoboken/add_ons/turnip'
   require_relative 'hoboken/add_ons/twbs'
+  require_relative 'hoboken/add_ons/vcr'
 
   # Hoboken's command-line interface.
   #
@@ -129,6 +130,13 @@ module Hoboken
       'add:twbs',
       'add:twbs',
       'Twitter Bootstrap'
+    )
+
+    register(
+      AddOns::Vcr,
+      'add:vcr',
+      'add:vcr',
+      'Record HTTP interactions and replay them during test runs'
     )
 
     def self.exit_on_failure?

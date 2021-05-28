@@ -60,6 +60,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sqlite3', '~> 1.4'
   spec.add_development_dependency 'turnip', '~> 4.3'
   spec.add_development_dependency 'uglifier', '~> 4.2'
+  spec.add_development_dependency 'vcr', '~> 6.0'
+  spec.add_development_dependency 'webmock', '~> 3.13'
 
   spec.add_dependency 'thor', '~> 1.1'
 end
