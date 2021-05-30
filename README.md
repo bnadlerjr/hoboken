@@ -48,9 +48,11 @@ Additional generators are available for existing projects generated using Hoboke
     $ hoboken add:omniauth         # OmniAuth authentication (allows you to select a provider)
     $ hoboken add:rubocop          # Basic Rubocop configuration and Rake task.
     $ hoboken add:sequel           # Database access via Sequel gem
-    $ hoboken add:sprockets        # Rack-based asset packaging system
+    $ hoboken add:sidekiq          # Background processing with the Sidekiq gem
     $ hoboken add:travis           # Basic Travis-CI YAML config
+    $ hoboken add:turnip           # Gherkin extension for RSpec
     $ hoboken add:twbs             # Twitter Bootstrap (requires Sprockets add-on)
+    $ hoboken add:vcr              # Record HTTP interactions and replay them during test runs
 
 ### Documentation
 
