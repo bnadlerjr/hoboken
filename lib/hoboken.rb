@@ -31,6 +31,7 @@ module Hoboken
     end
   end
 
+  require_relative 'hoboken/add_ons/airbrake'
   require_relative 'hoboken/add_ons/github_action'
   require_relative 'hoboken/add_ons/heroku'
   require_relative 'hoboken/add_ons/internationalization'
@@ -56,10 +57,10 @@ module Hoboken
     tasks['generate'].options = Hoboken::Generate.class_options
 
     register(
-      AddOns::Heroku,
-      'add:heroku',
-      'add:heroku',
-      'Heroku deployment support'
+      AddOns::Airbrake,
+      'add:airbrake',
+      'add:airbrake',
+      'Support for official Airbrake library for Ruby applications'
     )
 
     register(
@@ -67,6 +68,13 @@ module Hoboken
       'add:github_action',
       'add:github_action',
       'Github action that runs CI task'
+    )
+
+    register(
+      AddOns::Heroku,
+      'add:heroku',
+      'add:heroku',
+      'Heroku deployment support'
     )
 
     register(
