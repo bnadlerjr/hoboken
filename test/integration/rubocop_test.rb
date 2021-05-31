@@ -26,4 +26,14 @@ class RubocopTest < IntegrationTestCase
       assert_file('.rubocop.yml', '- rubocop-rspec')
     end
   end
+
+  def test_rubocop_with_sequel_add_on
+    run_hoboken(:generate, run_tests: false) do
+      bin_path = File.expand_path('../../bin/hoboken', __dir__)
+      execute("#{bin_path} add:sequel")
+      execute("#{bin_path} add:rubocop")
+      assert_file('Gemfile', /rubocop/, /rubocop-sequel/)
+      assert_file('.rubocop.yml', '- rubocop-sequel')
+    end
+  end
 end

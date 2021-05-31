@@ -3,6 +3,9 @@ require:
 <% if rspec? -%>
     - rubocop-rspec
 <% end -%>
+<% if sequel? -%>
+    - rubocop-sequel
+<% end -%>
 
 AllCops:
     Exclude:
