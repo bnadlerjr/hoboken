@@ -8,6 +8,7 @@ module Hoboken
       def add_gems
         gem 'sequel', version: '5.43'
         gem 'sqlite3', version: '1.4', group: %i[development test]
+        gem 'rubocop-sequel', version: '0.2', group: %i[development test] if rubocop?
       end
 
       def setup_directories
@@ -94,6 +95,14 @@ module Hoboken
         end
       end
       # rubocop:enable Metrics/MethodLength
+
+      def update_rubocop_config
+        return unless rubocop?
+
+        insert_into_file('.rubocop.yml', after: /require:\n/) do
+          "    - rubocop-sequel\n"
+        end
+      end
 
       def reminders
         say "\nGemfile updated... don't forget to 'bundle install'"

@@ -61,4 +61,14 @@ class SequelTest < IntegrationTestCase
     end
   end
   # rubocop:enable Metrics/MethodLength
+
+  def test_sequel_add_on_with_rubocop
+    run_hoboken(:generate) do
+      bin_path = File.expand_path('../../bin/hoboken', __dir__)
+      execute("#{bin_path} add:rubocop")
+      execute("#{bin_path} add:sequel")
+      assert_file('Gemfile', /rubocop-sequel/)
+      assert_file('.rubocop.yml', /- rubocop-sequel/)
+    end
+  end
 end

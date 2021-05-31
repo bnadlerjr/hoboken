@@ -29,6 +29,14 @@ module Hoboken
     def rspec?
       Dir.exist?('spec')
     end
+
+    def rubocop?
+      File.exist?('.rubocop.yml')
+    end
+
+    def sequel?
+      File.exist?('tasks/sequel.rake')
+    end
   end
 
   require_relative 'hoboken/add_ons/airbrake'
