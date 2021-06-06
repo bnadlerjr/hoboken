@@ -17,6 +17,7 @@ class MetricsTest < IntegrationTestCase
         SimpleCov.start do
           add_filter '/bin/'
           add_filter '/config/'
+          add_filter '/db/migrate/'
           add_filter '/test/'
           coverage_dir 'tmp/coverage'
         end
@@ -40,6 +41,7 @@ class MetricsTest < IntegrationTestCase
         SimpleCov.start do
           add_filter '/bin/'
           add_filter '/config/'
+          add_filter '/db/migrate/'
           add_filter '/spec/'
           coverage_dir 'tmp/coverage'
         end

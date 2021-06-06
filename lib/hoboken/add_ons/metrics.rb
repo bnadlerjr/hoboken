@@ -44,6 +44,7 @@ module Hoboken
           SimpleCov.start do
             add_filter '/bin/'
             add_filter '/config/'
+            add_filter '/db/migrate/'
             add_filter '/#{framework_folder}/'
             coverage_dir 'tmp/coverage'
           end
