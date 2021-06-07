@@ -21,9 +21,13 @@ module Hoboken
           <<~TEXT
             # frozen_string_literal: true
 
-            require 'rubocop/rake_task'
-
-            RuboCop::RakeTask.new
+            begin
+              require 'rubocop/rake_task'
+              RuboCop::RakeTask.new
+            # rubocop:disable Lint/SuppressedException
+            rescue LoadError
+            end
+            # rubocop:enable Lint/SuppressedException
           TEXT
         end
       end
