@@ -14,7 +14,9 @@ configure do
   # Configuration common to all environments goes here...
 <% else -%>
   use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
-  use Rack::Csrf, raise: true
+  use Rack::Csrf, raise: true, skip_if: proc {
+    'test' == ENV.fetch('RACK_ENV', 'production')
+  }
 
   set :erb, { escape_html: true }
 

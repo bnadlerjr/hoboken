@@ -23,7 +23,9 @@ module <%= camel_name %>
 <% unless options[:api_only] -%>
 
       use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
-      use Rack::Csrf, raise: true
+      use Rack::Csrf, raise: true, skip_if: proc {
+        'test' == ENV.fetch('RACK_ENV', 'production')
+      }
 
       register Sinatra::Flash
 
