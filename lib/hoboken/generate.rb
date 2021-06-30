@@ -182,7 +182,7 @@ module Hoboken
         end
       else
         say "\nYou asked that a Git repository be created for the " \
-          'project, but no Git executable could be found.'
+            'project, but no Git executable could be found.'
       end
     end
 

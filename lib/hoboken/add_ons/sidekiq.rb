@@ -81,10 +81,10 @@ module Hoboken
       def add_worker_to_procfile
         append_file('Procfile') do
           "\nworker: bundle exec sidekiq " \
-          '-r ./config/sidekiq.rb ' \
-          '-e $RACK_ENV ' \
-          '-c ${MAX_THREADS:-5} ' \
-          "-v\n"
+            '-r ./config/sidekiq.rb ' \
+            '-e $RACK_ENV ' \
+            '-c ${MAX_THREADS:-5} ' \
+            "-v\n"
         end
       end
 

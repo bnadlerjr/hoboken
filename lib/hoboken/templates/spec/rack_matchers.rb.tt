@@ -7,8 +7,8 @@ RSpec::Matchers.define :have_http_status do |expected|
 
   failure_message do |response|
     'expected last response status to be ' \
-    "#{response_codes.fetch(expected, 'unknown')}, " \
-    "but was #{response.status}"
+      "#{response_codes.fetch(expected, 'unknown')}, " \
+      "but was #{response.status}"
   end
 
   def response_codes
@@ -28,8 +28,8 @@ RSpec::Matchers.define :have_content_type do |expected|
 
   failure_message do |response|
     'expected last response to have content type ' \
-    "'#{content_types.fetch(expected, 'unknown')}', " \
-    "but was '#{response.content_type}'"
+      "'#{content_types.fetch(expected, 'unknown')}', " \
+      "but was '#{response.content_type}'"
   end
 
   def content_types
@@ -47,7 +47,7 @@ RSpec::Matchers.define :redirect_to do |expected|
 
   failure_message do |response|
     "expected last response to redirect to '#{expected}', " \
-    "but it redirected to '#{path(response)}'"
+      "but it redirected to '#{path(response)}'"
   end
 
   def path(response)
