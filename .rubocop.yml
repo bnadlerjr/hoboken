@@ -32,6 +32,9 @@ RSpec/DescribeClass:
 RSpec/MultipleDescribes:
     Enabled: false
 
+RSpec/Rails/AvoidSetupHook:
+    Enabled: false
+
 Style/BlockDelimiters:
     EnforcedStyle: braces_for_chaining
 
