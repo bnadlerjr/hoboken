@@ -5,9 +5,11 @@ module Rack
     module Assertions
       RESPONSE_CODES = {
         ok: 200,
+        no_content: 204,
         not_authorized: 401,
         not_found: 404,
-        redirect: 302
+        redirect: 302,
+        server_error: 500
       }.freeze
 
       CONTENT_TYPES = {

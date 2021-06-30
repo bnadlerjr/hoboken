@@ -14,9 +14,11 @@ RSpec::Matchers.define :have_http_status do |expected|
   def response_codes
     {
       ok: 200,
+      no_content: 204,
       not_authorized: 401,
       not_found: 404,
-      redirect: 302
+      redirect: 302,
+      server_error: 500
     }.freeze
   end
 end
