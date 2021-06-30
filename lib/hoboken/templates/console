@@ -11,5 +11,9 @@ end
 
 FileUtils.chdir APP_ROOT do
   puts '== Starting application console =='
+  puts 'Console supports racksh. A `$rack` global variable is provided for'
+  puts "making simulated requests (i.e. `$rack.get '/'`)."
+  puts "\nSee the racksh gem for more details."
+  puts "https://github.com/sickill/racksh\n\n"
   system! 'bundle exec racksh'
 end
