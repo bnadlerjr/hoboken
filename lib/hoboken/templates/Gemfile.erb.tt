@@ -10,6 +10,7 @@ gem 'puma', '~> 5.2'
 <% unless options[:api_only] -%>
 gem 'rack_csrf', '~> 2.6'
 <% end -%>
+gem 'rake', '~> 12.3'
 gem 'sinatra', '~> 2.1'
 <% unless options[:api_only] -%>
 gem 'sinatra-asset-pipeline', '~> 2.2'
@@ -32,7 +33,6 @@ group :development do
   gem 'dotenv', '~> 2.7'
   gem 'pry-byebug', '~> 3.9'
   gem 'racksh', '~> 1.0'
-  gem 'rake', '~> 12.3'
 end
 
 group :test do
