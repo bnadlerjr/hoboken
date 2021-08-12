@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'airbrake', '~> 11.0'
   spec.add_development_dependency 'better_errors', '~> 2.9'
   spec.add_development_dependency 'binding_of_caller', '~> 1.0'
-  spec.add_development_dependency 'bootstrap', '~> 5.0.0.beta3'
+  spec.add_development_dependency 'bootstrap', '~> 5.1.0'
   spec.add_development_dependency 'contest', '~> 0.1'
   spec.add_development_dependency 'dotenv', '~> 2.7'
   spec.add_development_dependency 'erubi', '~> 1.10'
