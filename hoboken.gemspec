@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   #
   # a) We can get Dependabot notifications for them
   # b) We can run tests for generated projects
-  spec.add_development_dependency 'airbrake', '~> 11.0'
+  spec.add_development_dependency 'airbrake', '~> 12.0'
   spec.add_development_dependency 'better_errors', '~> 2.9'
   spec.add_development_dependency 'binding_of_caller', '~> 1.0'
   spec.add_development_dependency 'bootstrap', '~> 5.1.0'
