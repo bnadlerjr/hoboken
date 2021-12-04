@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/bnadlerjr/hoboken'
   spec.license       = 'MIT'
 
+  spec.metadata['rubygems_mfa_required'] = 'true'
   spec.required_ruby_version = '>= 2.6'
 
   spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
