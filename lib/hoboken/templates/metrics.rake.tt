@@ -29,7 +29,7 @@ unless 'production' == ENV['RACK_ENV']
       score > threshold
     end
 
-    bad_methods.sort { |a, b| a[1] <=> b[1] }.each do |name, score|
+    bad_methods.sort_by { |a| a[1] }.each do |name, score|
       puts format('%<score>8.1f: %<name>s', score: score, name: name)
     end
 

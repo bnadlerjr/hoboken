@@ -28,7 +28,7 @@ module Rack
       end
 
       def assert_content_type(content_type)
-        unless CONTENT_TYPES.keys.include?(content_type)
+        unless CONTENT_TYPES.key?(content_type)
           raise ArgumentError, "unrecognized content_type (#{content_type})"
         end
 
@@ -67,7 +67,7 @@ module Rack
       def assert_session_has_key(key, message=nil)
         assert_has_session
         msg = build_message(message, 'expected session to have key named <?>', key)
-        assert_block(msg) { last_request.env['rack.session'].keys.include?(key.to_s) }
+        assert_block(msg) { last_request.env['rack.session'].key?(key.to_s) }
       end
 
       def assert_session(key, expected, message=nil)

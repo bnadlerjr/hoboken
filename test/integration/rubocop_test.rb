@@ -7,7 +7,7 @@ class RubocopTest < IntegrationTestCase
     run_hoboken(:generate, run_tests: false) do
       bin_path = File.expand_path('../../bin/hoboken', __dir__)
       execute("#{bin_path} add:rubocop")
-      assert_file('Gemfile', /rubocop/, /rubocop-rake/)
+      assert_file('Gemfile', /rubocop/, /rubocop-rake/, /rubocop-performance/)
       assert_file_does_not_have_content 'Gemfile', /rubocop-rspec/
       assert_file('tasks/rubocop.rake', %r{rubocop/rake_task}, /RuboCop::RakeTask\.new/)
       assert_file('Rakefile', /task ci: \['test:all', 'rubocop'\]/)

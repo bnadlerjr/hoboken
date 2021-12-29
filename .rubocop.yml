@@ -1,5 +1,6 @@
 require:
     - rubocop-rake
+    - rubocop-performance
     - rubocop-rspec # for generated projects
 
 AllCops:

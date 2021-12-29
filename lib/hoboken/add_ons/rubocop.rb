@@ -7,6 +7,7 @@ module Hoboken
     class Rubocop < ::Hoboken::Group
       def add_gems
         gem 'rubocop', version: '1.12', group: %i[development test]
+        gem 'rubocop-performance', version: '1.13', group: %i[development test]
         gem 'rubocop-rake', version: '0.5', group: %i[development test]
         gem 'rubocop-rspec', version: '2.2', group: %i[development test] if rspec?
         gem 'rubocop-sequel', version: '0.2', group: %i[development test] if sequel?
