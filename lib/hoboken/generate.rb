@@ -9,7 +9,7 @@ module Hoboken
   class Generate < Thor::Group
     include Thor::Actions
 
-    NULL = RbConfig::CONFIG['host_os'] =~ /mingw|mswin/ ? 'NUL' : '/dev/null'
+    NULL = RbConfig::CONFIG['host_os'].match?(/mingw|mswin/) ? 'NUL' : '/dev/null'
 
     argument :name
 
