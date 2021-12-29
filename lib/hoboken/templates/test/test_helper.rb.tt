@@ -20,6 +20,7 @@ module Test
     class TestCase
       # Syntactic sugar for defining a memoized helper method.
       #
+      # rubocop:disable Naming/BlockForwarding
       def self.let(name, &block)
         ivar = "@#{name}"
         class_eval do
@@ -33,6 +34,7 @@ module Test
           end
         end
       end
+      # rubocop:enable Naming/BlockForwarding
     end
   end
 end
