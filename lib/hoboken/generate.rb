@@ -225,8 +225,8 @@ module Hoboken
       template("templates/#{src}", "#{snake_name}/#{dest}")
     end
 
-    def ruby_three_or_greater?
-      Gem::Version.new(RUBY_VERSION).release >= Gem::Version.new('3.0')
+    def ruby_three_one_or_greater?
+      Gem::Version.new(RUBY_VERSION).release >= Gem::Version.new('3.1')
     end
   end
   # rubocop:enable Metrics/ClassLength
