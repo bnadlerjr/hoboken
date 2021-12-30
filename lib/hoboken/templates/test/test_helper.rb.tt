@@ -20,9 +20,6 @@ module Test
     class TestCase
       # Syntactic sugar for defining a memoized helper method.
       #
-<% if ruby_three_one_or_greater? -%>
-      # rubocop:disable Naming/BlockForwarding
-<% end -%>
       def self.let(name, &block)
         ivar = "@#{name}"
         class_eval do
@@ -36,9 +33,6 @@ module Test
           end
         end
       end
-<% if ruby_three_one_or_greater? -%>
-      # rubocop:enable Naming/BlockForwarding
-<% end -%>
     end
   end
 end
