@@ -54,16 +54,10 @@ Additional generators are available for existing projects generated using Hoboke
     $ hoboken add:twbs             # Twitter Bootstrap (requires Sprockets add-on)
     $ hoboken add:vcr              # Record HTTP interactions and replay them during test runs
 
-### Documentation
+## Resources
 
-Visit the project [website](http://bobnadler.com/hoboken).
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-
-If your contribution requires a change to the documentation, please also make a pull request to the [documentation project](https://github.com/bnadlerjr/hoboken-docs).
+* [Website](https://bobnadler.com/hoboken/)
+* [Source Code](https://github.com/bnadlerjr/hoboken)
+* [Bug Tracking](https://github.com/bnadlerjr/hoboken/issues)
+* [Discussion Forum](https://github.com/bnadlerjr/hoboken/discussions)
+* [Contribution Guidelines](https://github.com/bnadlerjr/hoboken/blob/main/CONTRIBUTING.md)
