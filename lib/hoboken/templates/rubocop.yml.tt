@@ -27,6 +27,7 @@ Metrics/BlockLength:
         - describe
         - context
         - it
+        - RSpec.configure
 <% end -%>
 
 Metrics/ClassLength:

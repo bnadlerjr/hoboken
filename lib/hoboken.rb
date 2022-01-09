@@ -26,6 +26,10 @@ module Hoboken
       File.read('app.rb').include?("require 'sinatra'")
     end
 
+    def modular?
+      !classic?
+    end
+
     def rspec?
       Dir.exist?('spec')
     end
@@ -39,6 +43,7 @@ module Hoboken
     end
   end
 
+  require_relative 'hoboken/add_ons/active_record'
   require_relative 'hoboken/add_ons/airbrake'
   require_relative 'hoboken/add_ons/github_action'
   require_relative 'hoboken/add_ons/heroku'
@@ -63,6 +68,13 @@ module Hoboken
 
     register(Generate, 'generate', 'generate [APP_NAME]', 'Generate a new Sinatra app')
     tasks['generate'].options = Hoboken::Generate.class_options
+
+    register(
+      AddOns::ActiveRecord,
+      'add:active_record',
+      'add:active_record',
+      'ActiveRecord database access via sinatra-activerecord gem'
+    )
 
     register(
       AddOns::Airbrake,
