@@ -2,6 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/hoboken.png)](http://badge.fury.io/rb/hoboken)
 ![Build Status](https://github.com/bnadlerjr/hoboken/actions/workflows/ruby.yml/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/75e09f25ee70d6858519/maintainability)](https://codeclimate.com/github/bnadlerjr/hoboken/maintainability)
 
 Sinatra project generator and templates.
 
