@@ -7,7 +7,7 @@ assignees: bnadlerjr
 
 ---
 
-<!--- The GitHub Issue tracker is **ONLY** used for reporting bugs. Please use StackOverflow or GitHub Discussions for questions or support issues. New features should be discussed on GitHub Discussions. For a roadmap of upcoming features, check the GitHub Projects page. --->
+<!--- The GitHub Issue tracker is **ONLY** used for reporting bugs and tracking code changes. Please use StackOverflow or GitHub Discussions for questions or support issues. New features should be discussed on GitHub Discussions **before** creating an issue. For a roadmap of upcoming features, check the GitHub Projects page. --->
 
 <!--- Make sure to add **all the information needed to understand the bug** so that someone can help. If the info is missing we'll add the 'Needs more information' label and close the issue until there is enough information. --->
 
