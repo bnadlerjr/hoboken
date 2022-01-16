@@ -104,6 +104,36 @@ module Hoboken
         end
       end
 
+      # rubocop:disable Metrics/MethodLength
+      def update_readme
+        snippet = <<~CODE
+          <tr>
+              <td>DATABASE_URL</td>
+              <td>Yes</td>
+              <td>
+                `sqlite://db/test.db` (for the test environment <em>only</em>)
+              </td>
+              <td>
+                Connection URL to the database. The format varies according
+                database adapter. Refer to the
+                <a href="https://sequel.jeremyevans.net/rdoc/files/doc/opening_databases_rdoc.html">
+                Sequel gem documentation</a> for more information. Some examples:
+                <dl>
+                  <dt>Sqlite3</dt>
+                  <dd>`sqlite://db/development.db`</dd>
+                  <dt>PostgreSQL</dt>
+                  <dd>`postgresql://localhost/myapp_development?pool=5`</dd>
+                </dl>
+              </td>
+          </tr>
+        CODE
+
+        insert_into_file('README.md', after: /<tbody>\n/) do
+          indent(snippet, 8)
+        end
+      end
+      # rubocop:enable Metrics/MethodLength
+
       def reminders
         say "\nGemfile updated... don't forget to 'bundle install'"
         say <<~TEXT
