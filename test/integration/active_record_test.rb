@@ -22,21 +22,15 @@ class ActiveRecord < IntegrationTestCase
         %r{ENV\['DATABASE_URL'\] = 'sqlite3:db/test\.db'}
       )
 
-      assert_file('test/test_helper.rb', <<~CODE
-        module Test
-          module Database
-            class TestCase < Test::Unit::TestCase
-              def run(*args, &block)
-                result = nil
-                ActiveRecord::Base.connection.transaction do
-                  result = super
-                  raise ActiveRecord::Rollback
-                end
-                result
-              end
-            end
-          end
+      assert_file('test/test_helper.rb', <<-CODE
+      def run(*args, &block)
+        result = nil
+        ActiveRecord::Base.connection.transaction do
+          result = super
+          raise ActiveRecord::Rollback
         end
+        result
+      end
       CODE
       )
     end
@@ -57,14 +51,7 @@ class ActiveRecord < IntegrationTestCase
       )
 
       assert_file('spec/spec_helper.rb', <<-CODE
-  config.around(:example, rack: true) do |example|
-    ActiveRecord::Base.transaction do
-      example.run
-      ActiveRecord::Rollback
-    end
-  end
-
-  config.around(:example, database: true) do |example|
+  config.around do |example|
     ActiveRecord::Base.transaction do
       example.run
       ActiveRecord::Rollback

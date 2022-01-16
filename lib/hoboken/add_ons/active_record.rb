@@ -54,24 +54,19 @@ module Hoboken
           "ENV['DATABASE_URL'] = 'sqlite3:db/test.db'\n"
         end
 
-        append_file('test/test_helper.rb') do
-          <<~CODE
-
-            module Test
-              module Database
-                class TestCase < Test::Unit::TestCase
-                  def run(*args, &block)
-                    result = nil
-                    ActiveRecord::Base.connection.transaction do
-                      result = super
-                      raise ActiveRecord::Rollback
-                    end
-                    result
-                  end
-                end
-              end
+        snippet = <<~CODE
+          def run(*args, &block)
+            result = nil
+            ActiveRecord::Base.connection.transaction do
+              result = super
+              raise ActiveRecord::Rollback
             end
-          CODE
+            result
+          end
+        CODE
+
+        insert_into_file('test/test_helper.rb', after: /include RackHelpers\n/) do
+          "\n#{indent(snippet, 6)}"
         end
       end
       # rubocop:enable Metrics/MethodLength
@@ -84,17 +79,8 @@ module Hoboken
           "ENV['DATABASE_URL'] = 'sqlite3:db/test.db'\n"
         end
 
-        snippet_rack = <<~CODE
-          config.around(:example, rack: true) do |example|
-            ActiveRecord::Base.transaction do
-              example.run
-              ActiveRecord::Rollback
-            end
-          end
-        CODE
-
-        snippet_database = <<~CODE
-          config.around(:example, database: true) do |example|
+        snippet = <<~CODE
+          config.around do |example|
             ActiveRecord::Base.transaction do
               example.run
               ActiveRecord::Rollback
@@ -104,7 +90,7 @@ module Hoboken
 
         location = /RSpec\.configure do \|config\|\n/
         insert_into_file('spec/spec_helper.rb', after: location) do
-          "#{indent(snippet_rack, 2)}\n#{indent(snippet_database, 2)}\n"
+          "#{indent(snippet, 2)}\n"
         end
       end
       # rubocop:enable Metrics/MethodLength
