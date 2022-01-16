@@ -11,6 +11,7 @@ Gem.path.each { |path| Warning.ignore(//, path) }
 
 require 'test/unit'
 require 'contest'
+require 'pry-byebug'
 require 'rack/test'
 
 require_relative 'support/rack_helpers'

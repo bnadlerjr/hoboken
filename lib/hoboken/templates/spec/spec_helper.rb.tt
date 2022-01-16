@@ -9,6 +9,7 @@ require 'warning'
 # Ignore all warnings in Gem dependencies
 Gem.path.each { |path| Warning.ignore(//, path) }
 
+require 'pry-byebug'
 require 'rack/test'
 require 'support/rack_helpers'
 
