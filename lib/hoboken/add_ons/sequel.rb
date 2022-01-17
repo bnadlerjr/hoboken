@@ -50,26 +50,20 @@ module Hoboken
           "\nrequire 'sequel'"
         end
 
-        append_file('test/test_helper.rb') do
-          <<~CODE
+        snippet = <<~CODE
+          def run(*args, &block)
+            result = nil
+            DB.transaction(rollback: :always) { result = super }
+            result
+          end
+        CODE
 
-            module Test
-              module Database
-                class TestCase < Test::Unit::TestCase
-                  def run(*args, &block)
-                    result = nil
-                    DB.transaction(rollback: :always) { result = super }
-                    result
-                  end
-                end
-              end
-            end
-          CODE
+        insert_into_file('test/test_helper.rb', after: /include RackHelpers\n/) do
+          "\n#{indent(snippet, 6)}"
         end
       end
       # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
       def add_database_spec_helper
         return unless rspec?
 
@@ -77,24 +71,17 @@ module Hoboken
           "ENV['DATABASE_URL'] = 'sqlite://db/test.db'\n"
         end
 
-        snippet_rack = <<~CODE
-          config.around(:example, rack: true) do |example|
-            DB.transaction(rollback: :always) { example.run }
-          end
-        CODE
-
-        snippet_database = <<~CODE
-          config.around(:example, database: true) do |example|
+        snippet = <<~CODE
+          config.around do |example|
             DB.transaction(rollback: :always) { example.run }
           end
         CODE
 
         location = /RSpec\.configure do \|config\|\n/
         insert_into_file('spec/spec_helper.rb', after: location) do
-          "#{indent(snippet_rack, 2)}\n#{indent(snippet_database, 2)}\n"
+          "#{indent(snippet, 2)}\n"
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
       def update_rubocop_config
         return unless rubocop?
