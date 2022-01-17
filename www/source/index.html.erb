@@ -1,0 +1,44 @@
+<section>
+  <p>Hoboken is a Ruby gem that generates Sinatra projects. It keeps the folder structure simple and gets out of your way.</p>
+
+  <h2 id="getting-started">Getting Started</h2>
+
+  <h3>Installation</h3>
+  <p><pre class="command">$ gem install hoboken</pre></p>
+
+  <h3>Generate a new Project</h3>
+  <p><pre class="command">
+$ hoboken generate my_project
+      create  my_project
+      create  my_project/app.rb
+      create  my_project/Gemfile
+      ...
+
+Successfully created my_project. Don't forget to `bundle install`
+  </pre></p>
+
+  <h3>Install Dependencies</h3>
+  <p><pre class="command">
+$ ./bin/setup
+  </pre></p>
+
+  <h3>Start the Server</h3>
+  <p><pre class="command">
+$ ./bin/server
+Foreman detected... starting server with Procfile
+22:16:46 web.1  | started with pid 18585
+22:16:47 web.1  | Puma starting in single mode...
+22:16:47 web.1  | * Puma version: 5.2.2 (ruby 2.5.3-p105) ("Fettisdagsbulle")
+22:16:47 web.1  | *  Min threads: 5
+22:16:47 web.1  | *  Max threads: 5
+22:16:47 web.1  | *  Environment: development
+22:16:47 web.1  | *          PID: 18585
+22:16:47 web.1  | * Listening on http://0.0.0.0:9292
+22:16:47 web.1  | Use Ctrl-C to stop
+  </pre></p>
+  <p>Your app is now running on localhost on port 9292. Check it out in a browser!</p>
+  <img src="./images/hoboken-running.png" width="640px" />
+
+  <h2>Next Steps</h2>
+  <p>Read the <%= link_to 'documentation', '/documentation.html' %> to learn more about generation options, project structure, and add ons.</p>
+</section>

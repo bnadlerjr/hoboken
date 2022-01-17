@@ -8,6 +8,7 @@ AllCops:
         - 'test/tmp/*/sample/Gemfile'
         - 'test/fixtures/**/*'
         - 'vendor/bundle/**/*'
+        - 'www/**/*'
     NewCops: enable
     TargetRubyVersion: 2.6
 

@@ -3,6 +3,9 @@
 .bundle
 .config
 .yardoc
+/www/.cache
+/www/.sass-cache
+/www/build
 Gemfile.lock
 InstalledFiles
 _yardoc
