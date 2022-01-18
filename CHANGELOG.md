@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+### Changed
+### Removed
+### Fixed
+
+## [0.10.0] - 2022-01-17
+### Added
 * Add-on for Sidekiq.
 
 * Add-on for Turnip.
@@ -50,8 +56,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Database rollbacks now occur for all Rack-enabled test unit tests. For RSpec
   specs, they are enabled for all specs.
-
-### Removed
 
 ### Fixed
 * Set proper application root for BetterErrors gem.
@@ -121,6 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2014-09-05
 * Initial version
 
-[Unreleased]: https://github.com/bnadlerjr/hoboken/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/bnadlerjr/hoboken/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/bnadlerjr/hoboken/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/bnadlerjr/hoboken/compare/v0.0.1...v0.9.0
 [0.0.1]: https://github.com/bnadlerjr/hoboken/releases/tag/v0.0.1
