@@ -17,10 +17,11 @@
   <h2 id="basic-features">Basic Features</h2>
   <p>All projects generated with Hoboken have the following common features:</p>
   <ul class="features">
+    <li>sets up <a href="https://github.com/kalasjocke/sinatra-asset-pipeline">sinatra-asset-pipeline</a> (non-API projects only)</li>
     <li>a <code>Rakefile</code> with tasks for running tests or specs</li>
     <li>scripts for common tasks: installing dependencies, starting the development server, and starting a console (with <a href="https://github.com/sickill/racksh">racksh</a> support)</li>
     <li>uses <a href="https://github.com/puma/puma">Puma</a> as the default web server</li>
-    <li><a href="https://github.com/jeremyevans/erubi">erubi</a> templating</li>
+    <li><a href="https://github.com/jeremyevans/erubi">erubi</a> templating; HTML escaping is on by default</li>
     <li>uses <a href="https://test-unit.github.io/">test-unit</a> by default (<a href="https://rspec.info/">RSpec</a> can also be used, see the <code>--test-framework</code> option under the <a href="#generate">generate command</a>)</li>
     <li><a href="http://rubygems.org/gems/rack_csrf">Rack::Csrf</a> is turned on by default</li>
     <li>environment variable support via the <a href="http://rubygems.org/gems/dotenv">dotenv</a> gem</li>
@@ -136,6 +137,13 @@
 
   <h2 id="add-on-command-reference">Add On Command Reference</h2>
 
+  <h3 id="airbrake">Airbrake</h3>
+  <p>Support for <a href="https://github.com/airbrake/airbrake">Airbrake</a> error reporting.</p>
+  <p><pre class="command">$ hoboken add:airbrake</pre></p>
+  <p>Sets up Airbrake middleware.</p>
+
+  <hr />
+
   <h3 id="github_action">GitHub Action</h3>
   <p>Github action that runs CI task</p>
   <p><pre class="command">$ hoboken add:github_action</pre></p>
@@ -194,11 +202,20 @@
 
   <hr />
 
-  <h3 id="sprockets">Sprockets</h3>
-  <p>Add <a href="http://rubygems.org/gems/sprockets">Sprockets</a> support to the project.</p>
-  <p><pre class="command">$ hoboken add:sprockets</pre></p>
-  <p>Sets up an <code>/assets</code> folder and a <code>assets:precompile</code> Rake task. Adjusts <code>app.rb</code> to include the Sprockets middleware extension for serving assets in development. For production, assets should be precompiled using the Rake task.</p>
-  <p><strong>Important Note:</strong> Any css or js files from the <code>/public</code> folder have been copied to <code>/assets</code>, the original files remain intact in <code>/public</code>, but will be replaced the first time you run <code>rake assets:precompile</code>.  You may want to backup those files if they are not under source control before running the Rake command.</p>
+  <h3 id="sidekiq">Sidekiq</h3>
+  <p>Adds <a href="https://github.com/mperham/sidekiq">Sidekiq</a> support.</p>
+  <p><pre class="command">$ hoboken add:sidekiq</pre></p>
+  <p>Sets up Sidekiq via a <code>config/sidekiq.rb</code> file. Adjusts <code>config.ru</code> to mount the Sidekiq UI. In production, the Sidekiq UI is protected via Basic Auth. Also adds a Sidekiq entry to the <code>Procfile</code>.</p>
+
+  <hr />
+
+  <h3 id="sinatra-activerecord">Sinatra ActiveRecord</h3>
+  <p>Provides database support via the <a href="https://github.com/sinatra-activerecord/sinatra-activerecord">Sinatra ActiveRecord</a> gem.</p>
+  <p><pre class="command">$ hoboken add:active_record</pre></p>
+    <p>Adds the <code>sinatra-activerecord</code> gem as a dependency. Also adds the sqlite3 gem for dev and test environments. You will need to specify your own database provider for production. Access to the database is handled via <code>DATABASE_URL</code> which either needs to be exported as an environment variable or added to the project's <code>.env</code> file.</p>
+  <p>A <code>db/migrate</code> folder is created for migrations. Rake tasks are also provided. Refer to the <a href="https://github.com/sinatra-activerecord/sinatra-activerecord"><code>sinatra-activerecord</code> gem</a> for more information.</p>
+  <p>The project's <code>test_helper.rb</code> is adjusted to include a helper method for unit tests that touch the database. When a unit test class inherits from this, it will set up a test database and apply any migrations. Each test is run in the context of a transaction that will be rolled back after each test is run.</p>
+  <p>If RSpec is used, the project's <code>spec_helper.rb</code> is adjusted instead. An <code>around</code> block is added that handles the roll back for each spec example.</p>
 
   <hr />
 
@@ -209,11 +226,25 @@
 
   <hr />
 
+  <h3 id="turnip">Turnip</h3>
+  <p>Support for writing <a href="https://github.com/jnicklas/turnip">Turnip</a> acceptance specs.</p>
+  <p><pre class="command">$ hoboken add:turnip</pre></p>
+  <p>Sets up Turnip specs. Adds a Rake task to run them; also adds the task to the <code>CI</code> task.</p>
+  <p>This add-on requires the use of RSpec.</p>
+
+  <hr />
+
   <h3 id="twitter-bootstrap">Twitter Bootstrap</h3>
-  <p>Twitter Bootstrap via the <a href="https://github.com/twbs/bootstrap-rubygem">bootstrap gem</a> (requires Sprockets add-on).</p>
+  <p>Twitter Bootstrap via the <a href="https://github.com/twbs/bootstrap-rubygem">bootstrap gem</a>.</p>
   <p><pre class="command">$ hoboken add:twbs</pre></p>
   <p>Twitter Bootstrap support via the <code>bootstrap</code> gem. Adjusts <code>styles.scss</code> and <code>app.js</code> to include bootstrap directives.</p>
-  <p><strong>Important Note:</strong> You must have the <a href="#sprockets">sprockets add-on</a> enabled first using <pre class="command">$ hoboken add:sprockets</pre></p>
+
+  <hr />
+
+  <h3 id="vcr">VCR</h3>
+  <p>Support for the <a href="https://github.com/vcr/vcr">VCR gem</a>.</p>
+  <p><pre class="command">$ hoboken add:vcr</pre></p>
+  <p>Sets up VCR configured with <a href="https://github.com/bblimke/webmock">webmock</a>.</p>
 </section>
 
 
@@ -248,6 +279,7 @@
     <li>
       <a href="documentation.html#add-on-command-reference">Add On Commands</a>
       <ul>
+        <li><a href="#airbrake">airbrake</a></li>
         <li><a href="#github_action">github action</a></li>
         <li><a href="#heroku">heroku</a></li>
         <li><a href="#internationalization">internationalization</a></li>
@@ -255,9 +287,12 @@
         <li><a href="#omniauth">omniauth</a></li>
         <li><a href="#rubocop">rubocop</a></li>
         <li><a href="#sequel">sequel</a></li>
-        <li><a href="#sprockets">sprockets</a></li>
+        <li><a href="#sidekiq">sidekiq</a></li>
+        <li><a href="#sinatra-activerecord">sinatra activerecord</a></li>
         <li><a href="#travis-ci">travis ci</a></li>
+        <li><a href="#turnip">turnip</a></li>
         <li><a href="#twitter-bootstrap">twitter bootstrap</a></li>
+        <li><a href="#vcr">vcr</a></li>
       </ul>
     </li>
   </ul>
