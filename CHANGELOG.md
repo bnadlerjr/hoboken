@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 ### Changed
+* Refactor Sequel disconnect logic for Puma so that the `DB` constant isn't
+  required. This will make the transition to using a Sinatra Sequel extension
+  easier.
+
 ### Removed
 ### Fixed
 

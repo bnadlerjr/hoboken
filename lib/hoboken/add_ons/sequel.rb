@@ -34,7 +34,7 @@ module Hoboken
 
       def setup_puma_config
         insert_into_file('config/puma.rb', after: 'before_fork do') do
-          "\n    DB.disconnect if defined?(DB)"
+          "\n    Sequel::DATABASES.each(&:disconnect)"
         end
       end
 
