@@ -14,7 +14,7 @@ Sidekiq.configure_server do |config|
   # config.error_handlers << ->(ex, ctx_hash) { Airbrake.notify(ex, ctx_hash) }
 
   config.death_handlers << lambda do |job, ex|
-    puts "#{job['class']} job #{job['jid']} just died (#{ex.message})"
+    config.logger.error("#{job['class']} job #{job['jid']} just died (#{ex.message})")
   end
 end
 
