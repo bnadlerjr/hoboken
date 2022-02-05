@@ -9,7 +9,9 @@ end
 Sidekiq.configure_server do |config|
   # TODO: Setup an error handling service (i.e. Airbrake, Sentry, etc.)
   # https://github.com/mperham/sidekiq/wiki/Error-Handling#best-practices
-  # config.error_handlers << ->(ex, ctx_hash) { MyErrorService.notify(ex, ctx_hash) }
+  #
+  # require 'airbrake'
+  # config.error_handlers << ->(ex, ctx_hash) { Airbrake.notify(ex, ctx_hash) }
 
   config.death_handlers << lambda do |job, ex|
     puts "#{job['class']} job #{job['jid']} just died (#{ex.message})"
