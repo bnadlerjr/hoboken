@@ -20,8 +20,12 @@ module <%= camel_name %>
 <% end -%>
 
       enable :logging
-<% unless options[:api_only] -%>
 
+<% if options[:api_only] -%>
+      use Rack::JSONBodyParser,
+          verbs: %w[POST PUT],
+          media: ['application/json', 'application/vnd.api+json']
+<% else -%>
       use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
       use Rack::Csrf, raise: true, skip_if: proc {
         'test' == ENV.fetch('RACK_ENV', 'production')

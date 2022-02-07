@@ -47,6 +47,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'flog', '~> 4.6'
   spec.add_development_dependency 'omniauth-twitter', '~> 1.4'
   spec.add_development_dependency 'puma', '~> 5.2'
+  spec.add_development_dependency 'rack-contrib', '~> 2.3'
   spec.add_development_dependency 'rack_csrf', '~> 2.6'
   spec.add_development_dependency 'racksh', '~> 1.0'
   spec.add_development_dependency 'rack-test', '~> 1.1'

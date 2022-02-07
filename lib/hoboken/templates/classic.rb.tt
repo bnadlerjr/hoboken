@@ -2,6 +2,11 @@
 
 <% unless options[:api_only] -%>
 require 'erubi'
+<% end -%>
+<% if options[:api_only] -%>
+require 'rack/contrib'
+<% end -%>
+<% unless options[:api_only] -%>
 require 'rack/csrf'
 <% end -%>
 require 'sinatra'
