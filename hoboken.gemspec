@@ -49,7 +49,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rack-contrib', '~> 2.3'
   spec.add_development_dependency 'rack_csrf', '~> 2.6'
   spec.add_development_dependency 'racksh', '~> 1.0'
-  spec.add_development_dependency 'rack-test', '~> 1.1'
+  spec.add_development_dependency 'rack-test', '~> 2.0'
   spec.add_development_dependency 'rspec', '~> 3.10'
   spec.add_development_dependency 'rubocop-performance', '~> 1.13'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.2'
