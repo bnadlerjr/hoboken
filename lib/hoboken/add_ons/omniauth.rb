@@ -20,7 +20,7 @@ module Hoboken
 
         snippet = <<~CODE
           use OmniAuth::Builder do
-            provider :#{provider}, ENV['#{provider.upcase}_KEY'], ENV['#{provider.upcase}_SECRET']
+            provider :#{provider}, ENV.fetch('#{provider.upcase}_KEY'), ENV.fetch('#{provider.upcase}_SECRET')
           end
         CODE
 
@@ -105,7 +105,6 @@ module Hoboken
         append_file('spec/app_spec.rb') do
           <<~CODE
 
-            # rubocop:disable Metrics/BlockLength
             RSpec.describe 'omniauth', rack: true do
               before { OmniAuth.config.test_mode = true }
 
@@ -154,7 +153,6 @@ module Hoboken
                 it { expect(last_response).to have_http_status(:not_authorized) }
               end
             end
-            # rubocop:enable Metrics/BlockLength
           CODE
         end
       end

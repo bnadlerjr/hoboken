@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-unless 'production' == ENV['RACK_ENV']
+unless 'production' == ENV.fetch('RACK_ENV', 'production')
   require 'bundler/setup'
   require 'flay'
 

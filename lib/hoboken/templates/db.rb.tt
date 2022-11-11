@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-if ENV['DATABASE_URL']
+if ENV.fetch('DATABASE_URL', nil)
   require 'logger'
   require 'sequel'
 
-  args = 'test' == ENV['RACK_ENV'] ? ['tmp/db_test.log', 'daily'] : [$stdout]
-  DB = Sequel.connect(ENV['DATABASE_URL'], loggers: [Logger.new(*args)])
+  args = 'test' == ENV.fetch('RACK_ENV', nil) ? ['tmp/db_test.log', 'daily'] : [$stdout]
+  DB = Sequel.connect(ENV.fetch('DATABASE_URL'), loggers: [Logger.new(*args)])
   Sequel.extension :migration
 
   unless Dir.glob('db/migrate/*.rb').empty?
@@ -17,7 +17,7 @@ if ENV['DATABASE_URL']
       puts 'Database migrations completed'
     end
   end
-  DB.freeze unless 'development' == ENV['RACK_ENV']
+  DB.freeze unless 'development' == ENV.fetch('RACK_ENV', 'production')
   puts 'Database connected'
 else
   puts 'DATABASE_URL not set; skipping database initialization'

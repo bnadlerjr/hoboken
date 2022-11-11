@@ -14,11 +14,11 @@ class SidekiqTest < IntegrationTestCase
       assert_file('config.ru', <<~CODE
         if 'production' == ENV.fetch('RACK_ENV', 'production')
           Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-            [username, password] == [ENV['SIDEKIQ_USERNAME'], ENV['SIDEKIQ_PASSWORD']]
+            [username, password] == [ENV.fetch('SIDEKIQ_USERNAME'), ENV.fetch('SIDEKIQ_PASSWORD')]
           end
         end
 
-        Sidekiq::Web.use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
+        Sidekiq::Web.use Rack::Session::Cookie, secret: ENV.fetch('SESSION_SECRET')
         run Rack::URLMap.new('/' => Sinatra::Application, '/sidekiq' => Sidekiq::Web)
       CODE
       )
@@ -57,11 +57,11 @@ CODE
       assert_file('config.ru', <<~CODE
         if 'production' == ENV.fetch('RACK_ENV', 'production')
           Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-            [username, password] == [ENV['SIDEKIQ_USERNAME'], ENV['SIDEKIQ_PASSWORD']]
+            [username, password] == [ENV.fetch('SIDEKIQ_USERNAME'), ENV.fetch('SIDEKIQ_PASSWORD')]
           end
         end
 
-        Sidekiq::Web.use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
+        Sidekiq::Web.use Rack::Session::Cookie, secret: ENV.fetch('SESSION_SECRET')
         run Rack::URLMap.new('/' => Sample::App, '/sidekiq' => Sidekiq::Web)
       CODE
       )
@@ -89,11 +89,11 @@ CODE
       assert_file('config.ru', <<~CODE
         if 'production' == ENV.fetch('RACK_ENV', 'production')
           Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-            [username, password] == [ENV['SIDEKIQ_USERNAME'], ENV['SIDEKIQ_PASSWORD']]
+            [username, password] == [ENV.fetch('SIDEKIQ_USERNAME'), ENV.fetch('SIDEKIQ_PASSWORD')]
           end
         end
 
-        Sidekiq::Web.use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
+        Sidekiq::Web.use Rack::Session::Cookie, secret: ENV.fetch('SESSION_SECRET')
         run Rack::URLMap.new('/' => Sample::App, '/sidekiq' => Sidekiq::Web)
       CODE
       )

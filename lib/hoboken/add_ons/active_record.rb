@@ -31,7 +31,7 @@ module Hoboken
       end
 
       def set_database_variable
-        snippet = "set :database, ENV['DATABASE_URL']"
+        snippet = "set :database, ENV.fetch('DATABASE_URL', nil)"
         snippet = "register Sinatra::ActiveRecordExtension\n#{snippet}" if modular?
         indentation = classic? ? 2 : 6
         location = /set :erb.+\n/

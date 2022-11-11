@@ -3,10 +3,10 @@
 require 'airbrake'
 
 Airbrake.configure do |c|
-  c.environment = ENV['RACK_ENV']
+  c.environment = ENV.fetch('RACK_ENV', 'production')
   c.ignore_environments = %w[development test]
-  c.project_id = ENV['AIRBRAKE_PROJECT_ID']
-  c.project_key = ENV['AIRBRAKE_PROJECT_KEY']
+  c.project_id = ENV.fetch('AIRBRAKE_PROJECT_ID')
+  c.project_key = ENV.fetch('AIRBRAKE_PROJECT_KEY')
 
   # Set your application's version, or use a Git SHA
   # c.app_version = '1.0.0' or `git rev-parse --short HEAD`

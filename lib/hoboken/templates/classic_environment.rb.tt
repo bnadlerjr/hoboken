@@ -2,7 +2,7 @@
 
 require 'bundler/setup'
 
-unless 'production' == ENV['RACK_ENV']
+unless 'production' == ENV.fetch('RACK_ENV', nil)
   require 'dotenv'
   Dotenv.load
 end
@@ -15,7 +15,7 @@ configure do
       verbs: %w[POST PUT],
       media: ['application/json', 'application/vnd.api+json']
 <% else -%>
-  use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
+  use Rack::Session::Cookie, secret: ENV.fetch('SESSION_SECRET', nil)
   use Rack::Csrf, raise: true, skip_if: proc {
     'test' == ENV.fetch('RACK_ENV', 'production')
   }

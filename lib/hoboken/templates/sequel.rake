@@ -7,7 +7,7 @@ namespace :db do
   require 'sequel'
 
   Sequel.extension :migration
-  db = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/development.db')
+  db = Sequel.connect(ENV.fetch('DATABASE_URL', 'sqlite://db/development.db'))
 
   desc 'Migrate the database to latest version'
   task :migrate do

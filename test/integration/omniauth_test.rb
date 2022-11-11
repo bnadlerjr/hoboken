@@ -13,7 +13,7 @@ class OmniauthTest < IntegrationTestCase
       assert_file('app.rb', %r{require 'sinatra/json'})
       assert_file('config/environment.rb', <<CODE
   use OmniAuth::Builder do
-    provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
+    provider :twitter, ENV.fetch('TWITTER_KEY'), ENV.fetch('TWITTER_SECRET')
   end
 CODE
       )
